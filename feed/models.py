@@ -7,6 +7,7 @@ class Product(models.Model):
     brand = models.CharField(max_length=255)
     product_name = models.CharField(max_length=255)
     product_image_url = models.URLField(max_length=1024)  # S3 or external storage URL
+    product_secondary_images = models.JSONField()
     product_link = models.URLField(max_length=1024)  # Link to the product page
     created_at = models.DateTimeField(auto_now_add=True)
     brand_product_id = models.CharField(max_length=255)
