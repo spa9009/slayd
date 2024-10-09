@@ -1,5 +1,5 @@
 from rest_framework import generics
-from .models import Product
+from models.product import Product
 from .serializers import ProductSerializer
 
 class ProductFeedView(generics.ListAPIView):
