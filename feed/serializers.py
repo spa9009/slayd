@@ -17,7 +17,7 @@ class TaggedProductSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class PostSerializer(serializers.ModelSerializer):
-    product = ProductSerializer(many=False, required=False)  
+    product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all(), required=False) 
     media = MediaSerializer(many=True, read_only=True)
     tagged_products = ProductSerializer(many=True, read_only=True)  # Include tagged products
 
