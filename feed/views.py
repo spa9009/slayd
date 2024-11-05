@@ -1,6 +1,10 @@
-from rest_framework import generics
+from rest_framework import generics, status
 from .models import Product, Post, TaggedProduct
 from .serializers import ProductSerializer, PostSerializer
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from django.http import JsonResponse
+import random
 
 class ProductListView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
@@ -35,3 +39,35 @@ class PostListCreateView(generics.ListCreateAPIView):
                     TaggedProduct.objects.create(post=post, product=product)
         else:
             serializer.save(post_type=post_type)
+
+class ProductSearchView(generics.GenericAPIView):
+    serializer_class = ProductSerializer
+
+    def get(self, request, *args, **kwargs):
+        # Get the search query from the request parameters
+        product_name = request.query_params.get('product_name', None)
+
+        if product_name:
+            # Filter products by name (case-insensitive)
+            products = Product.objects.filter(product_name__icontains=product_name)
+
+            if products.exists():
+                # Serialize the products and return the response
+                serializer = self.get_serializer(products, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({'message': 'No products found'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({'error': 'product_name parameter is required'}, status=status.HTTP_400_BAD_REQUEST)
+        
+class RankedPostsAPIView(APIView):
+    def get(self, request):
+        request_size = int(request.query_params.get('request_size', 10))
+
+        posts = list(Post.objects.all())
+
+        random.shuffle(posts)
+
+        ranked_posts = posts[:request_size]
+        serializer = PostSerializer(ranked_posts, many=True)
+        return Response(serializer.data)

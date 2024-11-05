@@ -18,7 +18,7 @@ class Product(models.Model):
     product_description = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
-        return self.id
+        return f'{self.id}'
 
     
 class Media(models.Model):

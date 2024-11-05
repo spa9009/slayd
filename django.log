@@ -1,0 +1,107 @@
+INFO 2024-11-05 18:16:31,195 autoreload Watching for file changes with StatReloader
+INFO 2024-11-05 18:16:56,901 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
+INFO 2024-11-05 18:16:57,166 autoreload Watching for file changes with StatReloader
+WARNING 2024-11-05 18:17:02,426 basehttp "POST /activity/activity/ HTTP/1.1" 400 55
+INFO 2024-11-05 18:17:38,307 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
+INFO 2024-11-05 18:17:38,593 autoreload Watching for file changes with StatReloader
+WARNING 2024-11-05 18:17:43,764 basehttp "POST /activity/activity/ HTTP/1.1" 400 55
+INFO 2024-11-05 18:18:44,184 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
+INFO 2024-11-05 18:18:44,463 autoreload Watching for file changes with StatReloader
+WARNING 2024-11-05 18:18:47,806 basehttp "POST /activity/activity/ HTTP/1.1" 400 33
+INFO 2024-11-05 18:19:19,462 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
+INFO 2024-11-05 18:19:19,703 autoreload Watching for file changes with StatReloader
+WARNING 2024-11-05 18:19:22,615 basehttp "POST /activity/activity/ HTTP/1.1" 400 33
+INFO 2024-11-05 18:21:29,879 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
+INFO 2024-11-05 18:21:30,150 autoreload Watching for file changes with StatReloader
+WARNING 2024-11-05 18:21:39,071 basehttp "POST /activity/activity/ HTTP/1.1" 400 33
+INFO 2024-11-05 18:23:23,874 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
+INFO 2024-11-05 18:23:24,174 autoreload Watching for file changes with StatReloader
+INFO 2024-11-05 18:23:39,639 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
+INFO 2024-11-05 18:23:39,879 autoreload Watching for file changes with StatReloader
+WARNING 2024-11-05 18:23:48,401 basehttp "POST /activity/activity/ HTTP/1.1" 400 33
+INFO 2024-11-05 18:24:04,677 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
+INFO 2024-11-05 18:24:04,957 autoreload Watching for file changes with StatReloader
+WARNING 2024-11-05 18:24:07,864 basehttp "POST /activity/activity/ HTTP/1.1" 400 33
+WARNING 2024-11-05 18:25:05,855 basehttp "POST /activity/activity/ HTTP/1.1" 400 71
+INFO 2024-11-05 18:27:22,558 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
+INFO 2024-11-05 18:27:22,822 autoreload Watching for file changes with StatReloader
+INFO 2024-11-05 18:27:23,992 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
+INFO 2024-11-05 18:27:24,137 autoreload Watching for file changes with StatReloader
+WARNING 2024-11-05 18:27:29,352 basehttp "POST /activity/activity/ HTTP/1.1" 400 71
+INFO 2024-11-05 18:29:59,892 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
+INFO 2024-11-05 18:30:00,196 autoreload Watching for file changes with StatReloader
+WARNING 2024-11-05 18:30:05,198 basehttp "POST /activity/activity/ HTTP/1.1" 400 123
+INFO 2024-11-05 18:31:10,042 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
+INFO 2024-11-05 18:31:10,308 autoreload Watching for file changes with StatReloader
+WARNING 2024-11-05 18:31:14,004 basehttp "POST /activity/activity/ HTTP/1.1" 400 123
+INFO 2024-11-05 18:33:12,260 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
+INFO 2024-11-05 18:33:12,522 autoreload Watching for file changes with StatReloader
+INFO 2024-11-05 18:33:13,698 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
+INFO 2024-11-05 18:33:13,849 autoreload Watching for file changes with StatReloader
+INFO 2024-11-05 18:33:14,990 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
+INFO 2024-11-05 18:33:15,184 autoreload Watching for file changes with StatReloader
+ERROR 2024-11-05 18:33:20,109 log Internal Server Error: /activity/activity/
+Traceback (most recent call last):
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/Documents/workspace/dev/slayd/activity/views.py", line 71, in post
+    activity = serializer.save(timestamp=timezone.now())  # Assuming you want to save the current timestamp
+                                         ^^^^^^^^
+NameError: name 'timezone' is not defined
+ERROR 2024-11-05 18:33:20,111 basehttp "POST /activity/activity/ HTTP/1.1" 500 92182
+INFO 2024-11-05 18:34:11,685 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
+INFO 2024-11-05 18:34:11,920 autoreload Watching for file changes with StatReloader
+ERROR 2024-11-05 18:34:19,028 log Internal Server Error: /activity/activity/
+Traceback (most recent call last):
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/Documents/workspace/dev/slayd/activity/views.py", line 72, in post
+    activity = serializer.save(timestamp=timezone.now())  # Assuming you want to save the current timestamp
+                                         ^^^^^^^^^^^^
+AttributeError: 'int' object has no attribute 'now'
+ERROR 2024-11-05 18:34:19,029 basehttp "POST /activity/activity/ HTTP/1.1" 500 92320
+INFO 2024-11-05 18:35:08,449 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
+INFO 2024-11-05 18:35:08,696 autoreload Watching for file changes with StatReloader
+INFO 2024-11-05 18:35:09,868 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
+INFO 2024-11-05 18:35:10,025 autoreload Watching for file changes with StatReloader
+INFO 2024-11-05 18:35:13,712 basehttp "POST /activity/activity/ HTTP/1.1" 201 77
