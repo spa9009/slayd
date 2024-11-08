@@ -7,18 +7,27 @@ class Product(models.Model):
     category = models.CharField(max_length=255)
     subcategory = models.CharField(max_length=255, null=True, blank=True)
     brand = models.CharField(max_length=255)
-    product_name = models.CharField(max_length=255)
-    product_image_url = models.URLField(max_length=1024)
-    product_secondary_images = models.JSONField()
+    name = models.CharField(max_length=255)
+    image_url = models.URLField(max_length=1024)
+    secondary_images = models.JSONField()
     product_link = models.URLField(max_length=1024)  # Link to the product page
     created_at = models.DateTimeField(auto_now_add=True)
     brand_product_id = models.CharField(max_length=255, null=True, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     discount_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    product_description = models.CharField(max_length=255, null=True, blank=True)
+    description = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return f'{self.id}'
+    
+
+class ProductEmbeddings(models.Model):
+    product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='embedding')
+    text_embedding = models.JSONField(null=True, blank=True)
+    image_embedding = models.JSONField(null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.id} {self.product.id}'
 
     
 class Media(models.Model):

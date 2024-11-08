@@ -4,7 +4,12 @@ from .models import Product, Media, Post, TaggedProduct
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = "__all__"
+        fields = ['id', 'category', 'subcategory', 'brand', 'product_name', 'product_image_url', 'product_secondary_images', 'product_link', 'price', 'discount_price', 'product_description']
+        read_only_fields = ['created_at']
+
+    def create(self, validated_data):
+        # Creating the product instance with only validated data fields
+        return Product.objects.create(**validated_data)
 
 class MediaSerializer(serializers.ModelSerializer):
     class Meta:

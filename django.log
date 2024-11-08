@@ -105,3 +105,1008 @@ INFO 2024-11-05 18:35:08,696 autoreload Watching for file changes with StatReloa
 INFO 2024-11-05 18:35:09,868 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
 INFO 2024-11-05 18:35:10,025 autoreload Watching for file changes with StatReloader
 INFO 2024-11-05 18:35:13,712 basehttp "POST /activity/activity/ HTTP/1.1" 201 77
+INFO 2024-11-05 18:43:06,512 autoreload Watching for file changes with StatReloader
+INFO 2024-11-05 18:43:12,895 basehttp "GET /api/products/search-product-by-name?product_name=Red+Polyamide+Fitted+T-Shirt HTTP/1.1" 301 0
+INFO 2024-11-05 18:43:13,330 basehttp "GET /api/products/search-product-by-name/?product_name=Red+Polyamide+Fitted+T-Shirt HTTP/1.1" 200 865
+INFO 2024-11-05 18:43:13,338 basehttp "GET /api/products/search-product-by-name?product_name=White+Polyamide+Fitted+T-Shirt HTTP/1.1" 301 0
+INFO 2024-11-05 18:43:13,808 basehttp "GET /api/products/search-product-by-name/?product_name=White+Polyamide+Fitted+T-Shirt HTTP/1.1" 200 783
+INFO 2024-11-05 18:43:13,812 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Polyamide+Square+Neck+Top HTTP/1.1" 301 0
+INFO 2024-11-05 18:43:14,311 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Polyamide+Square+Neck+Top HTTP/1.1" 200 773
+INFO 2024-11-05 18:43:14,322 basehttp "GET /api/products/search-product-by-name?product_name=Pink+Fold+Over+Pants HTTP/1.1" 301 0
+INFO 2024-11-05 18:43:14,742 basehttp "GET /api/products/search-product-by-name/?product_name=Pink+Fold+Over+Pants HTTP/1.1" 200 2919
+INFO 2024-11-05 18:43:14,758 basehttp "GET /api/products/search-product-by-name?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 301 0
+WARNING 2024-11-05 18:43:15,172 basehttp "GET /api/products/search-product-by-name/?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 404 31
+INFO 2024-11-05 18:43:15,191 basehttp "GET /api/products/search-product-by-name?product_name=Chuckie+Embroidery+Oversized+T-shirt HTTP/1.1" 301 0
+WARNING 2024-11-05 18:43:15,576 basehttp "GET /api/products/search-product-by-name/?product_name=Chuckie+Embroidery+Oversized+T-shirt HTTP/1.1" 404 31
+INFO 2024-11-05 18:43:15,610 basehttp "GET /api/products/search-product-by-name?product_name=The+New+Empire+Oversized+T-shirt HTTP/1.1" 301 0
+WARNING 2024-11-05 18:43:15,982 basehttp "GET /api/products/search-product-by-name/?product_name=The+New+Empire+Oversized+T-shirt HTTP/1.1" 404 31
+INFO 2024-11-05 18:43:15,990 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-05 18:43:16,405 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 1483
+INFO 2024-11-05 18:43:16,413 basehttp "GET /api/products/search-product-by-name?product_name=Rusty+Cream+Oversized+Shirt HTTP/1.1" 301 0
+INFO 2024-11-05 18:43:16,883 basehttp "GET /api/products/search-product-by-name/?product_name=Rusty+Cream+Oversized+Shirt HTTP/1.1" 200 755
+INFO 2024-11-05 18:43:16,896 basehttp "GET /api/products/search-product-by-name?product_name=Black+Seamless+Bodysuit HTTP/1.1" 301 0
+INFO 2024-11-05 18:43:17,320 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Seamless+Bodysuit HTTP/1.1" 200 726
+INFO 2024-11-05 18:43:17,331 basehttp "GET /api/products/search-product-by-name?product_name=Black+Sporty+Ribbed+Crop+Top. HTTP/1.1" 301 0
+WARNING 2024-11-05 18:43:17,746 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Sporty+Ribbed+Crop+Top. HTTP/1.1" 404 31
+INFO 2024-11-05 18:43:17,756 basehttp "GET /api/products/search-product-by-name?product_name=Black+Ribbed+Workout+Shorts HTTP/1.1" 301 0
+INFO 2024-11-05 18:43:18,155 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Ribbed+Workout+Shorts HTTP/1.1" 200 2943
+INFO 2024-11-05 18:43:18,169 basehttp "GET /api/products/search-product-by-name?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 301 0
+WARNING 2024-11-05 18:43:18,514 basehttp "GET /api/products/search-product-by-name/?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 404 31
+INFO 2024-11-05 18:43:18,524 basehttp "GET /api/products/search-product-by-name?product_name=Toy+Story+Oversized+T-shirt HTTP/1.1" 301 0
+WARNING 2024-11-05 18:43:18,907 basehttp "GET /api/products/search-product-by-name/?product_name=Toy+Story+Oversized+T-shirt HTTP/1.1" 404 31
+INFO 2024-11-05 18:43:18,916 basehttp "GET /api/products/search-product-by-name?product_name=Black+Cargo+Pants HTTP/1.1" 301 0
+INFO 2024-11-05 18:43:19,318 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Cargo+Pants HTTP/1.1" 200 2293
+INFO 2024-11-05 18:43:19,323 basehttp "GET /api/products/search-product-by-name?product_name=Soft+Pink+Sporty+Ribbed+Crop+Top HTTP/1.1" 301 0
+INFO 2024-11-05 18:43:19,780 basehttp "GET /api/products/search-product-by-name/?product_name=Soft+Pink+Sporty+Ribbed+Crop+Top HTTP/1.1" 200 743
+INFO 2024-11-05 18:43:19,795 basehttp "GET /api/products/search-product-by-name?product_name=Hey+Arnold+Pink+Cami+Top HTTP/1.1" 301 0
+WARNING 2024-11-05 18:43:20,161 basehttp "GET /api/products/search-product-by-name/?product_name=Hey+Arnold+Pink+Cami+Top HTTP/1.1" 404 31
+INFO 2024-11-05 18:43:20,175 basehttp "GET /api/products/search-product-by-name?product_name=Angelica+Ribbed+Crop+Top HTTP/1.1" 301 0
+WARNING 2024-11-05 18:43:20,549 basehttp "GET /api/products/search-product-by-name/?product_name=Angelica+Ribbed+Crop+Top HTTP/1.1" 404 31
+INFO 2024-11-05 18:43:20,562 basehttp "GET /api/products/search-product-by-name?product_name=Soft+Pink+Super+Sculpt+Seamless+Leggings HTTP/1.1" 301 0
+INFO 2024-11-05 18:43:20,966 basehttp "GET /api/products/search-product-by-name/?product_name=Soft+Pink+Super+Sculpt+Seamless+Leggings HTTP/1.1" 200 3051
+INFO 2024-11-05 18:43:20,972 basehttp "GET /api/products/search-product-by-name?product_name=I+Hate+Everyone+Baby+Tee HTTP/1.1" 301 0
+WARNING 2024-11-05 18:43:21,312 basehttp "GET /api/products/search-product-by-name/?product_name=I+Hate+Everyone+Baby+Tee HTTP/1.1" 404 31
+INFO 2024-11-05 18:43:21,321 basehttp "GET /api/products/search-product-by-name?product_name=Disney+Donald+Duck+Oversized+Tshirt HTTP/1.1" 301 0
+WARNING 2024-11-05 18:43:21,673 basehttp "GET /api/products/search-product-by-name/?product_name=Disney+Donald+Duck+Oversized+Tshirt HTTP/1.1" 404 31
+INFO 2024-11-05 18:43:21,683 basehttp "GET /api/products/search-product-by-name?product_name=Black+Sporty+Fit+Pants HTTP/1.1" 301 0
+WARNING 2024-11-05 18:43:22,073 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Sporty+Fit+Pants HTTP/1.1" 404 31
+INFO 2024-11-05 18:43:22,077 basehttp "GET /api/products/search-product-by-name?product_name=Grey+Melange+wide+leg HTTP/1.1" 301 0
+WARNING 2024-11-05 18:43:22,564 basehttp "GET /api/products/search-product-by-name/?product_name=Grey+Melange+wide+leg HTTP/1.1" 404 31
+INFO 2024-11-05 18:43:22,570 basehttp "GET /api/products/search-product-by-name?product_name=Heaven+Blue+Body+Hug+Crop+Tee HTTP/1.1" 301 0
+INFO 2024-11-05 18:43:23,422 basehttp "GET /api/products/search-product-by-name/?product_name=Heaven+Blue+Body+Hug+Crop+Tee HTTP/1.1" 200 737
+INFO 2024-11-05 18:43:23,422 basehttp - Broken pipe from ('127.0.0.1', 50992)
+INFO 2024-11-05 18:47:37,906 basehttp "GET /api/products HTTP/1.1" 301 0
+INFO 2024-11-05 18:47:42,518 basehttp "GET /api/products/ HTTP/1.1" 200 9609637
+INFO 2024-11-05 18:51:18,262 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-11-05 18:51:18,574 autoreload Watching for file changes with StatReloader
+INFO 2024-11-05 18:52:04,723 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/serializers.py changed, reloading.
+INFO 2024-11-05 18:52:05,105 autoreload Watching for file changes with StatReloader
+INFO 2024-11-05 18:52:23,690 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/urls.py changed, reloading.
+INFO 2024-11-05 18:52:23,934 autoreload Watching for file changes with StatReloader
+INFO 2024-11-05 18:52:34,679 basehttp "GET /api/products/ HTTP/1.1" 200 9609700
+WARNING 2024-11-05 19:35:55,789 basehttp "POST /api/products/ HTTP/1.1" 400 44
+WARNING 2024-11-05 19:36:55,735 basehttp "POST /api/products/ HTTP/1.1" 400 44
+WARNING 2024-11-05 19:37:12,063 basehttp "POST /api/products/ HTTP/1.1" 400 44
+WARNING 2024-11-05 19:37:36,177 basehttp "POST /api/products/ HTTP/1.1" 400 44
+WARNING 2024-11-05 19:40:33,699 basehttp "POST /api/products/ HTTP/1.1" 400 44
+ERROR 2024-11-05 19:43:44,117 log Internal Server Error: /api/products/
+Traceback (most recent call last):
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 989, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/query.py", line 677, in create
+    obj = self.model(**kwargs)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/base.py", line 567, in __init__
+    raise TypeError(
+TypeError: Product() got unexpected keyword arguments: 'user'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/generics.py", line 246, in post
+    return self.create(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/mixins.py", line 19, in create
+    self.perform_create(serializer)
+  File "/Users/sparsh/Documents/workspace/dev/slayd/feed/views.py", line 14, in perform_create
+    serializer.save(user=self.request.user)
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 208, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 1008, in create
+    raise TypeError(msg)
+TypeError: Got a `TypeError` when calling `Product.objects.create()`. This may be because you have a writable field on the serializer class that is not a valid argument to `Product.objects.create()`. You may need to make the field read-only, or override the ProductSerializer.create() method to handle this correctly.
+Original exception was:
+ Traceback (most recent call last):
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 989, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/query.py", line 677, in create
+    obj = self.model(**kwargs)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/base.py", line 567, in __init__
+    raise TypeError(
+TypeError: Product() got unexpected keyword arguments: 'user'
+
+ERROR 2024-11-05 19:43:44,120 basehttp "POST /api/products/ HTTP/1.1" 500 167896
+ERROR 2024-11-05 19:46:09,833 log Internal Server Error: /api/products/
+Traceback (most recent call last):
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 989, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/query.py", line 677, in create
+    obj = self.model(**kwargs)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/base.py", line 567, in __init__
+    raise TypeError(
+TypeError: Product() got unexpected keyword arguments: 'user'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/generics.py", line 246, in post
+    return self.create(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/mixins.py", line 19, in create
+    self.perform_create(serializer)
+  File "/Users/sparsh/Documents/workspace/dev/slayd/feed/views.py", line 14, in perform_create
+    serializer.save(user=self.request.user)
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 208, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 1008, in create
+    raise TypeError(msg)
+TypeError: Got a `TypeError` when calling `Product.objects.create()`. This may be because you have a writable field on the serializer class that is not a valid argument to `Product.objects.create()`. You may need to make the field read-only, or override the ProductSerializer.create() method to handle this correctly.
+Original exception was:
+ Traceback (most recent call last):
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 989, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/query.py", line 677, in create
+    obj = self.model(**kwargs)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/base.py", line 567, in __init__
+    raise TypeError(
+TypeError: Product() got unexpected keyword arguments: 'user'
+
+ERROR 2024-11-05 19:46:09,836 basehttp "POST /api/products/ HTTP/1.1" 500 167896
+INFO 2024-11-05 19:53:37,958 basehttp "GET /static/rest_framework/css/bootstrap.min.css.map HTTP/1.1" 200 540434
+ERROR 2024-11-06 18:08:57,868 log Internal Server Error: /api/products/
+Traceback (most recent call last):
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 989, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/query.py", line 677, in create
+    obj = self.model(**kwargs)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/base.py", line 567, in __init__
+    raise TypeError(
+TypeError: Product() got unexpected keyword arguments: 'user'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/generics.py", line 246, in post
+    return self.create(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/mixins.py", line 19, in create
+    self.perform_create(serializer)
+  File "/Users/sparsh/Documents/workspace/dev/slayd/feed/views.py", line 14, in perform_create
+    serializer.save(user=self.request.user)
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 208, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 1008, in create
+    raise TypeError(msg)
+TypeError: Got a `TypeError` when calling `Product.objects.create()`. This may be because you have a writable field on the serializer class that is not a valid argument to `Product.objects.create()`. You may need to make the field read-only, or override the ProductSerializer.create() method to handle this correctly.
+Original exception was:
+ Traceback (most recent call last):
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 989, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/query.py", line 677, in create
+    obj = self.model(**kwargs)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/base.py", line 567, in __init__
+    raise TypeError(
+TypeError: Product() got unexpected keyword arguments: 'user'
+
+ERROR 2024-11-06 18:08:57,871 basehttp "POST /api/products/ HTTP/1.1" 500 164245
+INFO 2024-11-06 18:19:03,118 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/serializers.py changed, reloading.
+INFO 2024-11-06 18:19:03,945 autoreload Watching for file changes with StatReloader
+ERROR 2024-11-06 18:19:20,561 log Internal Server Error: /api/products/
+Traceback (most recent call last):
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/generics.py", line 246, in post
+    return self.create(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/mixins.py", line 19, in create
+    self.perform_create(serializer)
+  File "/Users/sparsh/Documents/workspace/dev/slayd/feed/views.py", line 14, in perform_create
+    serializer.save(user=self.request.user)
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 208, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/Documents/workspace/dev/slayd/feed/serializers.py", line 12, in create
+    return Product.objects.create(**validated_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/query.py", line 677, in create
+    obj = self.model(**kwargs)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/base.py", line 567, in __init__
+    raise TypeError(
+TypeError: Product() got unexpected keyword arguments: 'user'
+ERROR 2024-11-06 18:19:20,563 basehttp "POST /api/products/ HTTP/1.1" 500 134035
+INFO 2024-11-06 18:22:43,093 autoreload /Users/sparsh/Documents/workspace/dev/slayd/slayd/settings.py changed, reloading.
+INFO 2024-11-06 18:22:43,380 autoreload Watching for file changes with StatReloader
+ERROR 2024-11-06 18:22:57,479 log Internal Server Error: /api/products/
+Traceback (most recent call last):
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/generics.py", line 246, in post
+    return self.create(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/mixins.py", line 19, in create
+    self.perform_create(serializer)
+  File "/Users/sparsh/Documents/workspace/dev/slayd/feed/views.py", line 14, in perform_create
+    serializer.save(user=self.request.user)
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 208, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/Documents/workspace/dev/slayd/feed/serializers.py", line 12, in create
+    return Product.objects.create(**validated_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/query.py", line 677, in create
+    obj = self.model(**kwargs)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/db/models/base.py", line 567, in __init__
+    raise TypeError(
+TypeError: Product() got unexpected keyword arguments: 'user'
+ERROR 2024-11-06 18:22:57,485 basehttp "POST /api/products/ HTTP/1.1" 500 145
+INFO 2024-11-06 18:23:57,346 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-11-06 18:23:57,629 autoreload Watching for file changes with StatReloader
+INFO 2024-11-06 18:23:58,833 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-11-06 18:23:58,989 autoreload Watching for file changes with StatReloader
+INFO 2024-11-06 18:24:10,848 basehttp "POST /api/products/ HTTP/1.1" 201 707
+INFO 2024-11-06 18:30:45,185 basehttp "GET /api/products/search-product-by-name?product_name=Red+Polyamide+Fitted+T-Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:30:45,911 basehttp "GET /api/products/search-product-by-name/?product_name=Red+Polyamide+Fitted+T-Shirt HTTP/1.1" 200 865
+INFO 2024-11-06 18:30:59,145 basehttp "GET /api/products/search-product-by-name?product_name=Red+Polyamide+Fitted+T-Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:30:59,460 basehttp "GET /api/products/search-product-by-name/?product_name=Red+Polyamide+Fitted+T-Shirt HTTP/1.1" 200 865
+INFO 2024-11-06 18:30:59,468 basehttp "GET /api/products/search-product-by-name?product_name=White+Polyamide+Fitted+T-Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:30:59,785 basehttp "GET /api/products/search-product-by-name/?product_name=White+Polyamide+Fitted+T-Shirt HTTP/1.1" 200 783
+INFO 2024-11-06 18:30:59,793 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Polyamide+Square+Neck+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:31:00,137 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Polyamide+Square+Neck+Top HTTP/1.1" 200 773
+INFO 2024-11-06 18:31:00,151 basehttp "GET /api/products/search-product-by-name?product_name=Pink+Fold+Over+Pants HTTP/1.1" 301 0
+INFO 2024-11-06 18:31:00,482 basehttp "GET /api/products/search-product-by-name/?product_name=Pink+Fold+Over+Pants HTTP/1.1" 200 2919
+INFO 2024-11-06 18:31:00,492 basehttp "GET /api/products/search-product-by-name?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:31:01,203 basehttp "GET /api/products/search-product-by-name/?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 200 709
+INFO 2024-11-06 18:31:01,213 basehttp "GET /api/products/search-product-by-name?product_name=Chuckie+Embroidery+Oversized+T-shirt HTTP/1.1" 301 0
+WARNING 2024-11-06 18:31:01,495 basehttp "GET /api/products/search-product-by-name/?product_name=Chuckie+Embroidery+Oversized+T-shirt HTTP/1.1" 404 31
+INFO 2024-11-06 18:31:14,400 basehttp "GET /api/products/search-product-by-name?product_name=Red+Polyamide+Fitted+T-Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:31:14,716 basehttp "GET /api/products/search-product-by-name/?product_name=Red+Polyamide+Fitted+T-Shirt HTTP/1.1" 200 865
+INFO 2024-11-06 18:31:14,724 basehttp "GET /api/products/search-product-by-name?product_name=White+Polyamide+Fitted+T-Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:31:15,040 basehttp "GET /api/products/search-product-by-name/?product_name=White+Polyamide+Fitted+T-Shirt HTTP/1.1" 200 783
+INFO 2024-11-06 18:31:15,048 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Polyamide+Square+Neck+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:31:15,435 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Polyamide+Square+Neck+Top HTTP/1.1" 200 773
+INFO 2024-11-06 18:31:15,439 basehttp "GET /api/products/search-product-by-name?product_name=Pink+Fold+Over+Pants HTTP/1.1" 301 0
+INFO 2024-11-06 18:31:15,775 basehttp "GET /api/products/search-product-by-name/?product_name=Pink+Fold+Over+Pants HTTP/1.1" 200 2919
+INFO 2024-11-06 18:31:15,779 basehttp "GET /api/products/search-product-by-name?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:31:16,344 basehttp "GET /api/products/search-product-by-name/?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 200 709
+INFO 2024-11-06 18:31:16,351 basehttp "GET /api/products/search-product-by-name?product_name=Chuckie+Embroidery+Oversized+T-shirt HTTP/1.1" 301 0
+WARNING 2024-11-06 18:31:16,632 basehttp "GET /api/products/search-product-by-name/?product_name=Chuckie+Embroidery+Oversized+T-shirt HTTP/1.1" 404 31
+INFO 2024-11-06 18:31:24,504 basehttp "POST /api/products/ HTTP/1.1" 201 802
+INFO 2024-11-06 18:31:24,516 basehttp "GET /api/products/search-product-by-name?product_name=The+New+Empire+Oversized+T-shirt HTTP/1.1" 301 0
+WARNING 2024-11-06 18:31:24,799 basehttp "GET /api/products/search-product-by-name/?product_name=The+New+Empire+Oversized+T-shirt HTTP/1.1" 404 31
+WARNING 2024-11-06 18:31:29,707 basehttp "POST /api/products/ HTTP/1.1" 400 41
+INFO 2024-11-06 18:31:29,711 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 18:31:30,022 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 1483
+INFO 2024-11-06 18:31:30,025 basehttp "GET /api/products/search-product-by-name?product_name=Rusty+Cream+Oversized+Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:31:30,351 basehttp "GET /api/products/search-product-by-name/?product_name=Rusty+Cream+Oversized+Shirt HTTP/1.1" 200 755
+INFO 2024-11-06 18:31:30,353 basehttp "GET /api/products/search-product-by-name?product_name=Black+Seamless+Bodysuit HTTP/1.1" 301 0
+INFO 2024-11-06 18:31:30,746 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Seamless+Bodysuit HTTP/1.1" 200 726
+INFO 2024-11-06 18:31:30,756 basehttp "GET /api/products/search-product-by-name?product_name=Black+Sporty+Ribbed+Crop+Top. HTTP/1.1" 301 0
+WARNING 2024-11-06 18:31:31,037 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Sporty+Ribbed+Crop+Top. HTTP/1.1" 404 31
+INFO 2024-11-06 18:31:36,636 basehttp "POST /api/products/ HTTP/1.1" 201 738
+INFO 2024-11-06 18:31:36,647 basehttp "GET /api/products/search-product-by-name?product_name=Black+Ribbed+Workout+Shorts HTTP/1.1" 301 0
+INFO 2024-11-06 18:31:37,043 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Ribbed+Workout+Shorts HTTP/1.1" 200 2943
+INFO 2024-11-06 18:31:37,049 basehttp "GET /api/products/search-product-by-name?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:31:37,363 basehttp "GET /api/products/search-product-by-name/?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 200 709
+INFO 2024-11-06 18:31:37,368 basehttp "GET /api/products/search-product-by-name?product_name=Toy+Story+Oversized+T-shirt HTTP/1.1" 301 0
+WARNING 2024-11-06 18:31:37,718 basehttp "GET /api/products/search-product-by-name/?product_name=Toy+Story+Oversized+T-shirt HTTP/1.1" 404 31
+WARNING 2024-11-06 18:31:43,652 basehttp "POST /api/products/ HTTP/1.1" 400 41
+INFO 2024-11-06 18:31:43,661 basehttp "GET /api/products/search-product-by-name?product_name=Black+Cargo+Pants HTTP/1.1" 301 0
+INFO 2024-11-06 18:31:43,969 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Cargo+Pants HTTP/1.1" 200 2293
+INFO 2024-11-06 18:31:43,977 basehttp "GET /api/products/search-product-by-name?product_name=Soft+Pink+Sporty+Ribbed+Crop+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:31:44,286 basehttp "GET /api/products/search-product-by-name/?product_name=Soft+Pink+Sporty+Ribbed+Crop+Top HTTP/1.1" 200 743
+INFO 2024-11-06 18:31:44,290 basehttp "GET /api/products/search-product-by-name?product_name=Hey+Arnold+Pink+Cami+Top HTTP/1.1" 301 0
+WARNING 2024-11-06 18:31:44,570 basehttp "GET /api/products/search-product-by-name/?product_name=Hey+Arnold+Pink+Cami+Top HTTP/1.1" 404 31
+INFO 2024-11-06 18:36:42,791 basehttp "POST /api/products/ HTTP/1.1" 201 707
+INFO 2024-11-06 18:40:53,978 basehttp "POST /api/products/ HTTP/1.1" 201 707
+INFO 2024-11-06 18:47:18,193 basehttp "POST /api/products/ HTTP/1.1" 201 707
+INFO 2024-11-06 18:47:32,211 basehttp "GET /api/products/search-product-by-name?product_name=Red+Polyamide+Fitted+T-Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:47:32,619 basehttp "GET /api/products/search-product-by-name/?product_name=Red+Polyamide+Fitted+T-Shirt HTTP/1.1" 200 865
+INFO 2024-11-06 18:47:32,624 basehttp "GET /api/products/search-product-by-name?product_name=White+Polyamide+Fitted+T-Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:47:32,960 basehttp "GET /api/products/search-product-by-name/?product_name=White+Polyamide+Fitted+T-Shirt HTTP/1.1" 200 783
+INFO 2024-11-06 18:47:32,965 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Polyamide+Square+Neck+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:47:33,616 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Polyamide+Square+Neck+Top HTTP/1.1" 200 773
+INFO 2024-11-06 18:47:33,620 basehttp "GET /api/products/search-product-by-name?product_name=Pink+Fold+Over+Pants HTTP/1.1" 301 0
+INFO 2024-11-06 18:47:33,940 basehttp "GET /api/products/search-product-by-name/?product_name=Pink+Fold+Over+Pants HTTP/1.1" 200 2919
+INFO 2024-11-06 18:47:33,950 basehttp "GET /api/products/search-product-by-name?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:47:34,271 basehttp "GET /api/products/search-product-by-name/?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 200 2833
+INFO 2024-11-06 18:47:34,280 basehttp "GET /api/products/search-product-by-name?product_name=Chuckie+Embroidery+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:47:34,609 basehttp "GET /api/products/search-product-by-name/?product_name=Chuckie+Embroidery+Oversized+T-shirt HTTP/1.1" 200 804
+INFO 2024-11-06 18:47:34,614 basehttp "GET /api/products/search-product-by-name?product_name=The+New+Empire+Oversized+T-shirt HTTP/1.1" 301 0
+WARNING 2024-11-06 18:47:34,904 basehttp "GET /api/products/search-product-by-name/?product_name=The+New+Empire+Oversized+T-shirt HTTP/1.1" 404 31
+WARNING 2024-11-06 18:47:37,024 basehttp "POST /api/products/ HTTP/1.1" 400 41
+INFO 2024-11-06 18:47:37,028 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 18:47:37,349 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 1483
+INFO 2024-11-06 18:47:37,361 basehttp "GET /api/products/search-product-by-name?product_name=Rusty+Cream+Oversized+Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:47:37,752 basehttp "GET /api/products/search-product-by-name/?product_name=Rusty+Cream+Oversized+Shirt HTTP/1.1" 200 755
+INFO 2024-11-06 18:47:37,757 basehttp "GET /api/products/search-product-by-name?product_name=Black+Seamless+Bodysuit HTTP/1.1" 301 0
+INFO 2024-11-06 18:47:38,097 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Seamless+Bodysuit HTTP/1.1" 200 726
+INFO 2024-11-06 18:47:38,105 basehttp "GET /api/products/search-product-by-name?product_name=Black+Sporty+Ribbed+Crop+Top. HTTP/1.1" 301 0
+INFO 2024-11-06 18:47:38,435 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Sporty+Ribbed+Crop+Top. HTTP/1.1" 200 740
+INFO 2024-11-06 18:47:38,442 basehttp "GET /api/products/search-product-by-name?product_name=Black+Ribbed+Workout+Shorts HTTP/1.1" 301 0
+INFO 2024-11-06 18:47:38,780 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Ribbed+Workout+Shorts HTTP/1.1" 200 2943
+INFO 2024-11-06 18:47:38,787 basehttp "GET /api/products/search-product-by-name?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:47:39,131 basehttp "GET /api/products/search-product-by-name/?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 200 2833
+INFO 2024-11-06 18:47:39,137 basehttp "GET /api/products/search-product-by-name?product_name=Toy+Story+Oversized+T-shirt HTTP/1.1" 301 0
+WARNING 2024-11-06 18:47:39,417 basehttp "GET /api/products/search-product-by-name/?product_name=Toy+Story+Oversized+T-shirt HTTP/1.1" 404 31
+WARNING 2024-11-06 18:47:41,208 basehttp "POST /api/products/ HTTP/1.1" 400 41
+INFO 2024-11-06 18:47:41,212 basehttp "GET /api/products/search-product-by-name?product_name=Black+Cargo+Pants HTTP/1.1" 301 0
+INFO 2024-11-06 18:47:41,607 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Cargo+Pants HTTP/1.1" 200 2293
+INFO 2024-11-06 18:47:41,612 basehttp "GET /api/products/search-product-by-name?product_name=Soft+Pink+Sporty+Ribbed+Crop+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:47:41,939 basehttp "GET /api/products/search-product-by-name/?product_name=Soft+Pink+Sporty+Ribbed+Crop+Top HTTP/1.1" 200 743
+INFO 2024-11-06 18:47:41,946 basehttp "GET /api/products/search-product-by-name?product_name=Hey+Arnold+Pink+Cami+Top HTTP/1.1" 301 0
+WARNING 2024-11-06 18:47:42,239 basehttp "GET /api/products/search-product-by-name/?product_name=Hey+Arnold+Pink+Cami+Top HTTP/1.1" 404 31
+INFO 2024-11-06 18:47:45,689 basehttp "POST /api/products/ HTTP/1.1" 201 729
+INFO 2024-11-06 18:47:45,696 basehttp "GET /api/products/search-product-by-name?product_name=Angelica+Ribbed+Crop+Top HTTP/1.1" 301 0
+WARNING 2024-11-06 18:47:46,037 basehttp "GET /api/products/search-product-by-name/?product_name=Angelica+Ribbed+Crop+Top HTTP/1.1" 404 31
+INFO 2024-11-06 18:48:36,211 basehttp "GET /api/products/search-product-by-name?product_name=Red+Polyamide+Fitted+T-Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:48:36,698 basehttp "GET /api/products/search-product-by-name/?product_name=Red+Polyamide+Fitted+T-Shirt HTTP/1.1" 200 865
+INFO 2024-11-06 18:48:36,709 basehttp "GET /api/products/search-product-by-name?product_name=White+Polyamide+Fitted+T-Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:48:37,039 basehttp "GET /api/products/search-product-by-name/?product_name=White+Polyamide+Fitted+T-Shirt HTTP/1.1" 200 783
+INFO 2024-11-06 18:48:37,043 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Polyamide+Square+Neck+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:48:37,429 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Polyamide+Square+Neck+Top HTTP/1.1" 200 773
+INFO 2024-11-06 18:48:37,431 basehttp "GET /api/products/search-product-by-name?product_name=Pink+Fold+Over+Pants HTTP/1.1" 301 0
+INFO 2024-11-06 18:48:37,756 basehttp "GET /api/products/search-product-by-name/?product_name=Pink+Fold+Over+Pants HTTP/1.1" 200 2919
+INFO 2024-11-06 18:48:37,761 basehttp "GET /api/products/search-product-by-name?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:48:38,073 basehttp "GET /api/products/search-product-by-name/?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 200 2833
+INFO 2024-11-06 18:48:38,078 basehttp "GET /api/products/search-product-by-name?product_name=Chuckie+Embroidery+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:48:38,481 basehttp "GET /api/products/search-product-by-name/?product_name=Chuckie+Embroidery+Oversized+T-shirt HTTP/1.1" 200 804
+INFO 2024-11-06 18:48:38,491 basehttp "GET /api/products/search-product-by-name?product_name=The+New+Empire+Oversized+T-shirt HTTP/1.1" 301 0
+WARNING 2024-11-06 18:48:38,770 basehttp "GET /api/products/search-product-by-name/?product_name=The+New+Empire+Oversized+T-shirt HTTP/1.1" 404 31
+INFO 2024-11-06 18:48:41,522 basehttp "POST /api/products/ HTTP/1.1" 201 761
+INFO 2024-11-06 18:48:41,527 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 18:48:41,833 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 1483
+INFO 2024-11-06 18:48:41,840 basehttp "GET /api/products/search-product-by-name?product_name=Rusty+Cream+Oversized+Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:48:42,163 basehttp "GET /api/products/search-product-by-name/?product_name=Rusty+Cream+Oversized+Shirt HTTP/1.1" 200 755
+INFO 2024-11-06 18:48:42,172 basehttp "GET /api/products/search-product-by-name?product_name=Black+Seamless+Bodysuit HTTP/1.1" 301 0
+INFO 2024-11-06 18:48:42,482 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Seamless+Bodysuit HTTP/1.1" 200 726
+INFO 2024-11-06 18:48:42,486 basehttp "GET /api/products/search-product-by-name?product_name=Black+Sporty+Ribbed+Crop+Top. HTTP/1.1" 301 0
+INFO 2024-11-06 18:48:42,807 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Sporty+Ribbed+Crop+Top. HTTP/1.1" 200 740
+INFO 2024-11-06 18:48:42,817 basehttp "GET /api/products/search-product-by-name?product_name=Black+Ribbed+Workout+Shorts HTTP/1.1" 301 0
+INFO 2024-11-06 18:48:43,139 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Ribbed+Workout+Shorts HTTP/1.1" 200 2943
+INFO 2024-11-06 18:48:43,145 basehttp "GET /api/products/search-product-by-name?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:48:43,486 basehttp "GET /api/products/search-product-by-name/?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 200 2833
+INFO 2024-11-06 18:48:43,497 basehttp "GET /api/products/search-product-by-name?product_name=Toy+Story+Oversized+T-shirt HTTP/1.1" 301 0
+WARNING 2024-11-06 18:48:43,790 basehttp "GET /api/products/search-product-by-name/?product_name=Toy+Story+Oversized+T-shirt HTTP/1.1" 404 31
+INFO 2024-11-06 18:48:46,122 basehttp "POST /api/products/ HTTP/1.1" 201 774
+INFO 2024-11-06 18:48:46,124 basehttp "GET /api/products/search-product-by-name?product_name=Black+Cargo+Pants HTTP/1.1" 301 0
+INFO 2024-11-06 18:48:46,456 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Cargo+Pants HTTP/1.1" 200 2293
+INFO 2024-11-06 18:48:46,464 basehttp "GET /api/products/search-product-by-name?product_name=Soft+Pink+Sporty+Ribbed+Crop+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:48:46,782 basehttp "GET /api/products/search-product-by-name/?product_name=Soft+Pink+Sporty+Ribbed+Crop+Top HTTP/1.1" 200 743
+INFO 2024-11-06 18:48:46,787 basehttp "GET /api/products/search-product-by-name?product_name=Hey+Arnold+Pink+Cami+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:48:47,183 basehttp "GET /api/products/search-product-by-name/?product_name=Hey+Arnold+Pink+Cami+Top HTTP/1.1" 200 731
+INFO 2024-11-06 18:48:47,189 basehttp "GET /api/products/search-product-by-name?product_name=Angelica+Ribbed+Crop+Top HTTP/1.1" 301 0
+WARNING 2024-11-06 18:48:47,472 basehttp "GET /api/products/search-product-by-name/?product_name=Angelica+Ribbed+Crop+Top HTTP/1.1" 404 31
+INFO 2024-11-06 18:48:50,497 basehttp "POST /api/products/ HTTP/1.1" 201 729
+INFO 2024-11-06 18:48:50,503 basehttp "GET /api/products/search-product-by-name?product_name=Soft+Pink+Super+Sculpt+Seamless+Leggings HTTP/1.1" 301 0
+INFO 2024-11-06 18:48:50,810 basehttp "GET /api/products/search-product-by-name/?product_name=Soft+Pink+Super+Sculpt+Seamless+Leggings HTTP/1.1" 200 3051
+INFO 2024-11-06 18:48:50,817 basehttp "GET /api/products/search-product-by-name?product_name=I+Hate+Everyone+Baby+Tee HTTP/1.1" 301 0
+WARNING 2024-11-06 18:48:51,119 basehttp "GET /api/products/search-product-by-name/?product_name=I+Hate+Everyone+Baby+Tee HTTP/1.1" 404 31
+INFO 2024-11-06 18:48:57,229 basehttp "POST /api/products/ HTTP/1.1" 201 732
+INFO 2024-11-06 18:48:57,239 basehttp "GET /api/products/search-product-by-name?product_name=Disney+Donald+Duck+Oversized+Tshirt HTTP/1.1" 301 0
+WARNING 2024-11-06 18:48:57,527 basehttp "GET /api/products/search-product-by-name/?product_name=Disney+Donald+Duck+Oversized+Tshirt HTTP/1.1" 404 31
+INFO 2024-11-06 18:49:03,715 basehttp "POST /api/products/ HTTP/1.1" 201 786
+INFO 2024-11-06 18:49:03,729 basehttp "GET /api/products/search-product-by-name?product_name=Black+Sporty+Fit+Pants HTTP/1.1" 301 0
+WARNING 2024-11-06 18:49:04,027 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Sporty+Fit+Pants HTTP/1.1" 404 31
+INFO 2024-11-06 18:49:09,192 basehttp "POST /api/products/ HTTP/1.1" 201 741
+INFO 2024-11-06 18:49:09,206 basehttp "GET /api/products/search-product-by-name?product_name=Grey+Melange+wide+leg HTTP/1.1" 301 0
+WARNING 2024-11-06 18:49:09,493 basehttp "GET /api/products/search-product-by-name/?product_name=Grey+Melange+wide+leg HTTP/1.1" 404 31
+INFO 2024-11-06 18:49:15,364 basehttp "POST /api/products/ HTTP/1.1" 201 760
+INFO 2024-11-06 18:49:15,372 basehttp "GET /api/products/search-product-by-name?product_name=Heaven+Blue+Body+Hug+Crop+Tee HTTP/1.1" 301 0
+INFO 2024-11-06 18:49:15,702 basehttp "GET /api/products/search-product-by-name/?product_name=Heaven+Blue+Body+Hug+Crop+Tee HTTP/1.1" 200 737
+INFO 2024-11-06 18:49:15,710 basehttp "GET /api/products/search-product-by-name?product_name=Disney+Donald+Duck+Oversized+T-shirt HTTP/1.1" 301 0
+WARNING 2024-11-06 18:49:15,987 basehttp "GET /api/products/search-product-by-name/?product_name=Disney+Donald+Duck+Oversized+T-shirt HTTP/1.1" 404 31
+INFO 2024-11-06 18:49:17,465 basehttp "POST /api/products/ HTTP/1.1" 201 769
+INFO 2024-11-06 18:49:17,470 basehttp "GET /api/products/search-product-by-name?product_name=Imagination+Is+Real+Oversized+T-shirt HTTP/1.1" 301 0
+WARNING 2024-11-06 18:49:17,765 basehttp "GET /api/products/search-product-by-name/?product_name=Imagination+Is+Real+Oversized+T-shirt HTTP/1.1" 404 31
+INFO 2024-11-06 18:51:33,828 basehttp "GET /api/products/search-product-by-name?product_name=Red+Polyamide+Fitted+T-Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:34,766 basehttp "GET /api/products/search-product-by-name/?product_name=Red+Polyamide+Fitted+T-Shirt HTTP/1.1" 200 865
+INFO 2024-11-06 18:51:34,775 basehttp "GET /api/products/search-product-by-name?product_name=White+Polyamide+Fitted+T-Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:35,088 basehttp "GET /api/products/search-product-by-name/?product_name=White+Polyamide+Fitted+T-Shirt HTTP/1.1" 200 783
+INFO 2024-11-06 18:51:35,091 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Polyamide+Square+Neck+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:35,406 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Polyamide+Square+Neck+Top HTTP/1.1" 200 773
+INFO 2024-11-06 18:51:35,417 basehttp "GET /api/products/search-product-by-name?product_name=Pink+Fold+Over+Pants HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:35,998 basehttp "GET /api/products/search-product-by-name/?product_name=Pink+Fold+Over+Pants HTTP/1.1" 200 2919
+INFO 2024-11-06 18:51:36,004 basehttp "GET /api/products/search-product-by-name?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:36,325 basehttp "GET /api/products/search-product-by-name/?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 200 2833
+INFO 2024-11-06 18:51:36,330 basehttp "GET /api/products/search-product-by-name?product_name=Chuckie+Embroidery+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:36,897 basehttp "GET /api/products/search-product-by-name/?product_name=Chuckie+Embroidery+Oversized+T-shirt HTTP/1.1" 200 804
+INFO 2024-11-06 18:51:36,902 basehttp "GET /api/products/search-product-by-name?product_name=The+New+Empire+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:37,292 basehttp "GET /api/products/search-product-by-name/?product_name=The+New+Empire+Oversized+T-shirt HTTP/1.1" 200 763
+INFO 2024-11-06 18:51:37,301 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:37,637 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 1483
+INFO 2024-11-06 18:51:37,648 basehttp "GET /api/products/search-product-by-name?product_name=Rusty+Cream+Oversized+Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:38,032 basehttp "GET /api/products/search-product-by-name/?product_name=Rusty+Cream+Oversized+Shirt HTTP/1.1" 200 755
+INFO 2024-11-06 18:51:38,035 basehttp "GET /api/products/search-product-by-name?product_name=Black+Seamless+Bodysuit HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:38,344 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Seamless+Bodysuit HTTP/1.1" 200 726
+INFO 2024-11-06 18:51:38,352 basehttp "GET /api/products/search-product-by-name?product_name=Black+Sporty+Ribbed+Crop+Top. HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:38,681 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Sporty+Ribbed+Crop+Top. HTTP/1.1" 200 740
+INFO 2024-11-06 18:51:38,686 basehttp "GET /api/products/search-product-by-name?product_name=Black+Ribbed+Workout+Shorts HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:39,057 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Ribbed+Workout+Shorts HTTP/1.1" 200 2943
+INFO 2024-11-06 18:51:39,065 basehttp "GET /api/products/search-product-by-name?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:39,399 basehttp "GET /api/products/search-product-by-name/?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 200 2833
+INFO 2024-11-06 18:51:39,408 basehttp "GET /api/products/search-product-by-name?product_name=Toy+Story+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:39,741 basehttp "GET /api/products/search-product-by-name/?product_name=Toy+Story+Oversized+T-shirt HTTP/1.1" 200 776
+INFO 2024-11-06 18:51:39,752 basehttp "GET /api/products/search-product-by-name?product_name=Black+Cargo+Pants HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:40,322 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Cargo+Pants HTTP/1.1" 200 2293
+INFO 2024-11-06 18:51:40,327 basehttp "GET /api/products/search-product-by-name?product_name=Soft+Pink+Sporty+Ribbed+Crop+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:40,721 basehttp "GET /api/products/search-product-by-name/?product_name=Soft+Pink+Sporty+Ribbed+Crop+Top HTTP/1.1" 200 743
+INFO 2024-11-06 18:51:40,730 basehttp "GET /api/products/search-product-by-name?product_name=Hey+Arnold+Pink+Cami+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:41,069 basehttp "GET /api/products/search-product-by-name/?product_name=Hey+Arnold+Pink+Cami+Top HTTP/1.1" 200 731
+INFO 2024-11-06 18:51:41,074 basehttp "GET /api/products/search-product-by-name?product_name=Angelica+Ribbed+Crop+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:41,461 basehttp "GET /api/products/search-product-by-name/?product_name=Angelica+Ribbed+Crop+Top HTTP/1.1" 200 731
+INFO 2024-11-06 18:51:41,465 basehttp "GET /api/products/search-product-by-name?product_name=Soft+Pink+Super+Sculpt+Seamless+Leggings HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:41,858 basehttp "GET /api/products/search-product-by-name/?product_name=Soft+Pink+Super+Sculpt+Seamless+Leggings HTTP/1.1" 200 3051
+INFO 2024-11-06 18:51:41,863 basehttp "GET /api/products/search-product-by-name?product_name=I+Hate+Everyone+Baby+Tee HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:42,190 basehttp "GET /api/products/search-product-by-name/?product_name=I+Hate+Everyone+Baby+Tee HTTP/1.1" 200 734
+INFO 2024-11-06 18:51:42,198 basehttp "GET /api/products/search-product-by-name?product_name=Disney+Donald+Duck+Oversized+Tshirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:42,601 basehttp "GET /api/products/search-product-by-name/?product_name=Disney+Donald+Duck+Oversized+Tshirt HTTP/1.1" 200 788
+INFO 2024-11-06 18:51:42,606 basehttp "GET /api/products/search-product-by-name?product_name=Black+Sporty+Fit+Pants HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:42,943 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Sporty+Fit+Pants HTTP/1.1" 200 743
+INFO 2024-11-06 18:51:42,951 basehttp "GET /api/products/search-product-by-name?product_name=Grey+Melange+wide+leg HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:43,284 basehttp "GET /api/products/search-product-by-name/?product_name=Grey+Melange+wide+leg HTTP/1.1" 200 762
+INFO 2024-11-06 18:51:43,287 basehttp "GET /api/products/search-product-by-name?product_name=Heaven+Blue+Body+Hug+Crop+Tee HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:43,681 basehttp "GET /api/products/search-product-by-name/?product_name=Heaven+Blue+Body+Hug+Crop+Tee HTTP/1.1" 200 737
+INFO 2024-11-06 18:51:43,689 basehttp "GET /api/products/search-product-by-name?product_name=Disney+Donald+Duck+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:44,094 basehttp "GET /api/products/search-product-by-name/?product_name=Disney+Donald+Duck+Oversized+T-shirt HTTP/1.1" 200 771
+INFO 2024-11-06 18:51:44,100 basehttp "GET /api/products/search-product-by-name?product_name=Imagination+Is+Real+Oversized+T-shirt HTTP/1.1" 301 0
+WARNING 2024-11-06 18:51:44,384 basehttp "GET /api/products/search-product-by-name/?product_name=Imagination+Is+Real+Oversized+T-shirt HTTP/1.1" 404 31
+INFO 2024-11-06 18:51:47,228 basehttp "POST /api/products/ HTTP/1.1" 201 769
+INFO 2024-11-06 18:51:47,242 basehttp "GET /api/products/search-product-by-name?product_name=Black+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:47,575 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 731
+INFO 2024-11-06 18:51:47,578 basehttp "GET /api/products/search-product-by-name?product_name=Nick+90s+Collection HTTP/1.1" 301 0
+WARNING 2024-11-06 18:51:47,859 basehttp "GET /api/products/search-product-by-name/?product_name=Nick+90s+Collection HTTP/1.1" 404 31
+INFO 2024-11-06 18:51:53,430 basehttp "POST /api/products/ HTTP/1.1" 201 706
+INFO 2024-11-06 18:51:53,435 basehttp "GET /api/products/search-product-by-name?product_name=Bottle+Green+Bodycon+Solid+Romper HTTP/1.1" 301 0
+WARNING 2024-11-06 18:51:53,783 basehttp "GET /api/products/search-product-by-name/?product_name=Bottle+Green+Bodycon+Solid+Romper HTTP/1.1" 404 31
+INFO 2024-11-06 18:51:59,489 basehttp "POST /api/products/ HTTP/1.1" 201 777
+INFO 2024-11-06 18:51:59,494 basehttp "GET /api/products/search-product-by-name?product_name=Brown+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 18:51:59,874 basehttp "GET /api/products/search-product-by-name/?product_name=Brown+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 1467
+INFO 2024-11-06 18:51:59,877 basehttp "GET /api/products/search-product-by-name?product_name=Kim+is+my+lawyer+baby+tee HTTP/1.1" 301 0
+WARNING 2024-11-06 18:52:00,187 basehttp "GET /api/products/search-product-by-name/?product_name=Kim+is+my+lawyer+baby+tee HTTP/1.1" 404 31
+INFO 2024-11-06 18:52:05,631 basehttp "POST /api/products/ HTTP/1.1" 201 757
+INFO 2024-11-06 18:52:05,634 basehttp "GET /api/products/search-product-by-name?product_name=Coco+Brown+Corset HTTP/1.1" 301 0
+WARNING 2024-11-06 18:52:05,924 basehttp "GET /api/products/search-product-by-name/?product_name=Coco+Brown+Corset HTTP/1.1" 404 31
+INFO 2024-11-06 18:52:11,966 basehttp "POST /api/products/ HTTP/1.1" 201 689
+INFO 2024-11-06 18:52:11,971 basehttp "GET /api/products/search-product-by-name?product_name=Electric+Blue+-+Blue+Corset HTTP/1.1" 301 0
+WARNING 2024-11-06 18:52:12,263 basehttp "GET /api/products/search-product-by-name/?product_name=Electric+Blue+-+Blue+Corset HTTP/1.1" 404 31
+INFO 2024-11-06 18:52:17,609 basehttp "POST /api/products/ HTTP/1.1" 201 707
+INFO 2024-11-06 18:52:17,614 basehttp "GET /api/products/search-product-by-name?product_name=Cherry+-+Red+Corset HTTP/1.1" 301 0
+WARNING 2024-11-06 18:52:17,910 basehttp "GET /api/products/search-product-by-name/?product_name=Cherry+-+Red+Corset HTTP/1.1" 404 31
+INFO 2024-11-06 18:52:24,895 basehttp "POST /api/products/ HTTP/1.1" 201 691
+INFO 2024-11-06 18:52:24,900 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Corset HTTP/1.1" 301 0
+WARNING 2024-11-06 18:52:25,197 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Corset HTTP/1.1" 404 31
+INFO 2024-11-06 18:52:30,973 basehttp "POST /api/products/ HTTP/1.1" 201 687
+INFO 2024-11-06 18:52:30,976 basehttp "GET /api/products/search-product-by-name?product_name=Grey+Melange+Wide-Leg HTTP/1.1" 301 0
+WARNING 2024-11-06 18:52:31,248 basehttp "GET /api/products/search-product-by-name/?product_name=Grey+Melange+Wide-Leg HTTP/1.1" 404 31
+INFO 2024-11-06 18:52:33,163 basehttp "POST /api/products/ HTTP/1.1" 201 713
+INFO 2024-11-06 18:52:33,171 basehttp "GET /api/products/search-product-by-name?product_name=Champions+94+Oversized+Jersey HTTP/1.1" 301 0
+WARNING 2024-11-06 18:52:33,462 basehttp "GET /api/products/search-product-by-name/?product_name=Champions+94+Oversized+Jersey HTTP/1.1" 404 31
+INFO 2024-11-06 18:52:39,619 basehttp "POST /api/products/ HTTP/1.1" 201 738
+INFO 2024-11-06 18:52:39,635 basehttp "GET /api/products/search-product-by-name?product_name=Donald+Sk8+Polo+Oversized+Shirt HTTP/1.1" 301 0
+WARNING 2024-11-06 18:52:39,908 basehttp "GET /api/products/search-product-by-name/?product_name=Donald+Sk8+Polo+Oversized+Shirt HTTP/1.1" 404 31
+INFO 2024-11-06 18:52:46,446 basehttp "POST /api/products/ HTTP/1.1" 201 746
+INFO 2024-11-06 18:52:46,463 basehttp "GET /api/products/search-product-by-name?product_name=Eye+Spy+Zipper+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:52:46,787 basehttp "GET /api/products/search-product-by-name/?product_name=Eye+Spy+Zipper+Top HTTP/1.1" 200 2217
+INFO 2024-11-06 18:52:46,796 basehttp "GET /api/products/search-product-by-name?product_name=Flute+Melody+Tank+Top HTTP/1.1" 301 0
+WARNING 2024-11-06 18:52:47,098 basehttp "GET /api/products/search-product-by-name/?product_name=Flute+Melody+Tank+Top HTTP/1.1" 404 31
+INFO 2024-11-06 18:52:52,384 basehttp "POST /api/products/ HTTP/1.1" 201 695
+INFO 2024-11-06 18:52:52,396 basehttp "GET /api/products/search-product-by-name?product_name=Thanks+Baby+Tee HTTP/1.1" 301 0
+INFO 2024-11-06 18:52:52,726 basehttp "GET /api/products/search-product-by-name/?product_name=Thanks+Baby+Tee HTTP/1.1" 200 2829
+INFO 2024-11-06 18:52:52,734 basehttp "GET /api/products/search-product-by-name?product_name=Hot+Pink+Jersey+Crop+Top HTTP/1.1" 301 0
+WARNING 2024-11-06 18:52:53,088 basehttp "GET /api/products/search-product-by-name/?product_name=Hot+Pink+Jersey+Crop+Top HTTP/1.1" 404 31
+INFO 2024-11-06 18:52:58,243 basehttp "POST /api/products/ HTTP/1.1" 201 702
+INFO 2024-11-06 18:52:58,254 basehttp "GET /api/products/search-product-by-name?product_name=Delulu+Ringer+Crop+Top HTTP/1.1" 301 0
+WARNING 2024-11-06 18:52:58,537 basehttp "GET /api/products/search-product-by-name/?product_name=Delulu+Ringer+Crop+Top HTTP/1.1" 404 31
+INFO 2024-11-06 18:53:04,625 basehttp "POST /api/products/ HTTP/1.1" 201 697
+INFO 2024-11-06 18:53:04,632 basehttp "GET /api/products/search-product-by-name?product_name=I+Am+Just+A+Girl+Baby+Tee HTTP/1.1" 301 0
+WARNING 2024-11-06 18:53:04,914 basehttp "GET /api/products/search-product-by-name/?product_name=I+Am+Just+A+Girl+Baby+Tee HTTP/1.1" 404 31
+INFO 2024-11-06 18:53:09,930 basehttp "POST /api/products/ HTTP/1.1" 201 706
+INFO 2024-11-06 18:53:09,933 basehttp "GET /api/products/search-product-by-name?product_name=Let+Me+Sleep+Baby+Tee HTTP/1.1" 301 0
+INFO 2024-11-06 18:53:10,242 basehttp "GET /api/products/search-product-by-name/?product_name=Let+Me+Sleep+Baby+Tee HTTP/1.1" 200 3595
+INFO 2024-11-06 18:53:10,247 basehttp "GET /api/products/search-product-by-name?product_name=Just+A+Girl+Ringer+Crop+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:53:10,571 basehttp "GET /api/products/search-product-by-name/?product_name=Just+A+Girl+Ringer+Crop+Top HTTP/1.1" 200 3655
+INFO 2024-11-06 18:53:10,573 basehttp "GET /api/products/search-product-by-name?product_name=Brown+Highneck+Polyamide+Backless+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 18:53:10,960 basehttp "GET /api/products/search-product-by-name/?product_name=Brown+Highneck+Polyamide+Backless+Dress HTTP/1.1" 200 1535
+INFO 2024-11-06 18:53:10,965 basehttp "GET /api/products/search-product-by-name?product_name=Black+Polyamide+Tube+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:53:11,282 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Polyamide+Tube+Top HTTP/1.1" 200 752
+INFO 2024-11-06 18:53:11,289 basehttp "GET /api/products/search-product-by-name?product_name=Brown+Polyamide+Square+Neck+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:53:11,618 basehttp "GET /api/products/search-product-by-name/?product_name=Brown+Polyamide+Square+Neck+Top HTTP/1.1" 200 765
+INFO 2024-11-06 18:53:11,626 basehttp "GET /api/products/search-product-by-name?product_name=Off+White+Fold+Over+Pants HTTP/1.1" 301 0
+INFO 2024-11-06 18:53:12,018 basehttp "GET /api/products/search-product-by-name/?product_name=Off+White+Fold+Over+Pants HTTP/1.1" 200 2959
+INFO 2024-11-06 18:53:12,021 basehttp "GET /api/products/search-product-by-name?product_name=Red+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 18:53:12,346 basehttp "GET /api/products/search-product-by-name/?product_name=Red+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 786
+INFO 2024-11-06 18:53:12,353 basehttp "GET /api/products/search-product-by-name?product_name=Little+Black+Playboy+Cami+Top HTTP/1.1" 301 0
+WARNING 2024-11-06 18:53:12,700 basehttp "GET /api/products/search-product-by-name/?product_name=Little+Black+Playboy+Cami+Top HTTP/1.1" 404 31
+INFO 2024-11-06 18:53:18,984 basehttp "POST /api/products/ HTTP/1.1" 201 887
+INFO 2024-11-06 18:53:18,995 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 18:53:19,385 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 1483
+INFO 2024-11-06 18:53:19,392 basehttp "GET /api/products/search-product-by-name?product_name=53+Racer+Playboy+Oversized+Polo HTTP/1.1" 301 0
+INFO 2024-11-06 18:53:19,964 basehttp "GET /api/products/search-product-by-name/?product_name=53+Racer+Playboy+Oversized+Polo HTTP/1.1" 200 1513
+INFO 2024-11-06 18:53:19,969 basehttp "GET /api/products/search-product-by-name?product_name=Pink+Bunny+Club+Crop+Cami HTTP/1.1" 301 0
+WARNING 2024-11-06 18:53:20,263 basehttp "GET /api/products/search-product-by-name/?product_name=Pink+Bunny+Club+Crop+Cami HTTP/1.1" 404 31
+INFO 2024-11-06 18:53:26,815 basehttp "POST /api/products/ HTTP/1.1" 201 895
+INFO 2024-11-06 18:53:26,821 basehttp "GET /api/products/search-product-by-name?product_name=Playboy+Club+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:53:27,153 basehttp "GET /api/products/search-product-by-name/?product_name=Playboy+Club+Oversized+T-shirt HTTP/1.1" 200 4711
+INFO 2024-11-06 18:53:27,157 basehttp "GET /api/products/search-product-by-name?product_name=nan HTTP/1.1" 301 0
+WARNING 2024-11-06 18:53:27,508 basehttp "GET /api/products/search-product-by-name/?product_name=nan HTTP/1.1" 404 31
+INFO 2024-11-06 18:59:40,853 basehttp "GET /api/products/search-product-by-name?product_name=Red+Polyamide+Fitted+T-Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:41,526 basehttp "GET /api/products/search-product-by-name/?product_name=Red+Polyamide+Fitted+T-Shirt HTTP/1.1" 200 865
+INFO 2024-11-06 18:59:41,531 basehttp "GET /api/products/search-product-by-name?product_name=White+Polyamide+Fitted+T-Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:42,104 basehttp "GET /api/products/search-product-by-name/?product_name=White+Polyamide+Fitted+T-Shirt HTTP/1.1" 200 783
+INFO 2024-11-06 18:59:42,111 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Polyamide+Square+Neck+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:42,460 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Polyamide+Square+Neck+Top HTTP/1.1" 200 773
+INFO 2024-11-06 18:59:42,469 basehttp "GET /api/products/search-product-by-name?product_name=Pink+Fold+Over+Pants HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:42,791 basehttp "GET /api/products/search-product-by-name/?product_name=Pink+Fold+Over+Pants HTTP/1.1" 200 2919
+INFO 2024-11-06 18:59:42,797 basehttp "GET /api/products/search-product-by-name?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:43,251 basehttp "GET /api/products/search-product-by-name/?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 200 2833
+INFO 2024-11-06 18:59:43,261 basehttp "GET /api/products/search-product-by-name?product_name=Chuckie+Embroidery+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:43,578 basehttp "GET /api/products/search-product-by-name/?product_name=Chuckie+Embroidery+Oversized+T-shirt HTTP/1.1" 200 804
+INFO 2024-11-06 18:59:43,584 basehttp "GET /api/products/search-product-by-name?product_name=The+New+Empire+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:43,910 basehttp "GET /api/products/search-product-by-name/?product_name=The+New+Empire+Oversized+T-shirt HTTP/1.1" 200 763
+INFO 2024-11-06 18:59:43,916 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:44,308 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 1483
+INFO 2024-11-06 18:59:44,314 basehttp "GET /api/products/search-product-by-name?product_name=Rusty+Cream+Oversized+Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:44,716 basehttp "GET /api/products/search-product-by-name/?product_name=Rusty+Cream+Oversized+Shirt HTTP/1.1" 200 755
+INFO 2024-11-06 18:59:44,719 basehttp "GET /api/products/search-product-by-name?product_name=Black+Seamless+Bodysuit HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:45,041 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Seamless+Bodysuit HTTP/1.1" 200 726
+INFO 2024-11-06 18:59:45,050 basehttp "GET /api/products/search-product-by-name?product_name=Black+Sporty+Ribbed+Crop+Top. HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:45,400 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Sporty+Ribbed+Crop+Top. HTTP/1.1" 200 740
+INFO 2024-11-06 18:59:45,410 basehttp "GET /api/products/search-product-by-name?product_name=Black+Ribbed+Workout+Shorts HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:45,740 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Ribbed+Workout+Shorts HTTP/1.1" 200 2943
+INFO 2024-11-06 18:59:45,746 basehttp "GET /api/products/search-product-by-name?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:46,149 basehttp "GET /api/products/search-product-by-name/?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 200 2833
+INFO 2024-11-06 18:59:46,155 basehttp "GET /api/products/search-product-by-name?product_name=Toy+Story+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:46,486 basehttp "GET /api/products/search-product-by-name/?product_name=Toy+Story+Oversized+T-shirt HTTP/1.1" 200 776
+INFO 2024-11-06 18:59:46,491 basehttp "GET /api/products/search-product-by-name?product_name=Black+Cargo+Pants HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:46,823 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Cargo+Pants HTTP/1.1" 200 2293
+INFO 2024-11-06 18:59:46,826 basehttp "GET /api/products/search-product-by-name?product_name=Soft+Pink+Sporty+Ribbed+Crop+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:47,216 basehttp "GET /api/products/search-product-by-name/?product_name=Soft+Pink+Sporty+Ribbed+Crop+Top HTTP/1.1" 200 743
+INFO 2024-11-06 18:59:47,227 basehttp "GET /api/products/search-product-by-name?product_name=Hey+Arnold+Pink+Cami+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:47,621 basehttp "GET /api/products/search-product-by-name/?product_name=Hey+Arnold+Pink+Cami+Top HTTP/1.1" 200 731
+INFO 2024-11-06 18:59:47,625 basehttp "GET /api/products/search-product-by-name?product_name=Angelica+Ribbed+Crop+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:47,962 basehttp "GET /api/products/search-product-by-name/?product_name=Angelica+Ribbed+Crop+Top HTTP/1.1" 200 731
+INFO 2024-11-06 18:59:47,967 basehttp "GET /api/products/search-product-by-name?product_name=Soft+Pink+Super+Sculpt+Seamless+Leggings HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:48,310 basehttp "GET /api/products/search-product-by-name/?product_name=Soft+Pink+Super+Sculpt+Seamless+Leggings HTTP/1.1" 200 3051
+INFO 2024-11-06 18:59:48,312 basehttp "GET /api/products/search-product-by-name?product_name=I+Hate+Everyone+Baby+Tee HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:48,620 basehttp "GET /api/products/search-product-by-name/?product_name=I+Hate+Everyone+Baby+Tee HTTP/1.1" 200 734
+INFO 2024-11-06 18:59:48,623 basehttp "GET /api/products/search-product-by-name?product_name=Disney+Donald+Duck+Oversized+Tshirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:48,950 basehttp "GET /api/products/search-product-by-name/?product_name=Disney+Donald+Duck+Oversized+Tshirt HTTP/1.1" 200 788
+INFO 2024-11-06 18:59:48,953 basehttp "GET /api/products/search-product-by-name?product_name=Black+Sporty+Fit+Pants HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:49,279 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Sporty+Fit+Pants HTTP/1.1" 200 743
+INFO 2024-11-06 18:59:49,282 basehttp "GET /api/products/search-product-by-name?product_name=Grey+Melange+wide+leg HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:49,602 basehttp "GET /api/products/search-product-by-name/?product_name=Grey+Melange+wide+leg HTTP/1.1" 200 762
+INFO 2024-11-06 18:59:49,605 basehttp "GET /api/products/search-product-by-name?product_name=Heaven+Blue+Body+Hug+Crop+Tee HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:49,917 basehttp "GET /api/products/search-product-by-name/?product_name=Heaven+Blue+Body+Hug+Crop+Tee HTTP/1.1" 200 737
+INFO 2024-11-06 18:59:49,921 basehttp "GET /api/products/search-product-by-name?product_name=Disney+Donald+Duck+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:50,260 basehttp "GET /api/products/search-product-by-name/?product_name=Disney+Donald+Duck+Oversized+T-shirt HTTP/1.1" 200 771
+INFO 2024-11-06 18:59:50,263 basehttp "GET /api/products/search-product-by-name?product_name=Imagination+Is+Real+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:50,596 basehttp "GET /api/products/search-product-by-name/?product_name=Imagination+Is+Real+Oversized+T-shirt HTTP/1.1" 200 771
+INFO 2024-11-06 18:59:50,601 basehttp "GET /api/products/search-product-by-name?product_name=Black+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:50,930 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 731
+INFO 2024-11-06 18:59:50,934 basehttp "GET /api/products/search-product-by-name?product_name=Nick+90s+Collection HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:51,251 basehttp "GET /api/products/search-product-by-name/?product_name=Nick+90s+Collection HTTP/1.1" 200 708
+INFO 2024-11-06 18:59:51,257 basehttp "GET /api/products/search-product-by-name?product_name=Bottle+Green+Bodycon+Solid+Romper HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:51,595 basehttp "GET /api/products/search-product-by-name/?product_name=Bottle+Green+Bodycon+Solid+Romper HTTP/1.1" 200 779
+INFO 2024-11-06 18:59:51,597 basehttp "GET /api/products/search-product-by-name?product_name=Brown+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:51,920 basehttp "GET /api/products/search-product-by-name/?product_name=Brown+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 1467
+INFO 2024-11-06 18:59:51,923 basehttp "GET /api/products/search-product-by-name?product_name=Kim+is+my+lawyer+baby+tee HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:52,242 basehttp "GET /api/products/search-product-by-name/?product_name=Kim+is+my+lawyer+baby+tee HTTP/1.1" 200 759
+INFO 2024-11-06 18:59:52,247 basehttp "GET /api/products/search-product-by-name?product_name=Coco+Brown+Corset HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:52,580 basehttp "GET /api/products/search-product-by-name/?product_name=Coco+Brown+Corset HTTP/1.1" 200 691
+INFO 2024-11-06 18:59:52,585 basehttp "GET /api/products/search-product-by-name?product_name=Electric+Blue+-+Blue+Corset HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:52,909 basehttp "GET /api/products/search-product-by-name/?product_name=Electric+Blue+-+Blue+Corset HTTP/1.1" 200 709
+INFO 2024-11-06 18:59:52,912 basehttp "GET /api/products/search-product-by-name?product_name=Cherry+-+Red+Corset HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:53,246 basehttp "GET /api/products/search-product-by-name/?product_name=Cherry+-+Red+Corset HTTP/1.1" 200 693
+INFO 2024-11-06 18:59:53,256 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Corset HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:53,661 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Corset HTTP/1.1" 200 689
+INFO 2024-11-06 18:59:53,670 basehttp "GET /api/products/search-product-by-name?product_name=Grey+Melange+Wide-Leg HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:53,993 basehttp "GET /api/products/search-product-by-name/?product_name=Grey+Melange+Wide-Leg HTTP/1.1" 200 715
+INFO 2024-11-06 18:59:54,000 basehttp "GET /api/products/search-product-by-name?product_name=Champions+94+Oversized+Jersey HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:54,405 basehttp "GET /api/products/search-product-by-name/?product_name=Champions+94+Oversized+Jersey HTTP/1.1" 200 740
+INFO 2024-11-06 18:59:54,414 basehttp "GET /api/products/search-product-by-name?product_name=Donald+Sk8+Polo+Oversized+Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:54,743 basehttp "GET /api/products/search-product-by-name/?product_name=Donald+Sk8+Polo+Oversized+Shirt HTTP/1.1" 200 748
+INFO 2024-11-06 18:59:54,747 basehttp "GET /api/products/search-product-by-name?product_name=Eye+Spy+Zipper+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:55,132 basehttp "GET /api/products/search-product-by-name/?product_name=Eye+Spy+Zipper+Top HTTP/1.1" 200 2217
+INFO 2024-11-06 18:59:55,142 basehttp "GET /api/products/search-product-by-name?product_name=Flute+Melody+Tank+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:55,473 basehttp "GET /api/products/search-product-by-name/?product_name=Flute+Melody+Tank+Top HTTP/1.1" 200 697
+INFO 2024-11-06 18:59:55,481 basehttp "GET /api/products/search-product-by-name?product_name=Thanks+Baby+Tee HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:55,808 basehttp "GET /api/products/search-product-by-name/?product_name=Thanks+Baby+Tee HTTP/1.1" 200 2829
+INFO 2024-11-06 18:59:55,814 basehttp "GET /api/products/search-product-by-name?product_name=Hot+Pink+Jersey+Crop+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:56,150 basehttp "GET /api/products/search-product-by-name/?product_name=Hot+Pink+Jersey+Crop+Top HTTP/1.1" 200 704
+INFO 2024-11-06 18:59:56,158 basehttp "GET /api/products/search-product-by-name?product_name=Delulu+Ringer+Crop+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:56,721 basehttp "GET /api/products/search-product-by-name/?product_name=Delulu+Ringer+Crop+Top HTTP/1.1" 200 699
+INFO 2024-11-06 18:59:56,731 basehttp "GET /api/products/search-product-by-name?product_name=I+Am+Just+A+Girl+Baby+Tee HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:57,063 basehttp "GET /api/products/search-product-by-name/?product_name=I+Am+Just+A+Girl+Baby+Tee HTTP/1.1" 200 708
+INFO 2024-11-06 18:59:57,067 basehttp "GET /api/products/search-product-by-name?product_name=Let+Me+Sleep+Baby+Tee HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:57,398 basehttp "GET /api/products/search-product-by-name/?product_name=Let+Me+Sleep+Baby+Tee HTTP/1.1" 200 3595
+INFO 2024-11-06 18:59:57,406 basehttp "GET /api/products/search-product-by-name?product_name=Just+A+Girl+Ringer+Crop+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:57,738 basehttp "GET /api/products/search-product-by-name/?product_name=Just+A+Girl+Ringer+Crop+Top HTTP/1.1" 200 3655
+INFO 2024-11-06 18:59:57,748 basehttp "GET /api/products/search-product-by-name?product_name=Brown+Highneck+Polyamide+Backless+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:58,070 basehttp "GET /api/products/search-product-by-name/?product_name=Brown+Highneck+Polyamide+Backless+Dress HTTP/1.1" 200 1535
+INFO 2024-11-06 18:59:58,077 basehttp "GET /api/products/search-product-by-name?product_name=Black+Polyamide+Tube+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:58,409 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Polyamide+Tube+Top HTTP/1.1" 200 752
+INFO 2024-11-06 18:59:58,418 basehttp "GET /api/products/search-product-by-name?product_name=Brown+Polyamide+Square+Neck+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:58,757 basehttp "GET /api/products/search-product-by-name/?product_name=Brown+Polyamide+Square+Neck+Top HTTP/1.1" 200 765
+INFO 2024-11-06 18:59:58,764 basehttp "GET /api/products/search-product-by-name?product_name=Off+White+Fold+Over+Pants HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:59,091 basehttp "GET /api/products/search-product-by-name/?product_name=Off+White+Fold+Over+Pants HTTP/1.1" 200 2959
+INFO 2024-11-06 18:59:59,094 basehttp "GET /api/products/search-product-by-name?product_name=Red+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:59,398 basehttp "GET /api/products/search-product-by-name/?product_name=Red+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 786
+INFO 2024-11-06 18:59:59,402 basehttp "GET /api/products/search-product-by-name?product_name=Little+Black+Playboy+Cami+Top HTTP/1.1" 301 0
+INFO 2024-11-06 18:59:59,801 basehttp "GET /api/products/search-product-by-name/?product_name=Little+Black+Playboy+Cami+Top HTTP/1.1" 200 889
+INFO 2024-11-06 18:59:59,810 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:00,212 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 1483
+INFO 2024-11-06 19:00:00,216 basehttp "GET /api/products/search-product-by-name?product_name=53+Racer+Playboy+Oversized+Polo HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:00,622 basehttp "GET /api/products/search-product-by-name/?product_name=53+Racer+Playboy+Oversized+Polo HTTP/1.1" 200 1513
+INFO 2024-11-06 19:00:00,631 basehttp "GET /api/products/search-product-by-name?product_name=Pink+Bunny+Club+Crop+Cami HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:00,953 basehttp "GET /api/products/search-product-by-name/?product_name=Pink+Bunny+Club+Crop+Cami HTTP/1.1" 200 897
+INFO 2024-11-06 19:00:00,961 basehttp "GET /api/products/search-product-by-name?product_name=Playboy+Club+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:01,293 basehttp "GET /api/products/search-product-by-name/?product_name=Playboy+Club+Oversized+T-shirt HTTP/1.1" 200 4711
+INFO 2024-11-06 19:00:36,540 basehttp "GET /api/products/search-product-by-name?product_name=Red+Polyamide+Fitted+T-Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:37,238 basehttp "GET /api/products/search-product-by-name/?product_name=Red+Polyamide+Fitted+T-Shirt HTTP/1.1" 200 865
+INFO 2024-11-06 19:00:37,247 basehttp "GET /api/products/search-product-by-name?product_name=White+Polyamide+Fitted+T-Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:37,642 basehttp "GET /api/products/search-product-by-name/?product_name=White+Polyamide+Fitted+T-Shirt HTTP/1.1" 200 783
+INFO 2024-11-06 19:00:37,645 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Polyamide+Square+Neck+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:37,965 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Polyamide+Square+Neck+Top HTTP/1.1" 200 773
+INFO 2024-11-06 19:00:37,975 basehttp "GET /api/products/search-product-by-name?product_name=Pink+Fold+Over+Pants HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:38,286 basehttp "GET /api/products/search-product-by-name/?product_name=Pink+Fold+Over+Pants HTTP/1.1" 200 2919
+INFO 2024-11-06 19:00:38,290 basehttp "GET /api/products/search-product-by-name?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:38,601 basehttp "GET /api/products/search-product-by-name/?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 200 2833
+INFO 2024-11-06 19:00:38,610 basehttp "GET /api/products/search-product-by-name?product_name=Chuckie+Embroidery+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:38,921 basehttp "GET /api/products/search-product-by-name/?product_name=Chuckie+Embroidery+Oversized+T-shirt HTTP/1.1" 200 804
+INFO 2024-11-06 19:00:38,926 basehttp "GET /api/products/search-product-by-name?product_name=The+New+Empire+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:39,240 basehttp "GET /api/products/search-product-by-name/?product_name=The+New+Empire+Oversized+T-shirt HTTP/1.1" 200 763
+INFO 2024-11-06 19:00:39,246 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:39,565 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 1483
+INFO 2024-11-06 19:00:39,570 basehttp "GET /api/products/search-product-by-name?product_name=Rusty+Cream+Oversized+Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:39,960 basehttp "GET /api/products/search-product-by-name/?product_name=Rusty+Cream+Oversized+Shirt HTTP/1.1" 200 755
+INFO 2024-11-06 19:00:39,969 basehttp "GET /api/products/search-product-by-name?product_name=Black+Seamless+Bodysuit HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:40,294 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Seamless+Bodysuit HTTP/1.1" 200 726
+INFO 2024-11-06 19:00:40,297 basehttp "GET /api/products/search-product-by-name?product_name=Black+Sporty+Ribbed+Crop+Top. HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:40,602 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Sporty+Ribbed+Crop+Top. HTTP/1.1" 200 740
+INFO 2024-11-06 19:00:40,607 basehttp "GET /api/products/search-product-by-name?product_name=Black+Ribbed+Workout+Shorts HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:40,932 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Ribbed+Workout+Shorts HTTP/1.1" 200 2943
+INFO 2024-11-06 19:00:40,935 basehttp "GET /api/products/search-product-by-name?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:41,261 basehttp "GET /api/products/search-product-by-name/?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 200 2833
+INFO 2024-11-06 19:00:41,264 basehttp "GET /api/products/search-product-by-name?product_name=Toy+Story+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:41,576 basehttp "GET /api/products/search-product-by-name/?product_name=Toy+Story+Oversized+T-shirt HTTP/1.1" 200 776
+INFO 2024-11-06 19:00:41,579 basehttp "GET /api/products/search-product-by-name?product_name=Black+Cargo+Pants HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:41,880 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Cargo+Pants HTTP/1.1" 200 2293
+INFO 2024-11-06 19:00:41,885 basehttp "GET /api/products/search-product-by-name?product_name=Soft+Pink+Sporty+Ribbed+Crop+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:42,288 basehttp "GET /api/products/search-product-by-name/?product_name=Soft+Pink+Sporty+Ribbed+Crop+Top HTTP/1.1" 200 743
+INFO 2024-11-06 19:00:42,297 basehttp "GET /api/products/search-product-by-name?product_name=Hey+Arnold+Pink+Cami+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:42,605 basehttp "GET /api/products/search-product-by-name/?product_name=Hey+Arnold+Pink+Cami+Top HTTP/1.1" 200 731
+INFO 2024-11-06 19:00:42,607 basehttp "GET /api/products/search-product-by-name?product_name=Angelica+Ribbed+Crop+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:42,926 basehttp "GET /api/products/search-product-by-name/?product_name=Angelica+Ribbed+Crop+Top HTTP/1.1" 200 731
+INFO 2024-11-06 19:00:42,932 basehttp "GET /api/products/search-product-by-name?product_name=Soft+Pink+Super+Sculpt+Seamless+Leggings HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:43,317 basehttp "GET /api/products/search-product-by-name/?product_name=Soft+Pink+Super+Sculpt+Seamless+Leggings HTTP/1.1" 200 3051
+INFO 2024-11-06 19:00:43,326 basehttp "GET /api/products/search-product-by-name?product_name=I+Hate+Everyone+Baby+Tee HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:43,730 basehttp "GET /api/products/search-product-by-name/?product_name=I+Hate+Everyone+Baby+Tee HTTP/1.1" 200 734
+INFO 2024-11-06 19:00:43,734 basehttp "GET /api/products/search-product-by-name?product_name=Disney+Donald+Duck+Oversized+Tshirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:44,133 basehttp "GET /api/products/search-product-by-name/?product_name=Disney+Donald+Duck+Oversized+Tshirt HTTP/1.1" 200 788
+INFO 2024-11-06 19:00:44,142 basehttp "GET /api/products/search-product-by-name?product_name=Black+Sporty+Fit+Pants HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:44,542 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Sporty+Fit+Pants HTTP/1.1" 200 743
+INFO 2024-11-06 19:00:44,546 basehttp "GET /api/products/search-product-by-name?product_name=Grey+Melange+wide+leg HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:44,869 basehttp "GET /api/products/search-product-by-name/?product_name=Grey+Melange+wide+leg HTTP/1.1" 200 762
+INFO 2024-11-06 19:00:44,877 basehttp "GET /api/products/search-product-by-name?product_name=Heaven+Blue+Body+Hug+Crop+Tee HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:45,224 basehttp "GET /api/products/search-product-by-name/?product_name=Heaven+Blue+Body+Hug+Crop+Tee HTTP/1.1" 200 737
+INFO 2024-11-06 19:00:45,231 basehttp "GET /api/products/search-product-by-name?product_name=Disney+Donald+Duck+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:45,632 basehttp "GET /api/products/search-product-by-name/?product_name=Disney+Donald+Duck+Oversized+T-shirt HTTP/1.1" 200 771
+INFO 2024-11-06 19:00:45,643 basehttp "GET /api/products/search-product-by-name?product_name=Imagination+Is+Real+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:45,990 basehttp "GET /api/products/search-product-by-name/?product_name=Imagination+Is+Real+Oversized+T-shirt HTTP/1.1" 200 771
+INFO 2024-11-06 19:00:45,998 basehttp "GET /api/products/search-product-by-name?product_name=Black+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:46,324 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 731
+INFO 2024-11-06 19:00:46,328 basehttp "GET /api/products/search-product-by-name?product_name=Nick+90s+Collection HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:46,659 basehttp "GET /api/products/search-product-by-name/?product_name=Nick+90s+Collection HTTP/1.1" 200 708
+INFO 2024-11-06 19:00:46,665 basehttp "GET /api/products/search-product-by-name?product_name=Bottle+Green+Bodycon+Solid+Romper HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:46,997 basehttp "GET /api/products/search-product-by-name/?product_name=Bottle+Green+Bodycon+Solid+Romper HTTP/1.1" 200 779
+INFO 2024-11-06 19:00:47,006 basehttp "GET /api/products/search-product-by-name?product_name=Brown+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:47,334 basehttp "GET /api/products/search-product-by-name/?product_name=Brown+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 1467
+INFO 2024-11-06 19:00:47,342 basehttp "GET /api/products/search-product-by-name?product_name=Kim+is+my+lawyer+baby+tee HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:47,757 basehttp "GET /api/products/search-product-by-name/?product_name=Kim+is+my+lawyer+baby+tee HTTP/1.1" 200 759
+INFO 2024-11-06 19:00:47,760 basehttp "GET /api/products/search-product-by-name?product_name=Coco+Brown+Corset HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:48,092 basehttp "GET /api/products/search-product-by-name/?product_name=Coco+Brown+Corset HTTP/1.1" 200 691
+INFO 2024-11-06 19:00:48,097 basehttp "GET /api/products/search-product-by-name?product_name=Electric+Blue+-+Blue+Corset HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:48,408 basehttp "GET /api/products/search-product-by-name/?product_name=Electric+Blue+-+Blue+Corset HTTP/1.1" 200 709
+INFO 2024-11-06 19:00:48,417 basehttp "GET /api/products/search-product-by-name?product_name=Cherry+-+Red+Corset HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:48,751 basehttp "GET /api/products/search-product-by-name/?product_name=Cherry+-+Red+Corset HTTP/1.1" 200 693
+INFO 2024-11-06 19:00:48,763 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Corset HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:49,077 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Corset HTTP/1.1" 200 689
+INFO 2024-11-06 19:00:49,086 basehttp "GET /api/products/search-product-by-name?product_name=Grey+Melange+Wide-Leg HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:49,404 basehttp "GET /api/products/search-product-by-name/?product_name=Grey+Melange+Wide-Leg HTTP/1.1" 200 715
+INFO 2024-11-06 19:00:49,409 basehttp "GET /api/products/search-product-by-name?product_name=Champions+94+Oversized+Jersey HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:49,737 basehttp "GET /api/products/search-product-by-name/?product_name=Champions+94+Oversized+Jersey HTTP/1.1" 200 740
+INFO 2024-11-06 19:00:49,742 basehttp "GET /api/products/search-product-by-name?product_name=Donald+Sk8+Polo+Oversized+Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:50,047 basehttp "GET /api/products/search-product-by-name/?product_name=Donald+Sk8+Polo+Oversized+Shirt HTTP/1.1" 200 748
+INFO 2024-11-06 19:00:50,054 basehttp "GET /api/products/search-product-by-name?product_name=Eye+Spy+Zipper+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:50,389 basehttp "GET /api/products/search-product-by-name/?product_name=Eye+Spy+Zipper+Top HTTP/1.1" 200 2217
+INFO 2024-11-06 19:00:50,397 basehttp "GET /api/products/search-product-by-name?product_name=Flute+Melody+Tank+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:50,724 basehttp "GET /api/products/search-product-by-name/?product_name=Flute+Melody+Tank+Top HTTP/1.1" 200 697
+INFO 2024-11-06 19:00:50,728 basehttp "GET /api/products/search-product-by-name?product_name=Thanks+Baby+Tee HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:51,119 basehttp "GET /api/products/search-product-by-name/?product_name=Thanks+Baby+Tee HTTP/1.1" 200 2829
+INFO 2024-11-06 19:00:51,127 basehttp "GET /api/products/search-product-by-name?product_name=Hot+Pink+Jersey+Crop+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:51,467 basehttp "GET /api/products/search-product-by-name/?product_name=Hot+Pink+Jersey+Crop+Top HTTP/1.1" 200 704
+INFO 2024-11-06 19:00:51,474 basehttp "GET /api/products/search-product-by-name?product_name=Delulu+Ringer+Crop+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:51,792 basehttp "GET /api/products/search-product-by-name/?product_name=Delulu+Ringer+Crop+Top HTTP/1.1" 200 699
+INFO 2024-11-06 19:00:51,800 basehttp "GET /api/products/search-product-by-name?product_name=I+Am+Just+A+Girl+Baby+Tee HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:52,375 basehttp "GET /api/products/search-product-by-name/?product_name=I+Am+Just+A+Girl+Baby+Tee HTTP/1.1" 200 708
+INFO 2024-11-06 19:00:52,383 basehttp "GET /api/products/search-product-by-name?product_name=Let+Me+Sleep+Baby+Tee HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:52,777 basehttp "GET /api/products/search-product-by-name/?product_name=Let+Me+Sleep+Baby+Tee HTTP/1.1" 200 3595
+INFO 2024-11-06 19:00:52,780 basehttp "GET /api/products/search-product-by-name?product_name=Just+A+Girl+Ringer+Crop+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:53,092 basehttp "GET /api/products/search-product-by-name/?product_name=Just+A+Girl+Ringer+Crop+Top HTTP/1.1" 200 3655
+INFO 2024-11-06 19:00:53,098 basehttp "GET /api/products/search-product-by-name?product_name=Brown+Highneck+Polyamide+Backless+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:53,422 basehttp "GET /api/products/search-product-by-name/?product_name=Brown+Highneck+Polyamide+Backless+Dress HTTP/1.1" 200 1535
+INFO 2024-11-06 19:00:53,424 basehttp "GET /api/products/search-product-by-name?product_name=Black+Polyamide+Tube+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:53,742 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Polyamide+Tube+Top HTTP/1.1" 200 752
+INFO 2024-11-06 19:00:53,748 basehttp "GET /api/products/search-product-by-name?product_name=Brown+Polyamide+Square+Neck+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:54,076 basehttp "GET /api/products/search-product-by-name/?product_name=Brown+Polyamide+Square+Neck+Top HTTP/1.1" 200 765
+INFO 2024-11-06 19:00:54,083 basehttp "GET /api/products/search-product-by-name?product_name=Off+White+Fold+Over+Pants HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:54,476 basehttp "GET /api/products/search-product-by-name/?product_name=Off+White+Fold+Over+Pants HTTP/1.1" 200 2959
+INFO 2024-11-06 19:00:54,485 basehttp "GET /api/products/search-product-by-name?product_name=Red+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:54,874 basehttp "GET /api/products/search-product-by-name/?product_name=Red+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 786
+INFO 2024-11-06 19:00:54,879 basehttp "GET /api/products/search-product-by-name?product_name=Little+Black+Playboy+Cami+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:55,205 basehttp "GET /api/products/search-product-by-name/?product_name=Little+Black+Playboy+Cami+Top HTTP/1.1" 200 889
+INFO 2024-11-06 19:00:55,214 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:55,549 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 1483
+INFO 2024-11-06 19:00:55,559 basehttp "GET /api/products/search-product-by-name?product_name=53+Racer+Playboy+Oversized+Polo HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:55,949 basehttp "GET /api/products/search-product-by-name/?product_name=53+Racer+Playboy+Oversized+Polo HTTP/1.1" 200 1513
+INFO 2024-11-06 19:00:55,958 basehttp "GET /api/products/search-product-by-name?product_name=Pink+Bunny+Club+Crop+Cami HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:56,312 basehttp "GET /api/products/search-product-by-name/?product_name=Pink+Bunny+Club+Crop+Cami HTTP/1.1" 200 897
+INFO 2024-11-06 19:00:56,320 basehttp "GET /api/products/search-product-by-name?product_name=Playboy+Club+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:00:56,634 basehttp "GET /api/products/search-product-by-name/?product_name=Playboy+Club+Oversized+T-shirt HTTP/1.1" 200 4711
+INFO 2024-11-06 19:02:47,976 basehttp "GET /api/products/search-product-by-name?product_name=Red+Polyamide+Fitted+T-Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:48,537 basehttp "GET /api/products/search-product-by-name/?product_name=Red+Polyamide+Fitted+T-Shirt HTTP/1.1" 200 865
+INFO 2024-11-06 19:02:48,540 basehttp "GET /api/products/search-product-by-name?product_name=White+Polyamide+Fitted+T-Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:48,868 basehttp "GET /api/products/search-product-by-name/?product_name=White+Polyamide+Fitted+T-Shirt HTTP/1.1" 200 783
+INFO 2024-11-06 19:02:48,878 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Polyamide+Square+Neck+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:49,283 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Polyamide+Square+Neck+Top HTTP/1.1" 200 773
+INFO 2024-11-06 19:02:49,288 basehttp "GET /api/products/search-product-by-name?product_name=Pink+Fold+Over+Pants HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:49,623 basehttp "GET /api/products/search-product-by-name/?product_name=Pink+Fold+Over+Pants HTTP/1.1" 200 2919
+INFO 2024-11-06 19:02:49,628 basehttp "GET /api/products/search-product-by-name?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:50,029 basehttp "GET /api/products/search-product-by-name/?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 200 2833
+INFO 2024-11-06 19:02:50,037 basehttp "GET /api/products/search-product-by-name?product_name=Chuckie+Embroidery+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:50,366 basehttp "GET /api/products/search-product-by-name/?product_name=Chuckie+Embroidery+Oversized+T-shirt HTTP/1.1" 200 804
+INFO 2024-11-06 19:02:50,373 basehttp "GET /api/products/search-product-by-name?product_name=The+New+Empire+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:50,709 basehttp "GET /api/products/search-product-by-name/?product_name=The+New+Empire+Oversized+T-shirt HTTP/1.1" 200 763
+INFO 2024-11-06 19:02:50,714 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:51,103 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 1483
+INFO 2024-11-06 19:02:51,114 basehttp "GET /api/products/search-product-by-name?product_name=Rusty+Cream+Oversized+Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:51,446 basehttp "GET /api/products/search-product-by-name/?product_name=Rusty+Cream+Oversized+Shirt HTTP/1.1" 200 755
+INFO 2024-11-06 19:02:51,451 basehttp "GET /api/products/search-product-by-name?product_name=Black+Seamless+Bodysuit HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:51,759 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Seamless+Bodysuit HTTP/1.1" 200 726
+INFO 2024-11-06 19:02:51,769 basehttp "GET /api/products/search-product-by-name?product_name=Black+Sporty+Ribbed+Crop+Top. HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:52,095 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Sporty+Ribbed+Crop+Top. HTTP/1.1" 200 740
+INFO 2024-11-06 19:02:52,099 basehttp "GET /api/products/search-product-by-name?product_name=Black+Ribbed+Workout+Shorts HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:52,430 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Ribbed+Workout+Shorts HTTP/1.1" 200 2943
+INFO 2024-11-06 19:02:52,435 basehttp "GET /api/products/search-product-by-name?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:52,834 basehttp "GET /api/products/search-product-by-name/?product_name=Bratty+Pickles+Red+Cami+Top HTTP/1.1" 200 2833
+INFO 2024-11-06 19:02:52,840 basehttp "GET /api/products/search-product-by-name?product_name=Toy+Story+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:53,177 basehttp "GET /api/products/search-product-by-name/?product_name=Toy+Story+Oversized+T-shirt HTTP/1.1" 200 776
+INFO 2024-11-06 19:02:53,182 basehttp "GET /api/products/search-product-by-name?product_name=Black+Cargo+Pants HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:53,572 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Cargo+Pants HTTP/1.1" 200 2293
+INFO 2024-11-06 19:02:53,578 basehttp "GET /api/products/search-product-by-name?product_name=Soft+Pink+Sporty+Ribbed+Crop+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:53,912 basehttp "GET /api/products/search-product-by-name/?product_name=Soft+Pink+Sporty+Ribbed+Crop+Top HTTP/1.1" 200 743
+INFO 2024-11-06 19:02:53,916 basehttp "GET /api/products/search-product-by-name?product_name=Hey+Arnold+Pink+Cami+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:54,236 basehttp "GET /api/products/search-product-by-name/?product_name=Hey+Arnold+Pink+Cami+Top HTTP/1.1" 200 731
+INFO 2024-11-06 19:02:54,239 basehttp "GET /api/products/search-product-by-name?product_name=Angelica+Ribbed+Crop+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:54,625 basehttp "GET /api/products/search-product-by-name/?product_name=Angelica+Ribbed+Crop+Top HTTP/1.1" 200 731
+INFO 2024-11-06 19:02:54,627 basehttp "GET /api/products/search-product-by-name?product_name=Soft+Pink+Super+Sculpt+Seamless+Leggings HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:54,950 basehttp "GET /api/products/search-product-by-name/?product_name=Soft+Pink+Super+Sculpt+Seamless+Leggings HTTP/1.1" 200 3051
+INFO 2024-11-06 19:02:54,961 basehttp "GET /api/products/search-product-by-name?product_name=I+Hate+Everyone+Baby+Tee HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:55,358 basehttp "GET /api/products/search-product-by-name/?product_name=I+Hate+Everyone+Baby+Tee HTTP/1.1" 200 734
+INFO 2024-11-06 19:02:55,366 basehttp "GET /api/products/search-product-by-name?product_name=Disney+Donald+Duck+Oversized+Tshirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:55,688 basehttp "GET /api/products/search-product-by-name/?product_name=Disney+Donald+Duck+Oversized+Tshirt HTTP/1.1" 200 788
+INFO 2024-11-06 19:02:55,696 basehttp "GET /api/products/search-product-by-name?product_name=Black+Sporty+Fit+Pants HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:56,029 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Sporty+Fit+Pants HTTP/1.1" 200 743
+INFO 2024-11-06 19:02:56,037 basehttp "GET /api/products/search-product-by-name?product_name=Grey+Melange+wide+leg HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:56,371 basehttp "GET /api/products/search-product-by-name/?product_name=Grey+Melange+wide+leg HTTP/1.1" 200 762
+INFO 2024-11-06 19:02:56,378 basehttp "GET /api/products/search-product-by-name?product_name=Heaven+Blue+Body+Hug+Crop+Tee HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:56,722 basehttp "GET /api/products/search-product-by-name/?product_name=Heaven+Blue+Body+Hug+Crop+Tee HTTP/1.1" 200 737
+INFO 2024-11-06 19:02:56,725 basehttp "GET /api/products/search-product-by-name?product_name=Disney+Donald+Duck+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:57,057 basehttp "GET /api/products/search-product-by-name/?product_name=Disney+Donald+Duck+Oversized+T-shirt HTTP/1.1" 200 771
+INFO 2024-11-06 19:02:57,066 basehttp "GET /api/products/search-product-by-name?product_name=Imagination+Is+Real+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:57,476 basehttp "GET /api/products/search-product-by-name/?product_name=Imagination+Is+Real+Oversized+T-shirt HTTP/1.1" 200 771
+INFO 2024-11-06 19:02:57,485 basehttp "GET /api/products/search-product-by-name?product_name=Black+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:58,834 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 731
+INFO 2024-11-06 19:02:58,838 basehttp "GET /api/products/search-product-by-name?product_name=Nick+90s+Collection HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:59,172 basehttp "GET /api/products/search-product-by-name/?product_name=Nick+90s+Collection HTTP/1.1" 200 708
+INFO 2024-11-06 19:02:59,176 basehttp "GET /api/products/search-product-by-name?product_name=Bottle+Green+Bodycon+Solid+Romper HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:59,581 basehttp "GET /api/products/search-product-by-name/?product_name=Bottle+Green+Bodycon+Solid+Romper HTTP/1.1" 200 779
+INFO 2024-11-06 19:02:59,588 basehttp "GET /api/products/search-product-by-name?product_name=Brown+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 19:02:59,921 basehttp "GET /api/products/search-product-by-name/?product_name=Brown+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 1467
+INFO 2024-11-06 19:02:59,929 basehttp "GET /api/products/search-product-by-name?product_name=Kim+is+my+lawyer+baby+tee HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:00,267 basehttp "GET /api/products/search-product-by-name/?product_name=Kim+is+my+lawyer+baby+tee HTTP/1.1" 200 759
+INFO 2024-11-06 19:03:00,272 basehttp "GET /api/products/search-product-by-name?product_name=Coco+Brown+Corset HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:00,590 basehttp "GET /api/products/search-product-by-name/?product_name=Coco+Brown+Corset HTTP/1.1" 200 691
+INFO 2024-11-06 19:03:00,597 basehttp "GET /api/products/search-product-by-name?product_name=Electric+Blue+-+Blue+Corset HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:00,936 basehttp "GET /api/products/search-product-by-name/?product_name=Electric+Blue+-+Blue+Corset HTTP/1.1" 200 709
+INFO 2024-11-06 19:03:00,940 basehttp "GET /api/products/search-product-by-name?product_name=Cherry+-+Red+Corset HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:01,331 basehttp "GET /api/products/search-product-by-name/?product_name=Cherry+-+Red+Corset HTTP/1.1" 200 693
+INFO 2024-11-06 19:03:01,339 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Corset HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:01,663 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Corset HTTP/1.1" 200 689
+INFO 2024-11-06 19:03:01,668 basehttp "GET /api/products/search-product-by-name?product_name=Grey+Melange+Wide-Leg HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:01,999 basehttp "GET /api/products/search-product-by-name/?product_name=Grey+Melange+Wide-Leg HTTP/1.1" 200 715
+INFO 2024-11-06 19:03:02,005 basehttp "GET /api/products/search-product-by-name?product_name=Champions+94+Oversized+Jersey HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:02,396 basehttp "GET /api/products/search-product-by-name/?product_name=Champions+94+Oversized+Jersey HTTP/1.1" 200 740
+INFO 2024-11-06 19:03:02,405 basehttp "GET /api/products/search-product-by-name?product_name=Donald+Sk8+Polo+Oversized+Shirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:02,750 basehttp "GET /api/products/search-product-by-name/?product_name=Donald+Sk8+Polo+Oversized+Shirt HTTP/1.1" 200 748
+INFO 2024-11-06 19:03:02,758 basehttp "GET /api/products/search-product-by-name?product_name=Eye+Spy+Zipper+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:03,078 basehttp "GET /api/products/search-product-by-name/?product_name=Eye+Spy+Zipper+Top HTTP/1.1" 200 2217
+INFO 2024-11-06 19:03:03,085 basehttp "GET /api/products/search-product-by-name?product_name=Flute+Melody+Tank+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:03,423 basehttp "GET /api/products/search-product-by-name/?product_name=Flute+Melody+Tank+Top HTTP/1.1" 200 697
+INFO 2024-11-06 19:03:03,427 basehttp "GET /api/products/search-product-by-name?product_name=Thanks+Baby+Tee HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:04,072 basehttp "GET /api/products/search-product-by-name/?product_name=Thanks+Baby+Tee HTTP/1.1" 200 2829
+INFO 2024-11-06 19:03:04,075 basehttp "GET /api/products/search-product-by-name?product_name=Hot+Pink+Jersey+Crop+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:04,404 basehttp "GET /api/products/search-product-by-name/?product_name=Hot+Pink+Jersey+Crop+Top HTTP/1.1" 200 704
+INFO 2024-11-06 19:03:04,412 basehttp "GET /api/products/search-product-by-name?product_name=Delulu+Ringer+Crop+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:04,726 basehttp "GET /api/products/search-product-by-name/?product_name=Delulu+Ringer+Crop+Top HTTP/1.1" 200 699
+INFO 2024-11-06 19:03:04,729 basehttp "GET /api/products/search-product-by-name?product_name=I+Am+Just+A+Girl+Baby+Tee HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:05,033 basehttp "GET /api/products/search-product-by-name/?product_name=I+Am+Just+A+Girl+Baby+Tee HTTP/1.1" 200 708
+INFO 2024-11-06 19:03:05,037 basehttp "GET /api/products/search-product-by-name?product_name=Let+Me+Sleep+Baby+Tee HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:05,369 basehttp "GET /api/products/search-product-by-name/?product_name=Let+Me+Sleep+Baby+Tee HTTP/1.1" 200 3595
+INFO 2024-11-06 19:03:05,377 basehttp "GET /api/products/search-product-by-name?product_name=Just+A+Girl+Ringer+Crop+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:05,711 basehttp "GET /api/products/search-product-by-name/?product_name=Just+A+Girl+Ringer+Crop+Top HTTP/1.1" 200 3655
+INFO 2024-11-06 19:03:05,719 basehttp "GET /api/products/search-product-by-name?product_name=Brown+Highneck+Polyamide+Backless+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:06,029 basehttp "GET /api/products/search-product-by-name/?product_name=Brown+Highneck+Polyamide+Backless+Dress HTTP/1.1" 200 1535
+INFO 2024-11-06 19:03:06,035 basehttp "GET /api/products/search-product-by-name?product_name=Black+Polyamide+Tube+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:06,433 basehttp "GET /api/products/search-product-by-name/?product_name=Black+Polyamide+Tube+Top HTTP/1.1" 200 752
+INFO 2024-11-06 19:03:06,441 basehttp "GET /api/products/search-product-by-name?product_name=Brown+Polyamide+Square+Neck+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:06,774 basehttp "GET /api/products/search-product-by-name/?product_name=Brown+Polyamide+Square+Neck+Top HTTP/1.1" 200 765
+INFO 2024-11-06 19:03:06,784 basehttp "GET /api/products/search-product-by-name?product_name=Off+White+Fold+Over+Pants HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:07,092 basehttp "GET /api/products/search-product-by-name/?product_name=Off+White+Fold+Over+Pants HTTP/1.1" 200 2959
+INFO 2024-11-06 19:03:07,097 basehttp "GET /api/products/search-product-by-name?product_name=Red+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:07,426 basehttp "GET /api/products/search-product-by-name/?product_name=Red+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 786
+INFO 2024-11-06 19:03:07,434 basehttp "GET /api/products/search-product-by-name?product_name=Little+Black+Playboy+Cami+Top HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:07,835 basehttp "GET /api/products/search-product-by-name/?product_name=Little+Black+Playboy+Cami+Top HTTP/1.1" 200 889
+INFO 2024-11-06 19:03:07,843 basehttp "GET /api/products/search-product-by-name?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:08,160 basehttp "GET /api/products/search-product-by-name/?product_name=Baby+Pink+Soft+Lounge+Maxi+Dress HTTP/1.1" 200 1483
+INFO 2024-11-06 19:03:08,167 basehttp "GET /api/products/search-product-by-name?product_name=53+Racer+Playboy+Oversized+Polo HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:08,501 basehttp "GET /api/products/search-product-by-name/?product_name=53+Racer+Playboy+Oversized+Polo HTTP/1.1" 200 1513
+INFO 2024-11-06 19:03:08,521 basehttp "GET /api/products/search-product-by-name?product_name=Pink+Bunny+Club+Crop+Cami HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:08,847 basehttp "GET /api/products/search-product-by-name/?product_name=Pink+Bunny+Club+Crop+Cami HTTP/1.1" 200 897
+INFO 2024-11-06 19:03:08,852 basehttp "GET /api/products/search-product-by-name?product_name=Playboy+Club+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:09,210 basehttp "GET /api/products/search-product-by-name/?product_name=Playboy+Club+Oversized+T-shirt HTTP/1.1" 200 4711
+INFO 2024-11-06 19:03:09,214 basehttp "GET /api/products/search-product-by-name?product_name=Playboy+Super+Sport+Oversized+T-shirt HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:09,527 basehttp "GET /api/products/search-product-by-name/?product_name=Playboy+Super+Sport+Oversized+T-shirt HTTP/1.1" 200 4500
+INFO 2024-11-06 19:03:09,535 basehttp "GET /api/products/search-product-by-name?product_name=Burger+Bae+Regular+Fit+Cycling+Shorts+For+Women HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:09,935 basehttp "GET /api/products/search-product-by-name/?product_name=Burger+Bae+Regular+Fit+Cycling+Shorts+For+Women HTTP/1.1" 200 1490
+INFO 2024-11-06 19:03:09,939 basehttp "GET /api/products/search-product-by-name?product_name=New+York+Tracks+For+Men+and+women HTTP/1.1" 301 0
+INFO 2024-11-06 19:03:10,266 basehttp "GET /api/products/search-product-by-name/?product_name=New+York+Tracks+For+Men+and+women HTTP/1.1" 200 1464
+INFO 2024-11-06 19:03:10,269 basehttp "GET /api/products/search-product-by-name?product_name=Rebel+utility+Heavyweight+cargo+trousers+Pants+For+Men+And+Women HTTP/1.1" 301 0
+WARNING 2024-11-06 19:03:10,545 basehttp "GET /api/products/search-product-by-name/?product_name=Rebel+utility+Heavyweight+cargo+trousers+Pants+For+Men+And+Women HTTP/1.1" 404 31
+INFO 2024-11-07 14:44:38,571 autoreload Watching for file changes with StatReloader
