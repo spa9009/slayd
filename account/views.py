@@ -7,25 +7,26 @@ from .models import User
 
 class SignUpView(APIView):
     def post(self, request):
-        email = request.data.get('email')
         username = request.data.get('username')
         phone = request.data.get('phone')
         password = request.data.get('password')
+        age = request.data.get('age')
+        gender = request.data.get('gender')
 
         if User.objects.filter(phone=phone).exists():
             return Response({'error': 'Phone number already registered'}, status=status.HTTP_400_BAD_REQUEST)
-
-        if User.objects.filter(email=email).exists():
-            return Response({'error': 'Email already registered'}, status=status.HTTP_400_BAD_REQUEST)
         
         if User.objects.filter(username=username).exists():
             return Response({'error': 'Username is taken'}, status=status.HTTP_400_BAD_REQUEST)
         
         hashed_password = make_password(password)
         print(hashed_password)
-        user = User.objects.create(email=email, phone=phone, password=hashed_password, username=username)
+        user = User.objects.create(phone=phone, password=hashed_password, username=username, age=age, gender=gender)
 
-        return Response({'message': 'User registered successfully'}, status=status.HTTP_201_CREATED)
+        return Response({
+            'message': 'User registered successfully',
+            'user_id' : {user.id}
+            }, status=status.HTTP_201_CREATED)
     
 
 
