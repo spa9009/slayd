@@ -39,7 +39,10 @@ class SignInView(APIView):
             user = User.objects.get(username=username)
             print(user.password)
             if(check_password(password, user.password)):
-                return Response({'message': 'Login successful'}, status=status.HTTP_200_OK)
+                return Response({
+                    'message': 'Login successful',
+                    'user_id': {user.id}
+                }, status=status.HTTP_200_OK)
             else:
                 return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
         except User.DoesNotExist:
