@@ -46,11 +46,11 @@ class ProductSearchView(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         try:
             # Get the search query from the request parameters
-            product_name = request.query_params.get('product_name', None)
+            product_name = request.query_params.get('name', None)
 
             if product_name:
                 # Filter products by name (case-insensitive)
-                products = Product.objects.filter(product_name__icontains=product_name)
+                products = Product.objects.filter(name__icontains=product_name)
 
                 if products.exists():
                     # Serialize the products and return the response
