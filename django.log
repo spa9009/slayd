@@ -1361,3 +1361,70 @@ INFO 2024-11-09 17:24:42,514 autoreload Watching for file changes with StatReloa
 INFO 2024-11-09 17:25:55,326 basehttp "POST /login/signup/ HTTP/1.1" 201 56
 INFO 2024-11-09 17:26:02,713 autoreload /Users/sparsh/Documents/workspace/dev/slayd/account/views.py changed, reloading.
 INFO 2024-11-09 17:26:03,002 autoreload Watching for file changes with StatReloader
+INFO 2024-11-11 14:57:01,524 autoreload Watching for file changes with StatReloader
+INFO 2024-11-11 14:58:42,939 autoreload Watching for file changes with StatReloader
+ERROR 2024-11-11 15:00:04,493 log Internal Server Error: /api/ranked_posts/
+Traceback (most recent call last):
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/Documents/workspace/dev/slayd/feed/views.py", line 76, in get
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 795, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 249, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 714, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 538, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 523, in to_representation
+    for field in fields:
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 384, in _readable_fields
+    for field in self.fields.values():
+                 ^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 372, in fields
+    for key, value in self.get_fields().items():
+                      ^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 1103, in get_fields
+    field_class, field_kwargs = self.build_field(
+                                ^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 1249, in build_field
+    return self.build_unknown_field(field_name, model_class)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 1367, in build_unknown_field
+    raise ImproperlyConfigured(
+django.core.exceptions.ImproperlyConfigured: Field name `product_name` is not valid for model `Product` in `feed.serializers.ProductSerializer`.
+ERROR 2024-11-11 15:00:04,496 basehttp "GET /api/ranked_posts/?request_size=10 HTTP/1.1" 500 151572
+INFO 2024-11-11 15:01:54,766 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/serializers.py changed, reloading.
+INFO 2024-11-11 15:01:55,065 autoreload Watching for file changes with StatReloader
+INFO 2024-11-11 15:02:03,134 basehttp "GET /api/ranked_posts/?request_size=10 HTTP/1.1" 200 8346
+INFO 2024-11-11 15:02:14,684 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/serializers.py changed, reloading.
+INFO 2024-11-11 15:02:14,998 autoreload Watching for file changes with StatReloader
