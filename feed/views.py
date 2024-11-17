@@ -67,10 +67,23 @@ class RankedPostsAPIView(APIView):
     def get(self, request):
         request_size = int(request.query_params.get('request_size', 10))
 
-        posts = list(Post.objects.all())
+        all_posts = list(Post.objects.all())
 
-        random.shuffle(posts)
+        tagged_posts = [post for post in all_posts if post.post_type == 'TAGGED_POST']
+        normal_posts = [post for post in all_posts if post.post_type != 'TAGGED_POST']
 
-        ranked_posts = posts[:request_size]
+        random.shuffle(tagged_posts)
+        random.shuffle(normal_posts)
+
+        tagged_count = request_size // 2
+        normal_count = request_size - tagged_count
+
+        selected_tagged_posts = tagged_posts[:tagged_count]
+        selected_normal_posts = normal_posts[:normal_count]
+
+        ranked_posts = selected_tagged_posts + selected_normal_posts
+
+        random.shuffle(ranked_posts)
+
         serializer = PostSerializer(ranked_posts, many=True)
         return Response(serializer.data)
