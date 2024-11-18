@@ -1,5 +1,5 @@
 from rest_framework import generics, status
-from .models import Product, Post, TaggedProduct
+from .models import Product, Post, TaggedProduct, Media
 from .serializers import ProductSerializer, PostSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -26,17 +26,21 @@ class PostListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         post_type = self.request.data.get('post_type')
         product_id = self.request.data.get('product')
-        tagged_product_ids = self.request.data.get('tagged_products')
+        tagged_product_ids = self.request.data.get('tagged_products', [])
+        media = self.request.data.get('media', [])
         
         if post_type == 'PRODUCT_POST' and product_id:
             product = Product.objects.get(id=product_id)
             serializer.save(product=product, post_type='PRODUCT_POST')
-        elif post_type == 'SOCIAL_POST':
-            post = serializer.save(post_type='SOCIAL_POST')
+        elif post_type == 'TAGGED_POST':
+            post = serializer.save(post_type='TAGGED_POST')
             if tagged_product_ids:
-                for product_id in tagged_product_ids:
-                    product = Product.objects.get(id=product_id)
+                tagged_products = Product.objects.filter(id__in=tagged_product_ids)
+                for product in tagged_products:
                     TaggedProduct.objects.create(post=post, product=product)
+            if media:
+                for media_item in media:
+                    Media.objects.create(post=post, type=media_item['type'], url=media_item['url'])
         else:
             serializer.save(post_type=post_type)
 
@@ -67,6 +71,7 @@ class RankedPostsAPIView(APIView):
     def get(self, request):
         request_size = int(request.query_params.get('request_size', 10))
 
+        # Fetch all posts once
         all_posts = list(Post.objects.all())
 
         tagged_posts = [post for post in all_posts if post.post_type == 'TAGGED_POST']
