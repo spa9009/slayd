@@ -18,3 +18,9 @@ class User(models.Model):
     def __str__(self):
         return self.username
 
+
+class Brand:
+    name = models.CharField(max_length=50)
+
+    def __str__(self): 
+        return self.brand

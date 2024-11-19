@@ -2536,3 +2536,162 @@ INFO 2024-11-18 17:47:52,111 basehttp "GET /api/products/search-product-by-name/
 INFO 2024-11-18 17:47:52,126 basehttp "GET /api/products/search-product-by-name?name=SMD+Relaxed+fit+sweat+pants+For+Men+And+Women HTTP/1.1" 301 0
 WARNING 2024-11-18 17:47:52,422 basehttp "GET /api/products/search-product-by-name/?name=SMD+Relaxed+fit+sweat+pants+For+Men+And+Women HTTP/1.1" 404 31
 INFO 2024-11-18 17:49:15,671 basehttp "GET /api/ranked_posts/?request_size=10 HTTP/1.1" 200 11807
+INFO 2024-11-19 17:50:18,264 autoreload Watching for file changes with StatReloader
+INFO 2024-11-19 17:59:06,944 autoreload /Users/sparsh/Documents/workspace/dev/slayd/account/models.py changed, reloading.
+INFO 2024-11-19 17:59:07,282 autoreload Watching for file changes with StatReloader
+INFO 2024-11-19 17:59:08,473 autoreload /Users/sparsh/Documents/workspace/dev/slayd/account/models.py changed, reloading.
+INFO 2024-11-19 17:59:08,626 autoreload Watching for file changes with StatReloader
+INFO 2024-11-19 18:05:19,963 autoreload /Users/sparsh/Documents/workspace/dev/slayd/account/views.py changed, reloading.
+INFO 2024-11-19 18:05:20,278 autoreload Watching for file changes with StatReloader
+INFO 2024-11-19 18:05:21,473 autoreload /Users/sparsh/Documents/workspace/dev/slayd/account/views.py changed, reloading.
+INFO 2024-11-19 18:05:21,637 autoreload Watching for file changes with StatReloader
+INFO 2024-11-19 18:05:22,790 autoreload /Users/sparsh/Documents/workspace/dev/slayd/account/views.py changed, reloading.
+INFO 2024-11-19 18:05:22,942 autoreload Watching for file changes with StatReloader
+INFO 2024-11-19 18:06:48,101 autoreload /Users/sparsh/Documents/workspace/dev/slayd/account/views.py changed, reloading.
+INFO 2024-11-19 18:06:48,427 autoreload Watching for file changes with StatReloader
+INFO 2024-11-19 18:06:49,626 autoreload /Users/sparsh/Documents/workspace/dev/slayd/account/views.py changed, reloading.
+INFO 2024-11-19 18:06:49,787 autoreload Watching for file changes with StatReloader
+INFO 2024-11-19 18:08:11,608 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/models.py changed, reloading.
+INFO 2024-11-19 18:08:11,898 autoreload Watching for file changes with StatReloader
+INFO 2024-11-19 18:08:13,060 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/models.py changed, reloading.
+INFO 2024-11-19 18:08:13,211 autoreload Watching for file changes with StatReloader
+INFO 2024-11-19 18:08:34,840 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/serializers.py changed, reloading.
+INFO 2024-11-19 18:08:35,100 autoreload Watching for file changes with StatReloader
+ERROR 2024-11-19 18:09:35,536 log Internal Server Error: /activity/follow/
+Traceback (most recent call last):
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/Documents/workspace/dev/slayd/activity/views.py", line 80, in post
+    if serializer.is_valid():
+       ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 223, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 442, in run_validation
+    value = self.to_internal_value(data)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 495, in to_internal_value
+    for field in fields:
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 378, in _writable_fields
+    for field in self.fields.values():
+                 ^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 372, in fields
+    for key, value in self.get_fields().items():
+                      ^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 1078, in get_fields
+    info = model_meta.get_field_info(model)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/utils/model_meta.py", line 35, in get_field_info
+    opts = model._meta.concrete_model._meta
+           ^^^^^^^^^^^
+AttributeError: type object 'Follow' has no attribute '_meta'. Did you mean: 'Meta'?
+ERROR 2024-11-19 18:09:35,538 basehttp "POST /activity/follow/ HTTP/1.1" 500 122158
+INFO 2024-11-19 18:10:16,479 autoreload Watching for file changes with StatReloader
+INFO 2024-11-19 18:11:25,224 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/models.py changed, reloading.
+INFO 2024-11-19 18:11:25,531 autoreload Watching for file changes with StatReloader
+INFO 2024-11-19 18:11:26,713 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/models.py changed, reloading.
+INFO 2024-11-19 18:11:26,867 autoreload Watching for file changes with StatReloader
+INFO 2024-11-19 18:11:32,294 autoreload Watching for file changes with StatReloader
+ERROR 2024-11-19 18:11:40,834 log Internal Server Error: /activity/follow/
+Traceback (most recent call last):
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/Documents/workspace/dev/slayd/activity/views.py", line 80, in post
+    if serializer.is_valid():
+       ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 223, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 442, in run_validation
+    value = self.to_internal_value(data)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 495, in to_internal_value
+    for field in fields:
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 378, in _writable_fields
+    for field in self.fields.values():
+                 ^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 372, in fields
+    for key, value in self.get_fields().items():
+                      ^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/serializers.py", line 1078, in get_fields
+    info = model_meta.get_field_info(model)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/.pyenv/versions/3.12.2/lib/python3.12/site-packages/rest_framework/utils/model_meta.py", line 35, in get_field_info
+    opts = model._meta.concrete_model._meta
+           ^^^^^^^^^^^
+AttributeError: type object 'Follow' has no attribute '_meta'. Did you mean: 'Meta'?
+ERROR 2024-11-19 18:11:40,835 basehttp "POST /activity/follow/ HTTP/1.1" 500 122158
+INFO 2024-11-19 18:15:26,039 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/models.py changed, reloading.
+INFO 2024-11-19 18:15:26,424 autoreload Watching for file changes with StatReloader
+INFO 2024-11-19 18:15:27,650 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/models.py changed, reloading.
+INFO 2024-11-19 18:15:27,833 autoreload Watching for file changes with StatReloader
+WARNING 2024-11-19 18:32:36,092 basehttp "POST /activity/follow/ HTTP/1.1" 400 121
+WARNING 2024-11-19 18:32:55,050 basehttp "POST /activity/follow/ HTTP/1.1" 400 121
+INFO 2024-11-19 18:37:30,734 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
+INFO 2024-11-19 18:37:31,065 autoreload Watching for file changes with StatReloader
+WARNING 2024-11-19 18:37:33,746 basehttp "POST /activity/follow/ HTTP/1.1" 400 133
+WARNING 2024-11-19 18:37:51,464 basehttp "POST /activity/follow/ HTTP/1.1" 400 133
+WARNING 2024-11-19 18:38:41,025 basehttp "POST /activity/follow/ HTTP/1.1" 400 133
+INFO 2024-11-19 18:39:05,607 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
+INFO 2024-11-19 18:39:06,063 autoreload Watching for file changes with StatReloader
+WARNING 2024-11-19 18:39:17,027 basehttp "POST /activity/follow/ HTTP/1.1" 400 133
+INFO 2024-11-19 18:40:51,868 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/serializers.py changed, reloading.
+INFO 2024-11-19 18:40:52,182 autoreload Watching for file changes with StatReloader
+WARNING 2024-11-19 18:40:56,018 basehttp "POST /activity/follow/ HTTP/1.1" 400 133
+INFO 2024-11-19 18:42:57,116 autoreload Watching for file changes with StatReloader
+WARNING 2024-11-19 18:43:02,958 basehttp "POST /activity/follow/ HTTP/1.1" 400 133
+INFO 2024-11-19 18:44:40,602 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
+INFO 2024-11-19 18:44:40,880 autoreload Watching for file changes with StatReloader
+WARNING 2024-11-19 18:44:43,149 basehttp "POST /activity/follow/ HTTP/1.1" 400 133
+WARNING 2024-11-19 18:45:08,305 basehttp "POST /activity/follow/ HTTP/1.1" 400 133
+INFO 2024-11-19 18:45:27,878 basehttp "POST /activity/follow/ HTTP/1.1" 201 99
+INFO 2024-11-19 18:45:54,930 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
+INFO 2024-11-19 18:45:55,227 autoreload Watching for file changes with StatReloader
+INFO 2024-11-19 18:45:56,402 autoreload /Users/sparsh/Documents/workspace/dev/slayd/activity/views.py changed, reloading.
+INFO 2024-11-19 18:45:56,563 autoreload Watching for file changes with StatReloader

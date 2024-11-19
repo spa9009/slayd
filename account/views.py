@@ -2,7 +2,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import User
+from .models import User, Brand
 
 
 class SignUpView(APIView):
@@ -47,3 +47,13 @@ class SignInView(APIView):
                 return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
         except User.DoesNotExist:
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+        
+class BrandView(APIView):
+    def post(self, request):
+        brand_name = request.data.get('brand')
+
+        brand = Brand.object.create(brand = brand_name)
+        return Response({
+            'message': 'Brand created',
+            'brandId': {brand.id}
+        }, status=status.HTTP_201_CREATED)

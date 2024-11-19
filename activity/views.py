@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from feed.models import Post
 from account.models import User
-from .models import UserActivity
-from .serializers import UserActivitySerializer
+from .models import UserActivity, Follow
+from .serializers import UserActivitySerializer, FollowSerializer
 import logging
 from django.utils import timezone
 
@@ -72,4 +72,22 @@ class UserActivityView(generics.GenericAPIView):
         activity = serializer.save(timestamp=timezone.now())  # Assuming you want to save the current timestamp
 
         # Return the created activity data
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+class FollowView(generics.CreateAPIView) :
+    serializer_class = FollowSerializer
+    def post(self, request):
+
+        data = {
+            "user":request.data.get("user_id"),
+            "publisher_type":request.data.get("publisher_type"),
+            "publisher":request.data.get("publisher")
+        }
+
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+
+        # Now create the UserActivity instance based on validated data
+        follow = serializer.save()
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
