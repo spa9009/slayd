@@ -4,6 +4,8 @@ from .serializers import ProductSerializer, PostSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.http import JsonResponse
+from django.core.paginator import Paginator
+from django.db.models import Q
 import random
 
 class ProductListCreateView(generics.ListCreateAPIView):
@@ -92,3 +94,64 @@ class RankedPostsAPIView(APIView):
 
         serializer = PostSerializer(ranked_posts, many=True)
         return Response(serializer.data)
+    
+
+class SimilarPostsView(APIView):
+    def get(self, request, post_id) :
+        try:
+            target_post = Post.objects.get(id=post_id)
+        except Post.DoesNotExist:
+            return Response({
+                "error": "Post not found"
+            }, status=status.HTTP_404_NOT_FOUND)
+        
+
+        post_brand = None
+        categories = []
+        sub_categories = []
+
+        tagged_products = target_post.tagged_products
+        if len(tagged_products.all()) > 0: 
+            post_brand = tagged_products.first().product.brand
+            for product in tagged_products: 
+                categories.append(product.category)
+                sub_categories.append(product.subcategory)
+        else :
+            post_brand = target_post.product.brand
+            categories.append(target_post.product.category)
+            sub_categories.append(target_post.product.subcategory)
+
+        similar_brand_posts = Post.objects.filter(
+            Q(product__brand=post_brand) | 
+            Q(tagged_products__product__brand=post_brand)
+        ).exclude(id=target_post.id).distinct()
+
+        similar_subcategory_posts = Post.objects.filter(
+            Q(product__subcategory__in=sub_categories) |
+            Q(tagged_products__product__subcategory__in=sub_categories)
+        ).exclude(id__in=similar_brand_posts).exclude(id=target_post.id).distinct()
+
+        similar_category_posts = Post.objects.filter(
+            Q(product__category__in=categories) |
+            Q(tagged_products__product__category__in=categories)
+        ).exclude(id__in=similar_brand_posts).exclude(id__in=similar_subcategory_posts).exclude(id=target_post.id).distinct()
+
+        all_similar_posts = list(similar_brand_posts) + list(similar_subcategory_posts) + list(similar_category_posts)
+
+        page_number = request.query_params.get('page', 1)
+        paginator = Paginator(all_similar_posts, 10)
+
+        try:
+            paginated_posts = paginator.page(page_number)
+        except:
+            return Response({"error": "Invalid page number"}, status=400)
+
+        serializer = PostSerializer(paginated_posts, many=True)
+
+        return Response({
+            "current_page": paginated_posts.number,
+            "total_pages": paginator.num_pages,
+            "results": serializer.data,
+        })
+        
+
