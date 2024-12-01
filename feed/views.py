@@ -100,58 +100,87 @@ class SimilarPostsView(APIView):
     def get(self, request, post_id) :
         try:
             target_post = Post.objects.get(id=post_id)
+
+            post_brand = None
+            categories = []
+            sub_categories = []
+
+            tagged_products = target_post.tagged_products.all()
+            if len(tagged_products.all()) > 0: 
+                post_brand = tagged_products.first().product.brand
+                print(post_brand)
+                for tagged_product in tagged_products: 
+                    print(tagged_product.product.category)
+                    categories.append(tagged_product.product.category)
+                    sub_categories.append(tagged_product.product.subcategory)
+            else :
+                post_brand = target_post.product.brand
+                categories.append(target_post.product.category)
+                sub_categories.append(target_post.product.subcategory)
+
+            similar_brand_posts = Post.objects.filter(
+                Q(product__brand=post_brand) | 
+                Q(tagged_products__product__brand=post_brand)
+            ).exclude(id=target_post.id).distinct()
+
+            similar_subcategory_posts = Post.objects.filter(
+                Q(product__subcategory__in=sub_categories) |
+                Q(tagged_products__product__subcategory__in=sub_categories)
+            ).exclude(id__in=similar_brand_posts).exclude(id=target_post.id).distinct()
+
+            similar_category_posts = Post.objects.filter(
+                Q(product__category__in=categories) |
+                Q(tagged_products__product__category__in=categories)
+            ).exclude(id__in=similar_brand_posts).exclude(id__in=similar_subcategory_posts).exclude(id=target_post.id).distinct()
+
+            combined_post = []
+
+            all_similar_posts_product = list(similar_brand_posts.filter(post_type='PRODUCT_POST')) + list(similar_subcategory_posts.filter(post_type='PRODUCT_POST')) + list(similar_category_posts.filter(post_type='PRODUCT_POST'))
+
+            all_similar_posts_tagged = list(similar_brand_posts.filter(post_type='TAGGED_POST')) + \
+                list(similar_subcategory_posts.filter(post_type='TAGGED_POST')) + \
+                list(similar_category_posts.filter(post_type='TAGGED_POST'))
+            print(f"Size of tagged_product list: {len(all_similar_posts_tagged)}")
+
+
+            while all_similar_posts_tagged or all_similar_posts_product: 
+                temp_list = []
+                temp_list.extend(all_similar_posts_product[:5])
+                all_similar_posts_product = all_similar_posts_product[5:]
+
+                temp_list.extend(all_similar_posts_tagged[:5])
+                all_similar_posts_tagged = all_similar_posts_tagged[5:]
+                random.shuffle(temp_list)
+                
+                combined_post.extend(temp_list)
+
+
+            print(f"Size of combined_post list: {len(combined_post)}")
+
+            page_number = request.query_params.get('page', 1)
+            paginator = Paginator(combined_post, 10)
+
+            try:
+                paginated_posts = paginator.page(page_number)
+            except:
+                return Response({"error": "Invalid page number"}, status=400)
+
+            serializer = PostSerializer(paginated_posts, many=True)
+
+            return Response({
+                "current_page": paginated_posts.number,
+                "total_pages": paginator.num_pages,
+                "results": serializer.data,
+            })
+        
         except Post.DoesNotExist:
             return Response({
                 "error": "Post not found"
             }, status=status.HTTP_404_NOT_FOUND)
-        
+        # except Exception as e:
+        #     return Response({
+        #         "error": "Error while fetching similar posts",
+        #     }, status=status.HTTP_404_NOT_FOUND)
 
-        post_brand = None
-        categories = []
-        sub_categories = []
-
-        tagged_products = target_post.tagged_products
-        if len(tagged_products.all()) > 0: 
-            post_brand = tagged_products.first().product.brand
-            for product in tagged_products: 
-                categories.append(product.category)
-                sub_categories.append(product.subcategory)
-        else :
-            post_brand = target_post.product.brand
-            categories.append(target_post.product.category)
-            sub_categories.append(target_post.product.subcategory)
-
-        similar_brand_posts = Post.objects.filter(
-            Q(product__brand=post_brand) | 
-            Q(tagged_products__product__brand=post_brand)
-        ).exclude(id=target_post.id).distinct()
-
-        similar_subcategory_posts = Post.objects.filter(
-            Q(product__subcategory__in=sub_categories) |
-            Q(tagged_products__product__subcategory__in=sub_categories)
-        ).exclude(id__in=similar_brand_posts).exclude(id=target_post.id).distinct()
-
-        similar_category_posts = Post.objects.filter(
-            Q(product__category__in=categories) |
-            Q(tagged_products__product__category__in=categories)
-        ).exclude(id__in=similar_brand_posts).exclude(id__in=similar_subcategory_posts).exclude(id=target_post.id).distinct()
-
-        all_similar_posts = list(similar_brand_posts) + list(similar_subcategory_posts) + list(similar_category_posts)
-
-        page_number = request.query_params.get('page', 1)
-        paginator = Paginator(all_similar_posts, 10)
-
-        try:
-            paginated_posts = paginator.page(page_number)
-        except:
-            return Response({"error": "Invalid page number"}, status=400)
-
-        serializer = PostSerializer(paginated_posts, many=True)
-
-        return Response({
-            "current_page": paginated_posts.number,
-            "total_pages": paginator.num_pages,
-            "results": serializer.data,
-        })
         
 

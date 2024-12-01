@@ -3303,3 +3303,372 @@ INFO 2024-11-27 17:05:47,459 basehttp code 400, message Bad request syntax ('\x1
 ERROR 2024-11-27 17:05:47,459 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
 INFO 2024-11-27 17:05:47,460 basehttp code 400, message Bad request syntax ('\x16\x03\x01\x00}\x01\x00\x00y\x03\x01\x01Ö\x89þ=ÿß\x12RÏq\x8eù\x102bNÕÖö')
 ERROR 2024-11-27 17:05:47,460 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2024-12-01 04:29:09,276 autoreload Watching for file changes with StatReloader
+INFO 2024-12-01 04:29:24,261 basehttp "GET /api/posts/321/similar-posts HTTP/1.1" 301 0
+INFO 2024-12-01 04:29:26,378 basehttp "GET /api/posts/321/similar-posts/ HTTP/1.1" 200 43475
+INFO 2024-12-01 04:29:26,439 basehttp "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+INFO 2024-12-01 04:29:26,440 basehttp "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+INFO 2024-12-01 04:29:26,442 basehttp "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+WARNING 2024-12-01 04:29:26,497 basehttp "GET /favicon.ico HTTP/1.1" 404 2655
+INFO 2024-12-01 04:30:26,640 basehttp "GET /api/posts/321/similar-posts/?page=2 HTTP/1.1" 200 32555
+INFO 2024-12-01 04:30:55,331 basehttp "GET /api/posts/5/similar-posts/?page=2 HTTP/1.1" 200 32578
+INFO 2024-12-01 04:31:12,487 basehttp "GET /api/posts/5/similar-posts/?page=1 HTTP/1.1" 200 43483
+INFO 2024-12-01 04:31:43,680 basehttp "GET /api/posts/660/similar-posts/?page=1 HTTP/1.1" 200 43518
+INFO 2024-12-01 04:32:35,936 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:32:36,318 autoreload Watching for file changes with StatReloader
+INFO 2024-12-01 04:32:38,568 basehttp "GET /api/posts/660/similar-posts/?page=1 HTTP/1.1" 200 10528
+INFO 2024-12-01 04:32:47,132 basehttp "GET /api/posts/5/similar-posts/?page=1 HTTP/1.1" 200 10514
+INFO 2024-12-01 04:32:51,630 basehttp "GET /api/posts/67/similar-posts/?page=1 HTTP/1.1" 200 10521
+INFO 2024-12-01 04:33:02,539 basehttp "GET /api/posts/321/similar-posts/?page=1 HTTP/1.1" 200 10528
+INFO 2024-12-01 04:34:57,600 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:34:57,970 autoreload Watching for file changes with StatReloader
+INFO 2024-12-01 04:35:01,090 basehttp "GET /api/posts/321/similar-posts/?page=1 HTTP/1.1" 200 10528
+INFO 2024-12-01 04:35:46,460 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:35:46,847 autoreload Watching for file changes with StatReloader
+INFO 2024-12-01 04:35:48,894 basehttp "GET /api/posts/321/similar-posts/?page=1 HTTP/1.1" 200 10528
+ERROR 2024-12-01 04:39:45,160 log Internal Server Error: /api/posts/5404/similar-posts/
+Traceback (most recent call last):
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/Documents/workspace/dev/slayd/feed/views.py", line 116, in get
+    for product in tagged_products:
+                  ^^^^^^^^^^^^^^^
+TypeError: 'RelatedManager' object is not iterable
+ERROR 2024-12-01 04:39:45,166 basehttp "GET /api/posts/5404/similar-posts/?page=1 HTTP/1.1" 500 94362
+INFO 2024-12-01 04:42:22,875 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:42:23,247 autoreload Watching for file changes with StatReloader
+INFO 2024-12-01 04:42:24,462 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:42:24,647 autoreload Watching for file changes with StatReloader
+INFO 2024-12-01 04:43:15,866 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:43:16,353 autoreload Watching for file changes with StatReloader
+INFO 2024-12-01 04:43:40,970 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:43:41,293 autoreload Watching for file changes with StatReloader
+INFO 2024-12-01 04:43:42,490 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:43:42,738 autoreload Watching for file changes with StatReloader
+ERROR 2024-12-01 04:43:46,945 log Internal Server Error: /api/posts/5404/similar-posts/
+Traceback (most recent call last):
+  File "/Users/sparsh/Documents/workspace/dev/slayd/feed/views.py", line 111, in get
+    for product in tagged_products:
+                  ^^^^^^^^^^^^^^^
+TypeError: 'RelatedManager' object is not iterable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/Documents/workspace/dev/slayd/feed/views.py", line 178, in get
+    "message": e.message
+               ^^^^^^^^^
+AttributeError: 'TypeError' object has no attribute 'message'
+ERROR 2024-12-01 04:43:46,948 basehttp "GET /api/posts/5404/similar-posts/?page=1 HTTP/1.1" 500 99660
+INFO 2024-12-01 04:44:08,518 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:44:09,027 autoreload Watching for file changes with StatReloader
+ERROR 2024-12-01 04:44:10,141 log Internal Server Error: /api/posts/5404/similar-posts/
+Traceback (most recent call last):
+  File "/Users/sparsh/Documents/workspace/dev/slayd/feed/views.py", line 111, in get
+    for product in tagged_products:
+                  ^^^^^^^^^^^^^^^
+TypeError: 'RelatedManager' object is not iterable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/Documents/workspace/dev/slayd/feed/views.py", line 178, in get
+    "message": e.error
+               ^^^^^^^
+AttributeError: 'TypeError' object has no attribute 'error'
+ERROR 2024-12-01 04:44:10,143 basehttp "GET /api/posts/5404/similar-posts/?page=1 HTTP/1.1" 500 99640
+INFO 2024-12-01 04:44:23,550 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:44:23,839 autoreload Watching for file changes with StatReloader
+INFO 2024-12-01 04:44:25,057 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:44:25,261 autoreload Watching for file changes with StatReloader
+ERROR 2024-12-01 04:44:26,269 log Internal Server Error: /api/posts/5404/similar-posts/
+Traceback (most recent call last):
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+               ^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/response.py", line 74, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/renderers.py", line 727, in render
+    context = self.get_context(data, accepted_media_type, renderer_context)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/renderers.py", line 683, in get_context
+    'content': self.get_content(renderer, data, accepted_media_type, renderer_context),
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/renderers.py", line 413, in get_content
+    content = renderer.render(data, accepted_media_type, renderer_context)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/renderers.py", line 100, in render
+    ret = json.dumps(
+          ^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/utils/json.py", line 25, in dumps
+    return json.dumps(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/json/encoder.py", line 202, in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/Users/sparsh/miniforge3/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/Users/sparsh/miniforge3/lib/python3.12/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/utils/encoders.py", line 67, in default
+    return super().default(obj)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type TypeError is not JSON serializable
+ERROR 2024-12-01 04:44:26,271 basehttp "GET /api/posts/5404/similar-posts/?page=1 HTTP/1.1" 500 141319
+INFO 2024-12-01 04:45:48,480 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:45:48,920 autoreload Watching for file changes with StatReloader
+WARNING 2024-12-01 04:45:50,608 basehttp "GET /api/posts/5404/similar-posts/?page=1 HTTP/1.1" 404 10519
+INFO 2024-12-01 04:46:29,050 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:46:29,532 autoreload Watching for file changes with StatReloader
+ERROR 2024-12-01 04:46:30,643 log Internal Server Error: /api/posts/5404/similar-posts/
+Traceback (most recent call last):
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/Documents/workspace/dev/slayd/feed/views.py", line 111, in get
+    for product in tagged_products:
+                  ^^^^^^^^^^^^^^^
+TypeError: 'RelatedManager' object is not iterable
+ERROR 2024-12-01 04:46:30,644 basehttp "GET /api/posts/5404/similar-posts/?page=1 HTTP/1.1" 500 94555
+INFO 2024-12-01 04:48:08,102 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:48:08,501 autoreload Watching for file changes with StatReloader
+ERROR 2024-12-01 04:48:12,317 log Internal Server Error: /api/posts/5404/similar-posts/
+Traceback (most recent call last):
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/Documents/workspace/dev/slayd/feed/views.py", line 112, in get
+    categories.append(product.category)
+                      ^^^^^^^^^^^^^^^^
+AttributeError: 'TaggedProduct' object has no attribute 'category'
+ERROR 2024-12-01 04:48:12,320 basehttp "GET /api/posts/5404/similar-posts/?page=1 HTTP/1.1" 500 94920
+INFO 2024-12-01 04:48:39,515 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:48:39,805 autoreload Watching for file changes with StatReloader
+INFO 2024-12-01 04:48:40,997 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:48:41,360 autoreload Watching for file changes with StatReloader
+ERROR 2024-12-01 04:48:43,380 log Internal Server Error: /api/posts/5404/similar-posts/
+Traceback (most recent call last):
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/Documents/workspace/dev/slayd/feed/views.py", line 113, in get
+    categories.append(product.category)
+                      ^^^^^^^^^^^^^^^^
+AttributeError: 'TaggedProduct' object has no attribute 'category'
+ERROR 2024-12-01 04:48:43,383 basehttp "GET /api/posts/5404/similar-posts/?page=1 HTTP/1.1" 500 94931
+INFO 2024-12-01 04:49:55,304 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:49:55,679 autoreload Watching for file changes with StatReloader
+INFO 2024-12-01 04:51:10,375 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:51:10,788 autoreload Watching for file changes with StatReloader
+ERROR 2024-12-01 04:51:14,871 log Internal Server Error: /api/posts/5404/similar-posts/
+Traceback (most recent call last):
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/Documents/workspace/dev/slayd/feed/views.py", line 113, in get
+    categories.append(product.category)
+                      ^^^^^^^^^^^^^^^^
+AttributeError: 'TaggedProduct' object has no attribute 'category'
+ERROR 2024-12-01 04:51:14,873 basehttp "GET /api/posts/5404/similar-posts/?page=1 HTTP/1.1" 500 94927
+INFO 2024-12-01 04:51:51,999 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:51:52,367 autoreload Watching for file changes with StatReloader
+ERROR 2024-12-01 04:51:54,794 log Internal Server Error: /api/posts/5404/similar-posts/
+Traceback (most recent call last):
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/Documents/workspace/dev/slayd/feed/views.py", line 113, in get
+    categories.append(product.category)
+                      ^^^^^^^^^^^^^^^^
+AttributeError: 'TaggedProduct' object has no attribute 'category'
+ERROR 2024-12-01 04:51:54,795 basehttp "GET /api/posts/5404/similar-posts/?page=1 HTTP/1.1" 500 94926
+INFO 2024-12-01 04:52:25,435 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:52:25,738 autoreload Watching for file changes with StatReloader
+INFO 2024-12-01 04:52:28,412 basehttp "GET /api/posts/5404/similar-posts/?page=1 HTTP/1.1" 200 10535
+INFO 2024-12-01 04:57:06,805 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:57:07,189 autoreload Watching for file changes with StatReloader
+INFO 2024-12-01 04:57:11,694 basehttp "GET /api/posts/5404/similar-posts/?page=1 HTTP/1.1" 200 10535
+INFO 2024-12-01 04:57:43,341 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:57:43,673 autoreload Watching for file changes with StatReloader
+INFO 2024-12-01 04:57:50,390 basehttp "GET /api/posts/5404/similar-posts/?page=1 HTTP/1.1" 200 33559
+INFO 2024-12-01 04:57:59,326 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:57:59,609 autoreload Watching for file changes with StatReloader
+INFO 2024-12-01 04:58:06,912 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:58:07,188 autoreload Watching for file changes with StatReloader
+INFO 2024-12-01 04:58:10,250 basehttp "GET /api/posts/5404/similar-posts/?page=1 HTTP/1.1" 200 28821
+INFO 2024-12-01 04:58:31,127 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2024-12-01 04:58:31,438 autoreload Watching for file changes with StatReloader
