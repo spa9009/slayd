@@ -143,22 +143,22 @@ class SimilarPostsView(APIView):
             print(f"Size of tagged_product list: {len(all_similar_posts_tagged)}")
 
 
-            while all_similar_posts_tagged or all_similar_posts_product: 
-                temp_list = []
-                temp_list.extend(all_similar_posts_product[:5])
-                all_similar_posts_product = all_similar_posts_product[5:]
+            # while all_similar_posts_tagged or all_similar_posts_product: 
+            #     temp_list = []
+            #     temp_list.extend(all_similar_posts_product[:5])
+            #     all_similar_posts_product = all_similar_posts_product[5:]
 
-                temp_list.extend(all_similar_posts_tagged[:5])
-                all_similar_posts_tagged = all_similar_posts_tagged[5:]
-                random.shuffle(temp_list)
+            #     temp_list.extend(all_similar_posts_tagged[:5])
+            #     all_similar_posts_tagged = all_similar_posts_tagged[5:]
+            #     random.shuffle(temp_list)
                 
-                combined_post.extend(temp_list)
+            #     combined_post.extend(temp_list)
 
 
             print(f"Size of combined_post list: {len(combined_post)}")
 
             page_number = request.query_params.get('page', 1)
-            paginator = Paginator(combined_post, 10)
+            paginator = Paginator(all_similar_posts_product, 10)
 
             try:
                 paginated_posts = paginator.page(page_number)
