@@ -3672,3 +3672,29 @@ INFO 2024-12-01 04:58:07,188 autoreload Watching for file changes with StatReloa
 INFO 2024-12-01 04:58:10,250 basehttp "GET /api/posts/5404/similar-posts/?page=1 HTTP/1.1" 200 28821
 INFO 2024-12-01 04:58:31,127 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
 INFO 2024-12-01 04:58:31,438 autoreload Watching for file changes with StatReloader
+INFO 2024-12-01 16:21:30,653 autoreload Watching for file changes with StatReloader
+INFO 2024-12-01 16:22:36,753 autoreload Watching for file changes with StatReloader
+INFO 2024-12-01 16:22:48,167 basehttp "GET /api/posts/321/similar-posts/ HTTP/1.1" 200 32566
+INFO 2024-12-01 16:22:48,232 basehttp "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 304 0
+INFO 2024-12-01 16:22:48,233 basehttp "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
+INFO 2024-12-01 16:22:48,233 basehttp "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
+INFO 2024-12-01 17:50:49,702 autoreload Watching for file changes with StatReloader
+WARNING 2024-12-01 17:51:21,516 basehttp "POST /activity/activity/ HTTP/1.1" 400 55
+WARNING 2024-12-01 17:52:31,731 basehttp "POST /activity/activity/ HTTP/1.1" 400 78
+WARNING 2024-12-01 17:52:44,728 basehttp "POST /activity/activity/ HTTP/1.1" 404 45
+INFO 2024-12-01 17:52:57,208 basehttp "POST /activity/activity/ HTTP/1.1" 201 77
+INFO 2024-12-12 12:49:23,207 autoreload Watching for file changes with StatReloader
+INFO 2024-12-12 12:50:58,526 basehttp "GET /activity/activity?user_id=5&action=like HTTP/1.1" 301 0
+INFO 2024-12-12 12:50:59,609 basehttp "GET /activity/activity/?user_id=5&action=like HTTP/1.1" 200 19661
+INFO 2024-12-12 12:50:59,667 basehttp "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+INFO 2024-12-12 12:50:59,670 basehttp "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+INFO 2024-12-12 12:50:59,673 basehttp "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+INFO 2024-12-12 12:50:59,675 basehttp "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+INFO 2024-12-12 12:50:59,675 basehttp "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+INFO 2024-12-12 12:50:59,675 basehttp "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+INFO 2024-12-12 12:50:59,675 basehttp "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+INFO 2024-12-12 12:50:59,676 basehttp "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+INFO 2024-12-12 12:50:59,678 basehttp "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+INFO 2024-12-12 12:50:59,679 basehttp "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+INFO 2024-12-12 12:50:59,680 basehttp "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+INFO 2024-12-12 12:50:59,684 basehttp "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458

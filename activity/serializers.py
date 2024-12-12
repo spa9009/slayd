@@ -1,7 +1,9 @@
 from rest_framework import serializers
 from .models import UserActivity, Follow
+from feed.serializers import PostSerializer
 
 class UserActivitySerializer(serializers.ModelSerializer):
+    post = PostSerializer(read_only=True)
     class Meta: 
         model = UserActivity
         fields = ['user', 'post', 'action', 'timestamp']
