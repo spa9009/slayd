@@ -3707,3 +3707,42 @@ INFO 2024-12-12 18:22:05,021 autoreload Watching for file changes with StatReloa
 INFO 2024-12-12 18:22:11,825 basehttp "GET /activity/activity/?user_id=1&action=like HTTP/1.1" 200 113204
 INFO 2024-12-12 18:22:33,874 basehttp "POST /activity/activity/ HTTP/1.1" 201 939
 INFO 2024-12-12 18:22:52,515 basehttp "GET /activity/activity/?user_id=1&action=like HTTP/1.1" 200 115675
+INFO 2024-12-12 18:26:04,061 autoreload Watching for file changes with StatReloader
+INFO 2024-12-12 18:27:42,501 autoreload /Users/sparsh/Documents/workspace/dev/slayd/slayd/urls.py changed, reloading.
+INFO 2024-12-12 18:27:42,880 autoreload Watching for file changes with StatReloader
+INFO 2024-12-12 18:29:18,234 autoreload /Users/sparsh/Documents/workspace/dev/slayd/account/urls.py changed, reloading.
+INFO 2024-12-12 18:29:18,527 autoreload Watching for file changes with StatReloader
+WARNING 2024-12-12 18:30:56,905 basehttp "POST /activity/activity/ HTTP/1.1" 400 78
+INFO 2024-12-12 18:30:56,907 basehttp - Broken pipe from ('127.0.0.1', 57566)
+ERROR 2024-12-12 18:30:59,542 log Internal Server Error: /account/preferences/
+Traceback (most recent call last):
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/Documents/workspace/dev/slayd/account/views.py", line 92, in post
+    serializer = self.get_serializer(preference)
+                 ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'UserPreferenceView' object has no attribute 'get_serializer'
+ERROR 2024-12-12 18:30:59,546 basehttp "POST /account/preferences/ HTTP/1.1" 500 90393
+INFO 2024-12-12 18:33:46,531 autoreload /Users/sparsh/Documents/workspace/dev/slayd/account/views.py changed, reloading.
+INFO 2024-12-12 18:33:46,908 autoreload Watching for file changes with StatReloader
+INFO 2024-12-12 18:33:51,353 basehttp "POST /account/preferences/ HTTP/1.1" 201 76

@@ -2,7 +2,9 @@ from django.contrib.auth.hashers import make_password, check_password
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import User, Brand
+from .models import User, Brand, UserPreferences
+from .serializers import UserPreferencesSerializer
+from django.shortcuts import get_object_or_404
 
 
 class SignUpView(APIView):
@@ -57,3 +59,38 @@ class BrandView(APIView):
             'message': 'Brand created',
             'brandId': {brand.id}
         }, status=status.HTTP_201_CREATED)
+    
+
+class UserPreferenceView(APIView) :
+    serializer_class = UserPreferencesSerializer
+
+    def get_serializer(self, *args, **kwargs):
+        return self.serializer_class(*args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        user_id = request.query_params.get("user_id")
+
+        if not user_id:
+            return Response({"detail": "User ID is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        profile = get_object_or_404(UserPreferences, user_id=user_id)
+        serializer = self.get_serializer(profile)
+        return Response(serializer.data)
+    
+    def post(self, request, *args, **kwargs):
+        user_id = request.data.get("user_id")
+        avoid_styles = request.data.get("avoid_styles", [])
+        liked_aesthetics = request.data.get("aesthetics", [])
+
+        if not user_id:
+            return Response({"detail": "User ID is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        preference, created = UserPreferences.objects.get_or_create(user_id=user_id)
+
+        # Update fields
+        preference.avoid_styles = avoid_styles
+        preference.aesthetics = liked_aesthetics  # JSONField
+        preference.save()
+
+        serializer = self.get_serializer(preference)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 class User(models.Model):
 
@@ -24,3 +25,28 @@ class Brand:
 
     def __str__(self): 
         return self.brand
+    
+class UserPreferences(models.Model):
+    AESTHETICS = [
+        ('Soft Girl Core'),
+        ('Urban and Edgy'),
+        ('Creative, unique and experimental styles'),
+        ('Sporty and Functional'),
+        ('Nightlife and Glam')
+    ]
+
+    STYLES = [
+        ('Off-Shoulder'),
+        ('Deep neck'),
+        ('Backless'),
+        ('Visible tummy'),
+        ('Short'),
+        ('Tight fitting')
+    ]   
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    aesthetics = models.JSONField(default=list)
+    avoid_styles = models.JSONField(default=list)
+
+    def __str__(self):
+        return self.user
