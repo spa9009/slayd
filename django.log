@@ -3698,3 +3698,8 @@ INFO 2024-12-12 12:50:59,678 basehttp "GET /static/rest_framework/js/bootstrap.m
 INFO 2024-12-12 12:50:59,679 basehttp "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
 INFO 2024-12-12 12:50:59,680 basehttp "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
 INFO 2024-12-12 12:50:59,684 basehttp "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+INFO 2024-12-12 17:37:36,129 autoreload Watching for file changes with StatReloader
+WARNING 2024-12-12 17:37:48,630 basehttp "POST /activity/activity/ HTTP/1.1" 400 78
+WARNING 2024-12-12 17:38:03,492 basehttp "POST /activity/activity/ HTTP/1.1" 404 45
+INFO 2024-12-12 17:38:15,829 basehttp "POST /activity/activity/ HTTP/1.1" 201 79
+INFO 2024-12-12 17:38:46,195 basehttp "GET /activity/activity/?user_id=1&action=like HTTP/1.1" 200 108867
