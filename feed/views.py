@@ -50,24 +50,23 @@ class ProductSearchView(generics.GenericAPIView):
     serializer_class = ProductSerializer
 
     def get(self, request, *args, **kwargs):
-        try:
-            # Get the search query from the request parameters
-            product_name = request.query_params.get('name', None)
+        # Get the search query from the request parameters
+        product_name = request.query_params.get('name', '').strip()
 
-            if product_name:
-                # Filter products by name (case-insensitive)
-                products = Product.objects.filter(name__icontains=product_name)
+        if not product_name:
+            return Response(
+                {'error': 'The "name" query parameter is required.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-                if products.exists():
-                    # Serialize the products and return the response
-                    serializer = self.get_serializer(products, many=True)
-                    return Response(serializer.data, status=status.HTTP_200_OK)
-                else:
-                    return Response({'message': 'No products found'}, status=status.HTTP_404_NOT_FOUND)
-            else:
-                return Response({'error': 'product_name parameter is required'}, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            print('Exception is', e)
+        # Retrieve the first product matching the query
+        product = Product.objects.filter(name__icontains=product_name).first()
+
+        if product:
+            serializer = self.get_serializer(product)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response({'message': 'No product found'}, status=status.HTTP_404_NOT_FOUND)
         
 class RankedPostsAPIView(APIView):
     def get(self, request):
