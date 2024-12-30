@@ -4852,3 +4852,4 @@ INFO 2024-12-18 12:39:43,495 basehttp "POST /api/posts/ HTTP/1.1" 201 999
 INFO 2024-12-18 12:39:43,501 basehttp "GET /api/products/search-product-by-name?name=Black+Letterman+Contrast+Stitch+Jacket HTTP/1.1" 301 0
 INFO 2024-12-18 12:39:43,881 basehttp "GET /api/products/search-product-by-name/?name=Black+Letterman+Contrast+Stitch+Jacket HTTP/1.1" 200 723
 INFO 2024-12-18 12:39:44,784 basehttp "POST /api/posts/ HTTP/1.1" 201 1021
+INFO 2024-12-30 08:33:16,819 autoreload Watching for file changes with StatReloader
