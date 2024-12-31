@@ -1,72 +1,100 @@
 from django.core.management.base import BaseCommand
 from feed.models import Product, ProductEmbeddings
-from tensorflow.keras.applications import ResNet50
-from tensorflow.keras.preprocessing import image
-from tensorflow.keras.applications.resnet50 import preprocess_input
-from tensorflow.keras.models import Model
-from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
-import boto3
 from PIL import Image
 from io import BytesIO
-
-
-s3_client = boto3.client(
-    's3',
-    aws_access_key_id='', ## add secret
-    aws_secret_access_key='', ## add secret
-    region_name='' ## add secret
-)
-
+from fashion_clip.fashion_clip import FashionCLIP
+from django.db import transaction
+import requests
+from math import ceil
 
 class Command(BaseCommand):
-    help = 'Extract embeddings for products and save them to the database'
+    help = 'Extract embeddings for products in batches and save them to the database'
 
     def handle(self, *args, **kwargs):
-        base_model = ResNet50(weights='imagenet')
-
-        model = Model(inputs=base_model.input, outputs=base_model.get_layer('avg_pool').output)
+        fclip = FashionCLIP('fashion-clip')
         self.stdout.write("Model loaded. Proceeding further")
-        products = Product.objects.all()
-        text_data = [f"{p.category} {p.subcategory}" for p in products]
-        tfidf_vectorizer = TfidfVectorizer()
-        tfidf_matrix = tfidf_vectorizer.fit_transform(text_data).toarray()
 
-        for idx, product in enumerate(products):
-            image_url = product.image_url
-            try :
-                product_embedding, created = ProductEmbeddings.objects.get_or_create(product=product)
+        products = list(Product.objects.filter(
+            embedding__isnull=True  # Only select products without embeddings
+        ) | Product.objects.filter(
+            embedding__image_embedding__isnull=True  # Retry products with missing image embeddings
+        ) | Product.objects.filter(
+            embedding__text_embedding__isnull=True  # Retry products with missing text embeddings
+        ))
+        print("Total unprocessed products are: " + str(len(products)))
+        batch_size = 32
+        total_batches = ceil(len(products) / batch_size)
 
-                if not created: 
-                    continue
+        for batch_index in range(total_batches):
+            start_index = batch_index * batch_size
+            end_index = min(start_index + batch_size, len(products))
+            
+            batch_products = products[start_index:end_index]
 
-                bucket_name, key = parse_s3_url(image_url)
-                self.stdout.write(f"Bucket name is {bucket_name}")  
-                response = s3_client.get_object(Bucket=bucket_name, Key=key)
-                img_data = response['Body'].read()
+            images = {}
+            categories = {}
+            brands = {}
 
-                img = Image.open(BytesIO(img_data)).resize((224, 224))
-                x = image.img_to_array(img)
-                x = np.expand_dims(x, axis=0)
-                x = preprocess_input(x)
+            for product in batch_products:
+                image_url = product.image_url
+                try:
+                    response = requests.get(image_url, timeout=10)
+                    img = Image.open(BytesIO(response.content)).convert("RGB").resize((224, 224))
+                    images[product.id] = img
+                    categories[product.id] = f"{product.category} {product.subcategory} {product.gender}"
+                    brands[product.id] = product.brand
+                except Exception as e:
+                    self.stdout.write(self.style.ERROR(f"Failed to process product {product.id}: {str(e)}"))
 
-                embedding = model.predict(x).flatten()
+            if images:
+                self.stdout.write(f"Processing batch {batch_index + 1}/{total_batches} with {len(images)} products")
+                try:
+                    image_embeddings_dict, text_embeddings_dict = convert_embeddings(
+                        images=images, categories=categories, brands=brands, model=fclip
+                    )
 
-                if idx == 1:
-                    self.stdout.write(f"image embeddings: {embedding.tolist()}")  
-                product_embedding, created = ProductEmbeddings.objects.get_or_create(product=product)
-                product_embedding.text_embedding = tfidf_matrix[idx].tolist()
-                product_embedding.image_embedding = embedding.tolist()
+                    with transaction.atomic():
+                        for product_id in images.keys():
+                            try:
+                                product = Product.objects.get(id=product_id)
 
-                product_embedding.save()
-                self.stdout.write(self.style.SUCCESS(f"Processed product {product.id}"))
+                                ProductEmbeddings.objects.update_or_create(
+                                    product=product,
+                                    defaults={
+                                        'image_embedding': image_embeddings_dict[product_id].tolist(),
+                                        'text_embedding': text_embeddings_dict[product_id].tolist(),
+                                    }
+                                )
 
-            except Exception as e:
-                self.stdout.write(self.style.ERROR(f"Failed to process product {product.id}: {str(e)}"))
+                            except Product.DoesNotExist:
+                                self.stdout.write(f"Product with ID {product_id} not found.")
 
-def parse_s3_url(s3_url):
-    """Helper function to parse an S3 URL into bucket and key."""
-    s3_parts = s3_url.replace("https://", "").split("/", 1)
-    bucket_name = s3_parts[0].split(".s3")[0]
-    key = s3_parts[1]
-    return bucket_name, key
+                    self.stdout.write(f"Batch {batch_index + 1}/{total_batches} processed successfully")
+                except Exception as e:
+                    self.stdout.write(self.style.ERROR(f"Failed to process embeddings for batch {batch_index + 1}: {str(e)}"))
+            else:
+                self.stdout.write(self.style.WARNING(f"No valid images in batch {batch_index + 1}"))
+
+        self.stdout.write("All batches processed.")
+
+def convert_embeddings(images, categories, brands, model):
+    image_embeddings = model.encode_images(images=list(images.values()), batch_size=32)
+    category_embeddings = model.encode_text(text=list(categories.values()), batch_size=32)
+    brand_embeddings = model.encode_text(text=list(brands.values()), batch_size=32)
+
+    assert len(images.keys()) == len(image_embeddings)
+    assert len(categories.keys()) == len(category_embeddings)
+    assert len(brands.keys()) == len(brand_embeddings)
+
+    image_embeddings = image_embeddings / np.linalg.norm(image_embeddings, ord=2, axis=-1, keepdims=True)
+    category_embeddings = category_embeddings / np.linalg.norm(category_embeddings, ord=2, axis=-1, keepdims=True)
+    brand_embeddings = brand_embeddings / np.linalg.norm(brand_embeddings, ord=2, axis=-1, keepdims=True)
+
+    text_embeddings = 0.75 * category_embeddings + 0.25 * brand_embeddings
+    text_embeddings = text_embeddings / np.linalg.norm(text_embeddings, ord=2, axis=-1, keepdims=True)
+
+    image_embeddings_dict = {product_id: embedding for product_id, embedding in zip(images.keys(), image_embeddings)}
+    text_embeddings_dict = {product_id: embedding for product_id, embedding in zip(images.keys(), text_embeddings)}
+
+    return image_embeddings_dict, text_embeddings_dict
