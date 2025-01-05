@@ -133,6 +133,7 @@ class SimilarPostsView(APIView):
             ).exclude(id__in=similar_brand_posts).exclude(id__in=similar_subcategory_posts).exclude(id=target_post.id).distinct()
 
             combined_post = []
+            added_post_ids = set()
 
             all_similar_posts_product = list(similar_subcategory_posts.filter(post_type='PRODUCT_POST')) + \
                 list(similar_category_posts.filter(post_type='PRODUCT_POST')) + \
@@ -144,15 +145,22 @@ class SimilarPostsView(APIView):
             print(f"Size of tagged_product list: {len(all_similar_posts_tagged)}")
 
 
-            while all_similar_posts_tagged or all_similar_posts_product: 
+            while all_similar_posts_tagged or all_similar_posts_product:
                 temp_list = []
-                temp_list.extend(all_similar_posts_product[:5])
+
+                for post in all_similar_posts_product[:5]:
+                    if post.id not in added_post_ids:
+                        temp_list.append(post)
+                        added_post_ids.add(post.id)
                 all_similar_posts_product = all_similar_posts_product[5:]
 
-                temp_list.extend(all_similar_posts_tagged[:5])
+                for post in all_similar_posts_tagged[:5]:
+                    if post.id not in added_post_ids:
+                        temp_list.append(post)
+                        added_post_ids.add(post.id)
                 all_similar_posts_tagged = all_similar_posts_tagged[5:]
+
                 random.shuffle(temp_list)
-                
                 combined_post.extend(temp_list)
 
 
