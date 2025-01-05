@@ -134,11 +134,13 @@ class SimilarPostsView(APIView):
 
             combined_post = []
 
-            all_similar_posts_product = list(similar_brand_posts.filter(post_type='PRODUCT_POST')) + list(similar_subcategory_posts.filter(post_type='PRODUCT_POST')) + list(similar_category_posts.filter(post_type='PRODUCT_POST'))
+            all_similar_posts_product = list(similar_subcategory_posts.filter(post_type='PRODUCT_POST')) + \
+                list(similar_category_posts.filter(post_type='PRODUCT_POST')) + \
+                list(similar_brand_posts.filter(post_type='PRODUCT_POST'))
 
-            all_similar_posts_tagged = list(similar_brand_posts.filter(post_type='TAGGED_POST')) + \
-                list(similar_subcategory_posts.filter(post_type='TAGGED_POST')) + \
-                list(similar_category_posts.filter(post_type='TAGGED_POST'))
+            all_similar_posts_tagged = list(similar_subcategory_posts.filter(post_type='TAGGED_POST')) + \
+                list(similar_category_posts.filter(post_type='TAGGED_POST')) + \
+                list(similar_brand_posts.filter(post_type='TAGGED_POST'))
             print(f"Size of tagged_product list: {len(all_similar_posts_tagged)}")
 
 
