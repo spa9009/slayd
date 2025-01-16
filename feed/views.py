@@ -148,17 +148,17 @@ class SimilarPostsView(APIView):
             while all_similar_posts_tagged or all_similar_posts_product:
                 temp_list = []
 
-                for post in all_similar_posts_product[:5]:
+                for post in all_similar_posts_product[:7]:
                     if post.id not in added_post_ids:
                         temp_list.append(post)
                         added_post_ids.add(post.id)
-                all_similar_posts_product = all_similar_posts_product[5:]
+                all_similar_posts_product = all_similar_posts_product[7:]
 
-                for post in all_similar_posts_tagged[:5]:
+                for post in all_similar_posts_tagged[:3]:
                     if post.id not in added_post_ids:
                         temp_list.append(post)
                         added_post_ids.add(post.id)
-                all_similar_posts_tagged = all_similar_posts_tagged[5:]
+                all_similar_posts_tagged = all_similar_posts_tagged[3:]
 
                 random.shuffle(temp_list)
                 combined_post.extend(temp_list)
