@@ -4853,3 +4853,26 @@ INFO 2024-12-18 12:39:43,501 basehttp "GET /api/products/search-product-by-name?
 INFO 2024-12-18 12:39:43,881 basehttp "GET /api/products/search-product-by-name/?name=Black+Letterman+Contrast+Stitch+Jacket HTTP/1.1" 200 723
 INFO 2024-12-18 12:39:44,784 basehttp "POST /api/posts/ HTTP/1.1" 201 1021
 INFO 2024-12-30 08:33:16,819 autoreload Watching for file changes with StatReloader
+INFO 2025-01-21 13:40:51,581 autoreload Watching for file changes with StatReloader
+INFO 2025-01-21 13:41:23,710 basehttp code 400, message Bad request version ('Hh¤\x93&\x12½Gj)k³æÄ4¯(Á\x13¦\x8bxw(')
+ERROR 2025-01-21 13:41:23,712 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2025-01-21 13:41:23,715 basehttp code 400, message Bad request version ('\x12)ue³¾á·«')
+ERROR 2025-01-21 13:41:23,715 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2025-01-21 13:41:23,715 basehttp code 400, message Bad request version ('Y8eL\x16=VÇß\x92\x8e÷º\x9eXØ\x9e{\x05Í')
+ERROR 2025-01-21 13:41:23,715 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2025-01-21 13:41:23,715 basehttp code 400, message Bad request version ('É\x13\x14·\\\x06$»ûè{Ä0d-¨Ày4Uô"jÊ')
+ERROR 2025-01-21 13:41:23,716 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2025-01-21 13:41:46,381 basehttp "GET /api/posts/321/similar-posts/ HTTP/1.1" 200 42657
+INFO 2025-01-21 13:41:46,432 basehttp "GET /static/rest_framework/css/prettify.css HTTP/1.1" 304 0
+INFO 2025-01-21 13:41:46,432 basehttp "GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
+INFO 2025-01-21 13:41:46,432 basehttp "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 304 0
+INFO 2025-01-21 13:41:46,434 basehttp "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
+INFO 2025-01-21 13:41:46,434 basehttp "GET /static/rest_framework/css/default.css HTTP/1.1" 304 0
+INFO 2025-01-21 13:41:46,434 basehttp "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 304 0
+INFO 2025-01-21 13:41:46,435 basehttp "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
+INFO 2025-01-21 13:41:46,436 basehttp "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
+INFO 2025-01-21 13:41:46,437 basehttp "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
+INFO 2025-01-21 13:41:46,439 basehttp "GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
+INFO 2025-01-21 13:41:46,439 basehttp "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
+INFO 2025-01-21 13:41:46,470 basehttp "GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
+WARNING 2025-01-21 13:41:46,551 basehttp "GET /favicon.ico HTTP/1.1" 404 2657
