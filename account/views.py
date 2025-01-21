@@ -1,4 +1,6 @@
 from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth import get_user_model
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -6,6 +8,7 @@ from .models import User, Brand, UserPreferences
 from .serializers import UserPreferencesSerializer
 from django.shortcuts import get_object_or_404
 
+User = get_user_model()
 
 class SignUpView(APIView):
     def post(self, request):
@@ -25,10 +28,15 @@ class SignUpView(APIView):
         print(hashed_password)
         user = User.objects.create(phone=phone, password=hashed_password, username=username, age=age, gender=gender)
 
+        refresh = RefreshToken.for_user(user)
+        access_token = str(refresh.access_token)
+
         return Response({
             'message': 'User registered successfully',
-            'user_id' : {user.id}
-            }, status=status.HTTP_201_CREATED)
+            'user_id': user.id,
+            'refresh': str(refresh),
+            'access': access_token
+        }, status=status.HTTP_201_CREATED)
     
 
 
