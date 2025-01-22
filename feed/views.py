@@ -100,10 +100,6 @@ class SimilarPostsView(APIView):
         try:
             target_post = Post.objects.get(id=post_id)
 
-            allowed_gender = self.get_allowed_genders(request.user)
-
-            print("Allowed genders are:" + str(allowed_gender))
-
             post_brand = None
             categories = []
             sub_categories = []
@@ -122,20 +118,19 @@ class SimilarPostsView(APIView):
                 sub_categories.append(target_post.product.subcategory)
 
             similar_brand_posts = Post.objects.filter(
-                Q(product__brand=post_brand, product__gender__in=allowed_gender) |
-                Q(tagged_products__product__brand=post_brand, tagged_products__product__gender__in=allowed_gender)
+                Q(product__brand=post_brand) | 
+                Q(tagged_products__product__brand=post_brand)
             ).exclude(id=target_post.id).distinct()
 
             similar_subcategory_posts = Post.objects.filter(
-                Q(product__subcategory__in=sub_categories, product__gender__in=allowed_gender) |
-                Q(tagged_products__product__subcategory__in=sub_categories, tagged_products__product__gender__in=allowed_gender)
+                Q(product__subcategory__in=sub_categories) |
+                Q(tagged_products__product__subcategory__in=sub_categories)
             ).exclude(id__in=similar_brand_posts).exclude(id=target_post.id).distinct()
 
             similar_category_posts = Post.objects.filter(
-                Q(product__category__in=categories, product__gender__in=allowed_gender) |
-                Q(tagged_products__product__category__in=categories, tagged_products__product__gender__in=allowed_gender)
+                Q(product__category__in=categories) |
+                Q(tagged_products__product__category__in=categories)
             ).exclude(id__in=similar_brand_posts).exclude(id__in=similar_subcategory_posts).exclude(id=target_post.id).distinct()
-
 
             combined_post = []
             added_post_ids = set()
@@ -195,19 +190,6 @@ class SimilarPostsView(APIView):
         #     return Response({
         #         "error": "Error while fetching similar posts",
         #     }, status=status.HTTP_404_NOT_FOUND)
-
-    def get_allowed_genders(self, user):
-        allowed_gender = ['Unisex']
-        if user.is_authenticated:
-            if user.gender == 'Female':
-                allowed_gender.append('Female')
-            else: 
-                allowed_gender.append('Male')
-        else:
-            allowed_gender.append('Male')
-            allowed_gender.append('Female')
-        return allowed_gender
-
 
         
 

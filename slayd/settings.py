@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,21 +27,6 @@ SECRET_KEY = 'django-insecure-6u9$*8@)(-z!fkw&7z^wp8#ys+r+p6=1!^p7ouqd2-g#avv)gj
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '43.205.235.112', '127.0.0.1', 'api.slayd.in']
-
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),    
-    "ROTATE_REFRESH_TOKENS": True,                 
-    "BLACKLIST_AFTER_ROTATION": True,               
-    "AUTH_HEADER_TYPES": ("Bearer",),
-}
-
-REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ),
-}
-
 
 
 # Application definition
@@ -104,8 +88,6 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-
-AUTH_USER_MODEL = 'account.User'
 
 
 # Password validation

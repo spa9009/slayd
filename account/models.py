@@ -1,9 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 
 
 # Create your models here.
-class User(AbstractUser):
+class User(models.Model):
 
     GENDERS = [
         ('MALE', 'male'),
@@ -11,6 +10,8 @@ class User(AbstractUser):
         ('NON_BINARY', 'non_binary')
     ]
 
+    username = models.CharField(max_length=20, unique=True)
+    password = models.CharField(max_length=100)
     age = models.IntegerField()
     gender = models.CharField(choices=GENDERS)
     phone = models.CharField(max_length=10, unique=True)
