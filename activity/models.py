@@ -1,5 +1,5 @@
 from django.db import models
-from account.models import User
+from account.models import UserRecord
 from feed.models import Post
 
 ## Explore later when scaling whether this needs to be moved to NoSQL DB
@@ -11,7 +11,7 @@ class UserActivity(models.Model):
         ('wishlist', 'WISHLIST')
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='activity')
+    user = models.ForeignKey(UserRecord, on_delete=models.CASCADE, related_name='activity')
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='activity')
     action = models.CharField(max_length=10, choices=ACTIONS)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -30,7 +30,7 @@ class Follow(models.Model):
         ('influencer', 'INFLUENCER')
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='follow')
+    user = models.ForeignKey(UserRecord, on_delete=models.CASCADE, related_name='follow')
     publisher_type = models.CharField(max_length=10, choices=PUBLISHER_TYPE)
     publisher = models.CharField(max_length=50)
     timestamp = models.DateTimeField(auto_now_add=True)

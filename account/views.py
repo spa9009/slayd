@@ -2,7 +2,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import User, Brand, UserPreferences
+from .models import UserRecord, Brand, UserPreferences
 from .serializers import UserPreferencesSerializer
 from django.shortcuts import get_object_or_404
 
@@ -15,15 +15,15 @@ class SignUpView(APIView):
         age = request.data.get('age')
         gender = request.data.get('gender')
 
-        if User.objects.filter(phone=phone).exists():
+        if UserRecord.objects.filter(phone=phone).exists():
             return Response({'error': 'Phone number already registered'}, status=status.HTTP_400_BAD_REQUEST)
         
-        if User.objects.filter(username=username).exists():
+        if UserRecord.objects.filter(username=username).exists():
             return Response({'error': 'Username is taken'}, status=status.HTTP_400_BAD_REQUEST)
         
         hashed_password = make_password(password)
         print(hashed_password)
-        user = User.objects.create(phone=phone, password=hashed_password, username=username, age=age, gender=gender)
+        user = UserRecord.objects.create(phone=phone, password=hashed_password, username=username, age=age, gender=gender)
 
         return Response({
             'message': 'User registered successfully',
@@ -38,7 +38,7 @@ class SignInView(APIView):
         password = request.data.get('password')
 
         try:
-            user = User.objects.get(username=username)
+            user = UserRecord.objects.get(username=username)
             print(user.password)
             if(check_password(password, user.password)):
                 return Response({

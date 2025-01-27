@@ -4,7 +4,7 @@ from django.contrib.auth.models import AnonymousUser
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from feed.models import Post
-from account.models import User
+from account.models import UserRecord
 from .models import UserActivity, Follow
 from .serializers import UserActivitySerializer, FollowSerializer
 import logging
@@ -54,7 +54,7 @@ class UserActivityView(generics.GenericAPIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        user = get_object_or_404(User, id=user_id)
+        user = get_object_or_404(UserRecord, id=user_id)
         post = get_object_or_404(Post, id=post_id)
 
         # Create interaction data using PK values

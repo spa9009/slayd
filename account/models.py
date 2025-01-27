@@ -18,6 +18,25 @@ class User(models.Model):
 
     def __str__(self):
         return self.username
+    
+
+    # Create your models here.
+class UserRecord(models.Model):
+
+    GENDERS = [
+        ('MALE', 'male'),
+        ('FEMALE', 'female'),
+        ('NON_BINARY', 'non_binary')
+    ]
+
+    username = models.CharField(max_length=20, unique=True)
+    password = models.CharField(max_length=100)
+    age = models.IntegerField()
+    gender = models.CharField(choices=GENDERS)
+    phone = models.CharField(max_length=10, unique=True)
+
+    def __str__(self):
+        return self.username
 
 
 class Brand:
@@ -44,7 +63,7 @@ class UserPreferences(models.Model):
         ('Tight fitting')
     ]   
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    user = models.OneToOneField(UserRecord, on_delete=models.CASCADE, related_name='profile')
     aesthetics = models.JSONField(default=list)
     avoid_styles = models.JSONField(default=list)
 
