@@ -4957,3 +4957,371 @@ django.db.utils.DataError: value too long for type character varying(10)
 
 ERROR 2025-01-27 16:18:27,636 basehttp "POST /account/signup/ HTTP/1.1" 500 170891
 INFO 2025-01-27 16:19:13,808 basehttp "POST /account/signup/ HTTP/1.1" 201 56
+INFO 2025-02-21 15:02:58,035 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 15:43:19,555 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/models.py changed, reloading.
+INFO 2025-02-21 15:43:20,205 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 15:47:25,769 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2025-02-21 15:47:26,196 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 15:47:43,669 autoreload Watching for file changes with StatReloader
+INFO 2025-02-21 15:48:05,781 autoreload Watching for file changes with StatReloader
+INFO 2025-02-22 09:38:10,503 autoreload Watching for file changes with StatReloader
+WARNING 2025-02-22 09:38:14,641 basehttp "GET / HTTP/1.1" 404 2606
+WARNING 2025-02-22 09:38:14,886 basehttp "GET /favicon.ico HTTP/1.1" 404 2657
+INFO 2025-02-22 11:59:25,490 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/models.py changed, reloading.
+INFO 2025-02-22 11:59:26,059 autoreload Watching for file changes with StatReloader
+INFO 2025-02-22 11:59:38,784 autoreload Watching for file changes with StatReloader
+INFO 2025-02-22 12:45:56,194 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/models.py changed, reloading.
+INFO 2025-02-22 12:45:56,547 autoreload Watching for file changes with StatReloader
+INFO 2025-02-22 12:47:48,888 autoreload Watching for file changes with StatReloader
+WARNING 2025-02-22 12:47:51,308 basehttp "GET / HTTP/1.1" 404 2606
+INFO 2025-02-22 12:47:58,306 basehttp "GET /api/posts/5404/similar-posts/?page=1 HTTP/1.1" 200 46056
+INFO 2025-02-22 12:47:58,392 basehttp "GET /static/rest_framework/css/prettify.css HTTP/1.1" 304 0
+INFO 2025-02-22 12:47:58,394 basehttp "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 304 0
+INFO 2025-02-22 12:47:58,394 basehttp "GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
+INFO 2025-02-22 12:47:58,395 basehttp "GET /static/rest_framework/css/default.css HTTP/1.1" 304 0
+INFO 2025-02-22 12:47:58,396 basehttp "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
+INFO 2025-02-22 12:47:58,397 basehttp "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+INFO 2025-02-22 12:47:58,397 basehttp "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
+INFO 2025-02-22 12:47:58,397 basehttp "GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
+INFO 2025-02-22 12:47:58,398 basehttp "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+INFO 2025-02-22 12:47:58,399 basehttp "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+INFO 2025-02-22 12:47:58,399 basehttp "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+INFO 2025-02-22 12:47:58,436 basehttp "GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
+WARNING 2025-02-22 12:47:58,526 basehttp "GET /api/ HTTP/1.1" 404 4466
+WARNING 2025-02-22 12:48:22,896 basehttp "GET /api/curation/10 HTTP/1.1" 404 4499
+INFO 2025-02-22 12:48:33,238 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/urls.py changed, reloading.
+INFO 2025-02-22 12:48:33,647 autoreload Watching for file changes with StatReloader
+INFO 2025-02-22 12:48:38,408 basehttp "GET /api/curation/10 HTTP/1.1" 301 0
+INFO 2025-02-22 12:48:39,061 basehttp "GET /api/curation/10/ HTTP/1.1" 200 12228
+INFO 2025-02-22 12:51:15,543 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/serializers.py changed, reloading.
+INFO 2025-02-22 12:51:15,942 autoreload Watching for file changes with StatReloader
+INFO 2025-02-22 12:51:17,157 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/serializers.py changed, reloading.
+INFO 2025-02-22 12:51:17,326 autoreload Watching for file changes with StatReloader
+INFO 2025-02-22 12:51:21,650 basehttp "GET /api/curation/10/ HTTP/1.1" 200 12228
+INFO 2025-02-22 12:52:51,528 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/serializers.py changed, reloading.
+INFO 2025-02-22 12:52:51,902 autoreload Watching for file changes with StatReloader
+ERROR 2025-02-22 12:52:56,480 log Internal Server Error: /api/curation/10/
+Traceback (most recent call last):
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/fields.py", line 437, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/fields.py", line 104, in get_attribute
+    instance = getattr(instance, attr)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ComponentItem' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/generics.py", line 212, in get
+    return self.retrieve(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/mixins.py", line 56, in retrieve
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 571, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 249, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 538, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/fields.py", line 1870, in to_representation
+    return method(value)
+           ^^^^^^^^^^^^^
+  File "/Users/sparsh/Documents/workspace/dev/slayd/feed/serializers.py", line 70, in get_sub_curations
+    return CurationSerializer(obj.sub_curations.all(), many=True).data
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 795, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 249, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 714, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 538, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 714, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 538, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 714, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 525, in to_representation
+    attribute = field.get_attribute(instance)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/fields.py", line 470, in get_attribute
+    raise type(exc)(msg)
+AttributeError: Got AttributeError when attempting to get a value for field `name` on serializer `ItemSerializer`.
+The serializer field might be named incorrectly and not match any attribute or key on the `ComponentItem` instance.
+Original exception text was: 'ComponentItem' object has no attribute 'name'.
+ERROR 2025-02-22 12:52:56,482 basehttp "GET /api/curation/10/ HTTP/1.1" 500 185668
+INFO 2025-02-22 12:54:12,137 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/serializers.py changed, reloading.
+INFO 2025-02-22 12:54:12,562 autoreload Watching for file changes with StatReloader
+INFO 2025-02-22 12:54:15,226 basehttp "GET /api/curation/10/ HTTP/1.1" 200 12051
+INFO 2025-02-22 12:54:37,428 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/serializers.py changed, reloading.
+INFO 2025-02-22 12:54:37,725 autoreload Watching for file changes with StatReloader
+INFO 2025-02-22 12:54:39,716 basehttp "GET /api/curation/10/ HTTP/1.1" 200 12228
+INFO 2025-02-22 12:55:42,205 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/serializers.py changed, reloading.
+INFO 2025-02-22 12:55:42,672 autoreload Watching for file changes with StatReloader
+INFO 2025-02-22 12:55:43,878 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/serializers.py changed, reloading.
+INFO 2025-02-22 12:55:44,116 autoreload Watching for file changes with StatReloader
+INFO 2025-02-22 12:55:46,557 basehttp "GET /api/curation/10/ HTTP/1.1" 200 12228
+INFO 2025-02-22 12:56:37,429 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2025-02-22 12:56:37,756 autoreload Watching for file changes with StatReloader
+INFO 2025-02-22 12:56:38,944 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2025-02-22 12:56:39,114 autoreload Watching for file changes with StatReloader
+INFO 2025-02-22 12:56:45,446 basehttp "GET /api/curation/10/ HTTP/1.1" 200 12228
+INFO 2025-02-22 12:56:51,839 basehttp "GET /api/curation/10/ HTTP/1.1" 200 12228
+INFO 2025-02-22 12:57:17,114 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2025-02-22 12:57:17,433 autoreload Watching for file changes with StatReloader
+INFO 2025-02-22 12:57:18,628 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2025-02-22 12:57:18,858 autoreload Watching for file changes with StatReloader
+INFO 2025-02-22 12:57:21,254 basehttp "GET /api/curation/10/ HTTP/1.1" 200 12228
+INFO 2025-02-22 12:59:40,175 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/serializers.py changed, reloading.
+INFO 2025-02-22 12:59:40,582 autoreload Watching for file changes with StatReloader
+INFO 2025-02-22 12:59:41,849 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/serializers.py changed, reloading.
+INFO 2025-02-22 12:59:42,013 autoreload Watching for file changes with StatReloader
+ERROR 2025-02-22 12:59:46,064 log Internal Server Error: /api/curation/10/
+Traceback (most recent call last):
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/fields.py", line 437, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/fields.py", line 104, in get_attribute
+    instance = getattr(instance, attr)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'int' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/generics.py", line 212, in get
+    return self.retrieve(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/mixins.py", line 56, in retrieve
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 571, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 249, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 538, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/fields.py", line 1870, in to_representation
+    return method(value)
+           ^^^^^^^^^^^^^
+  File "/Users/sparsh/Documents/workspace/dev/slayd/feed/serializers.py", line 75, in get_sub_curations
+    return CurationSerializer(obj.sub_curations.all(), many=True).data
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 795, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 249, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 714, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 538, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 714, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 538, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/fields.py", line 1870, in to_representation
+    return method(value)
+           ^^^^^^^^^^^^^
+  File "/Users/sparsh/Documents/workspace/dev/slayd/feed/serializers.py", line 62, in get_items
+    return ItemSerializer(obj.component_items.all().values_list('item', flat=True), many=True).data
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 795, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 249, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 714, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 525, in to_representation
+    attribute = field.get_attribute(instance)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/fields.py", line 470, in get_attribute
+    raise type(exc)(msg)
+AttributeError: Got AttributeError when attempting to get a value for field `name` on serializer `ItemSerializer`.
+The serializer field might be named incorrectly and not match any attribute or key on the `int` instance.
+Original exception text was: 'int' object has no attribute 'name'.
+ERROR 2025-02-22 12:59:46,066 basehttp "GET /api/curation/10/ HTTP/1.1" 500 192046
+INFO 2025-02-22 13:00:36,457 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/views.py changed, reloading.
+INFO 2025-02-22 13:00:36,815 autoreload Watching for file changes with StatReloader
+ERROR 2025-02-22 13:00:45,710 log Internal Server Error: /api/curation/10/
+Traceback (most recent call last):
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/fields.py", line 437, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/fields.py", line 104, in get_attribute
+    instance = getattr(instance, attr)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'int' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/generics.py", line 212, in get
+    return self.retrieve(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/mixins.py", line 56, in retrieve
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 571, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 249, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 538, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/fields.py", line 1870, in to_representation
+    return method(value)
+           ^^^^^^^^^^^^^
+  File "/Users/sparsh/Documents/workspace/dev/slayd/feed/serializers.py", line 75, in get_sub_curations
+    return CurationSerializer(obj.sub_curations.all(), many=True).data
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 795, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 249, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 714, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 538, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 714, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 538, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/fields.py", line 1870, in to_representation
+    return method(value)
+           ^^^^^^^^^^^^^
+  File "/Users/sparsh/Documents/workspace/dev/slayd/feed/serializers.py", line 62, in get_items
+    return ItemSerializer(obj.component_items.all().values_list('item', flat=True), many=True).data
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 795, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 249, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 714, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/serializers.py", line 525, in to_representation
+    attribute = field.get_attribute(instance)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/rest_framework/fields.py", line 470, in get_attribute
+    raise type(exc)(msg)
+AttributeError: Got AttributeError when attempting to get a value for field `name` on serializer `ItemSerializer`.
+The serializer field might be named incorrectly and not match any attribute or key on the `int` instance.
+Original exception text was: 'int' object has no attribute 'name'.
+ERROR 2025-02-22 13:00:45,711 basehttp "GET /api/curation/10/ HTTP/1.1" 500 192046
+INFO 2025-02-22 13:01:21,024 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/serializers.py changed, reloading.
+INFO 2025-02-22 13:01:21,332 autoreload Watching for file changes with StatReloader
+INFO 2025-02-22 13:01:22,520 autoreload /Users/sparsh/Documents/workspace/dev/slayd/feed/serializers.py changed, reloading.
+INFO 2025-02-22 13:01:22,703 autoreload Watching for file changes with StatReloader
+INFO 2025-02-22 13:01:26,094 basehttp "GET /api/curation/10/ HTTP/1.1" 200 23206
+WARNING 2025-02-22 13:02:36,039 basehttp "GET /curations/10 HTTP/1.1" 404 2660
+WARNING 2025-02-22 13:02:36,040 basehttp "GET /curations/10 HTTP/1.1" 404 2660
+WARNING 2025-02-22 13:03:44,670 basehttp "GET /curations/10 HTTP/1.1" 404 2660
+WARNING 2025-02-22 13:03:58,842 basehttp "GET /curations/10 HTTP/1.1" 404 2660
+WARNING 2025-02-22 13:03:58,843 basehttp "GET /curations/10 HTTP/1.1" 404 2660
+WARNING 2025-02-22 13:04:17,207 basehttp "GET /api/curations/10 HTTP/1.1" 404 4787
+INFO 2025-02-22 13:04:34,411 basehttp "GET /api/curation/10/ HTTP/1.1" 200 4606
+INFO 2025-02-22 13:04:38,085 basehttp "GET /api/curation/10/ HTTP/1.1" 200 4606
+INFO 2025-02-22 13:04:38,085 basehttp "GET /api/curation/10/ HTTP/1.1" 200 4606
+INFO 2025-02-22 13:04:56,089 basehttp "GET /api/curation/10/ HTTP/1.1" 200 23206

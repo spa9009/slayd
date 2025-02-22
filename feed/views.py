@@ -1,6 +1,6 @@
 from rest_framework import generics, status
-from .models import Product, Post, TaggedProduct, Media
-from .serializers import ProductSerializer, PostSerializer
+from .models import Product, Post, TaggedProduct, Media, Curation
+from .serializers import ProductSerializer, PostSerializer, CurationSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.http import JsonResponse
@@ -191,5 +191,9 @@ class SimilarPostsView(APIView):
         #         "error": "Error while fetching similar posts",
         #     }, status=status.HTTP_404_NOT_FOUND)
 
-        
-
+class CurationDetailView(generics.RetrieveAPIView):
+    queryset = Curation.objects.prefetch_related(
+        'components__component_items__item',  # Prefetch items within components
+        'sub_curations__components__component_items__item'  # Prefetch items for sub_curations
+    )
+    serializer_class = CurationSerializer
