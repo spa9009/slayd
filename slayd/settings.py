@@ -120,6 +120,12 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Local development settings
+if DEBUG:
+    FAISS_INDICES_PATH = os.path.join(BASE_DIR, 'indices')
+else:
+    FAISS_INDICES_PATH = os.environ.get('FAISS_INDICES_PATH', '/opt/fashion_recommendation/indices')
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/

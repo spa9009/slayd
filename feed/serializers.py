@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, Media, Post, TaggedProduct, Component, Curation, Item, ComponentItem
+from .models import Product, Media, Post, TaggedProduct, Component, Curation, Item, ComponentItem, MyntraProducts
 
 
 ## TODO: This might increase the latency of the similar posts API while fetching the products in the post. 
@@ -75,3 +75,8 @@ class CurationSerializer(serializers.ModelSerializer):
         if obj.curation_type in ['MULTI', 'MULTI_INSPIRATION']:
             return CurationSerializer(obj.sub_curations.all(), many=True).data
         return []
+    
+class MyntraProductsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MyntraProducts
+        fields = "__all__"

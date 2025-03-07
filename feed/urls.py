@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import PostListCreateView, PostDetailView, ProductListCreateView, ProductDetailView, ProductSearchView, RankedPostsAPIView, SimilarPostsView, CurationDetailView
+from .views import PostListCreateView, PostDetailView, ProductListCreateView, ProductDetailView, ProductSearchView, RankedPostsAPIView, SimilarPostsView, CurationDetailView, MyntraProductsListCreateView, SimilarProductsAPI
 
 urlpatterns = [
     path('posts/', PostListCreateView.as_view(), name='post-list-create'),
@@ -10,4 +10,6 @@ urlpatterns = [
     path('products/search-product-by-name/', ProductSearchView.as_view(), name='product-search-by-name'),
     path('posts/<int:post_id>/similar-posts/', SimilarPostsView.as_view(), name='similar-post'),
     path('curation/<int:pk>/', CurationDetailView.as_view(), name='curation-detail'),
+    path('myntra/products/', MyntraProductsListCreateView.as_view(), name='myntra-products-list-create'),
+    path('similar-products/', SimilarProductsAPI.as_view(), name='similar-products'),
 ]

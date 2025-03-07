@@ -105,4 +105,31 @@ class Item(models.Model):
 class ComponentItem(models.Model):
     component = models.ForeignKey(Component, on_delete=models.CASCADE, related_name='component_items')
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='item_components')
+
+class MyntraProducts(models.Model):
+    category = models.CharField(max_length=255)
+    subcategory = models.CharField(max_length=255, null=True, blank=True)
+    brand = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    image_url = models.URLField(max_length=1024)
+    secondary_images = models.JSONField(null=True, blank=True)
+    product_link = models.URLField(max_length=1024)  # Link to the product page
+    created_at = models.DateTimeField(auto_now_add=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    discount_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    description = models.CharField(max_length=255, null=True, blank=True)
+    gender = models.CharField(max_length=10)
+    color = models.CharField(max_length=255, null=True, blank=True)
+    marketplace = models.CharField(max_length=255, null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.id}'
     
+class MyntraProductEmbeddings(models.Model):
+    myntra_product = models.OneToOneField(MyntraProducts, on_delete=models.CASCADE, related_name='embedding')
+    text_embedding = models.JSONField(null=True, blank=True)
+    image_embedding = models.JSONField(null=True, blank=True)
+    fclip_text_embedding = models.JSONField(null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.id} {self.myntra_product.id}'

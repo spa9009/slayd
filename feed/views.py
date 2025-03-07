@@ -1,12 +1,16 @@
 from rest_framework import generics, status
-from .models import Product, Post, TaggedProduct, Media, Curation
-from .serializers import ProductSerializer, PostSerializer, CurationSerializer
+from .models import Product, Post, TaggedProduct, Media, Curation, MyntraProducts
+from .serializers import ProductSerializer, PostSerializer, CurationSerializer, MyntraProductsSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.db.models import Q
 import random
+import logging
+from .utils.similarity_search import SimilaritySearcher
+
+logger = logging.getLogger(__name__)
 
 class ProductListCreateView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
@@ -197,3 +201,51 @@ class CurationDetailView(generics.RetrieveAPIView):
         'sub_curations__components__component_items__item'  # Prefetch items for sub_curations
     )
     serializer_class = CurationSerializer
+
+class MyntraProductsListCreateView(generics.ListCreateAPIView):
+    queryset = MyntraProducts.objects.all()
+    serializer_class = MyntraProductsSerializer
+
+class SimilarProductsAPI(APIView):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        try:
+            self.searcher = SimilaritySearcher()
+        except Exception as e:
+            logger.error(f"Failed to initialize SimilaritySearcher: {str(e)}")
+            raise
+
+    def get(self, request):
+        try:
+            image_url = request.query_params.get('image_url')
+            if not image_url:
+                return Response(
+                    {'error': 'image_url is required'}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            top_k = int(request.query_params.get('top_k', 20))
+            search_type = request.query_params.get('search_type', 'concat')
+
+            if search_type not in ['image', 'text', 'combined_75', 'combined_60', 'concat']:
+                return Response(    
+                    {'error': 'Invalid search_type. Must be one of: image, text, combined_75, combined_60, concat'}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            similar_products = self.searcher.get_similar_products(
+                image_path=image_url,
+                top_k=top_k,
+                search_type=search_type
+            )
+
+            return Response({
+                'results': similar_products
+            })
+
+        except Exception as e:
+            logger.error(f"Error processing request: {str(e)}", exc_info=True)
+            return Response(
+                {'error': 'Internal server error'}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
