@@ -1,5 +1,5 @@
 from django.apps import AppConfig
-from fashion_clip.fashion_clip import FashionCLIP
+from django.conf import settings
 
 
 
@@ -10,4 +10,4 @@ class FeedConfig(AppConfig):
     def ready(self):
         from . import signals
         global fclip
-        fclip = FashionCLIP('fashion-clip')
+        fclip = settings.FASHIONCLIP_MODEL

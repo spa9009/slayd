@@ -12,6 +12,19 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from django.conf import settings
+import logging
+
+logger = logging.getLogger(__name__)
+
+# Initialize FashionCLIP model at startup
+try:
+    from fashion_clip.fashion_clip import FashionCLIP
+    FASHIONCLIP_MODEL = FashionCLIP("fashion-clip")
+    logger.info("FashionCLIP model initialized successfully at startup")
+except Exception as e:
+    logger.error(f"Failed to initialize FashionCLIP model: {str(e)}")
+    FASHIONCLIP_MODEL = None
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

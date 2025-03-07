@@ -5,7 +5,6 @@ from PIL import Image
 import requests
 from io import BytesIO
 from feed.models import MyntraProducts
-from feed.apps import fclip
 from django.conf import settings
 import psutil
 import logging
@@ -38,13 +37,12 @@ class SimilaritySearcher(metaclass=SingletonMeta):
             logging.debug(f"Using base path: {base_path}")
             
             # Initialize FashionCLIP
-            logging.debug("Initializing FashionCLIP model...")
-            try:
-                self.fclip = fclip
-                logging.debug(f"FashionCLIP model initialized successfully on device: {self.fclip.device}")
-            except Exception as e:
-                logging.error(f"Failed to initialize FashionCLIP: {str(e)}")
-                raise
+            logging.debug("Checking FashionCLIP model...")
+            if settings.FASHIONCLIP_MODEL is None:
+                raise RuntimeError("FashionCLIP model was not properly initialized at startup")
+            
+            self.fclip = settings.FASHIONCLIP_MODEL
+            logging.debug(f"FashionCLIP model accessed successfully")
             
             # Load all FAISS indices
             logging.debug("Loading FAISS indices...")
@@ -194,14 +192,6 @@ class SimilaritySearcher(metaclass=SingletonMeta):
             logging.error(f"Error in similarity search: {str(e)}", exc_info=True)
             raise Exception(f"Error in similarity search: {str(e)}")
 
-    def _monitor_memory_usage(self):
-        process = psutil.Process()
-        memory_info = process.memory_info()
-        memory_usage_mb = memory_info.rss / 1024 / 1024  # Convert to MB
-        
-        if memory_usage_mb > 1000:  # Alert if using more than 1GB
-            logging.warning(f"High memory usage detected: {memory_usage_mb:.2f} MB") 
-
 
 class DressClassifier:
     def __init__(self, fclip):
@@ -245,58 +235,43 @@ class DressClassifier:
         return attribute_list[categories.index(pred)]
 
     def generate_description(self, image):
-        # Prepare all classification tasks
-        classification_tasks = [
-            (
-                [f"a photo of {'an' if color[0].lower() in 'aeiou' else 'a'} {color} colored dress" 
-                 for color in self.dress_colors],
-                self.dress_colors
-            ),
-            (
-                [f"a photo of a {length.lower()} dress" for length in self.dress_lengths],
-                self.dress_lengths
-            ),
-            (
-                [f"a photo of a {fit.lower()} dress" for fit in self.dress_fits],
-                self.dress_fits
-            ),
-            (
-                [f"a photo of a dress with {neckline.lower()}" for neckline in self.dress_necklines],
-                self.dress_necklines
-            ),
-            (
-                [f"a photo of a {sleeve.lower()} dress" for sleeve in self.dress_sleeves],
-                self.dress_sleeves
-            ),
-            (
-                [f"a photo of a {material.lower()} dress" for material in self.dress_materials],
-                self.dress_materials
-            ),
-            (
-                [f"a photo of a dress with {feature.lower()}" for feature in self.dress_design_features],
-                self.dress_design_features
-            )
-        ]
-
-        # Run classifications in parallel using ThreadPoolExecutor
-        with ThreadPoolExecutor(max_workers=7) as executor:
-            futures = [
-                executor.submit(self.classify_attribute, image, categories, attribute_list)
-                for categories, attribute_list in classification_tasks
-            ]
-            
-            # Get results in order
-            predicted_color, predicted_length, predicted_fit, predicted_neckline, \
-            predicted_sleeve, predicted_material, predicted_feature = [
-                future.result() for future in futures
-            ]
-
-        return {
-            'color': predicted_color,
-            'length': predicted_length,
-            'fit': predicted_fit,
-            'neckline': predicted_neckline,
-            'sleeve': predicted_sleeve,
-            'material': predicted_material,
-            'feature': predicted_feature
-        }
+        # Prepare all categories in batches
+        results = {}
+        
+        # Color classification
+        color_categories = [f"a photo of {'an' if color[0].lower() in 'aeiou' else 'a'} {color} colored dress" 
+                           for color in self.dress_colors]
+        color_pred = self.fclip.zero_shot_classification([image], color_categories)[0]
+        results['color'] = self.dress_colors[color_categories.index(color_pred)]
+        
+        # Length classification
+        length_categories = [f"a photo of a {length.lower()} dress" for length in self.dress_lengths]
+        length_pred = self.fclip.zero_shot_classification([image], length_categories)[0]
+        results['length'] = self.dress_lengths[length_categories.index(length_pred)]
+        
+        # Fit classification
+        fit_categories = [f"a photo of a {fit.lower()} dress" for fit in self.dress_fits]
+        fit_pred = self.fclip.zero_shot_classification([image], fit_categories)[0]
+        results['fit'] = self.dress_fits[fit_categories.index(fit_pred)]
+        
+        # Neckline classification
+        neckline_categories = [f"a photo of a dress with {neckline.lower()}" for neckline in self.dress_necklines]
+        neckline_pred = self.fclip.zero_shot_classification([image], neckline_categories)[0]
+        results['neckline'] = self.dress_necklines[neckline_categories.index(neckline_pred)]
+        
+        # Sleeve classification
+        sleeve_categories = [f"a photo of a {sleeve.lower()} dress" for sleeve in self.dress_sleeves]
+        sleeve_pred = self.fclip.zero_shot_classification([image], sleeve_categories)[0]
+        results['sleeve'] = self.dress_sleeves[sleeve_categories.index(sleeve_pred)]
+        
+        # Material classification
+        material_categories = [f"a photo of a {material.lower()} dress" for material in self.dress_materials]
+        material_pred = self.fclip.zero_shot_classification([image], material_categories)[0]
+        results['material'] = self.dress_materials[material_categories.index(material_pred)]
+        
+        # Feature classification
+        feature_categories = [f"a photo of a dress with {feature.lower()}" for feature in self.dress_design_features]
+        feature_pred = self.fclip.zero_shot_classification([image], feature_categories)[0]
+        results['feature'] = self.dress_design_features[feature_categories.index(feature_pred)]
+        
+        return results
