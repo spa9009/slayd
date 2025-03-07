@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-6u9$*8@)(-z!fkw&7z^wp8#ys+r+p6=1!^p7ouqd2-g#avv)gj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '43.205.235.112', '127.0.0.1', 'api.slayd.in']
+ALLOWED_HOSTS = ['localhost', '43.205.235.112', '127.0.0.1', 'api.slayd.in', '43.204.235.28']
 
 
 # Application definition
