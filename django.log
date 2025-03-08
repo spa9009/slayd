@@ -5544,3 +5544,8 @@ INFO 2025-03-08 08:28:45,328 autoreload Watching for file changes with StatReloa
 INFO 2025-03-08 10:57:12,707 autoreload Watching for file changes with StatReloader
 WARNING 2025-03-08 10:57:56,580 basehttp "GET / HTTP/1.1" 404 2606
 INFO 2025-03-08 10:58:14,844 basehttp "GET /api/similar-products/?image_url=https://assets.newme.asia/wp-content/uploads/2025/02/19093826c5e812ff/NM-IN-56-DRS-24-SEP-9428-YELLOW(1)-889x1334.webp&search_type=combined_75 HTTP/1.1" 200 29052
+INFO 2025-03-08 12:42:09,797 autoreload Watching for file changes with StatReloader
+INFO 2025-03-08 12:42:29,678 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/account/views.py changed, reloading.
+INFO 2025-03-08 12:42:42,652 autoreload Watching for file changes with StatReloader
+INFO 2025-03-08 12:43:22,791 basehttp "GET /account/webhook/?hub.mode=subscribe&hub.verify_token=slayd&hub.challenge=CHALLENGE123 HTTP/1.1" 200 12
+WARNING 2025-03-08 12:43:35,518 basehttp "GET /account/webhook/?hub.mode=subscribe&hub.verify_token=hello&hub.challenge=CHALLENGE123 HTTP/1.1" 403 9

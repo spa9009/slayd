@@ -1,11 +1,14 @@
 from django.contrib.auth.hashers import make_password, check_password
-from rest_framework.views import APIView
+from rest_framework.views import APIView, View
 from rest_framework.response import Response
 from rest_framework import status
 from .models import UserRecord, Brand, UserPreferences
 from .serializers import UserPreferencesSerializer
 from django.shortcuts import get_object_or_404
-
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+import json
 
 class SignUpView(APIView):
     def post(self, request):
@@ -94,3 +97,33 @@ class UserPreferenceView(APIView) :
 
         serializer = self.get_serializer(preference)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+
+class MetaWebhookView(View):
+    # Verification endpoint for webhook setup
+    def get(self, request):
+        VERIFY_TOKEN = "slayd"
+        mode = request.GET.get('hub.mode')
+        token = request.GET.get('hub.verify_token')
+        challenge = request.GET.get('hub.challenge')
+
+        if mode and token:
+            if mode == 'subscribe' and token == VERIFY_TOKEN:
+                return HttpResponse(challenge)
+            else:
+                return HttpResponse('Forbidden', status=403)
+
+        return HttpResponse('Bad Request', status=400)
+
+    # Event listener for incoming webhook events
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def post(self, request):
+        try:
+            data = json.loads(request.body)
+            print("Webhook received:", data)
+            return JsonResponse({'status': 'success'})
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
