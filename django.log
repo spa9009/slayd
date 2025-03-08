@@ -5540,3 +5540,7 @@ INFO 2025-03-08 08:08:46,080 autoreload Watching for file changes with StatReloa
 INFO 2025-03-08 08:09:03,448 basehttp "GET /api/similar-products/?image_url=https://assets.newme.asia/wp-content/uploads/2024/08/2711083633df5959/NM-IN-56-DRS-24-APR-5068-WHITE(1)-876x1334.webp&search_type=concat HTTP/1.1" 200 17672
 WARNING 2025-03-08 08:10:07,592 basehttp "GET /api/similar-products/?image_url=https://assets.newme.asia/wp-content/uploads/2025/03/06090852c6b94f8a/NM-PRC-25-DRS-25-MAR-14950-BLACK(1)-765x765.webp%20765w,%20https://assets.newme.asia/wp-content/uploads/2025/03/06090852c6b94f8a/NM-PRC-25-DRS-25-MAR-14950-BLACK(1)-800x800.webp&search_type=concat HTTP/1.1" 400 11675
 INFO 2025-03-08 08:10:40,930 basehttp "GET /api/similar-products/?image_url=https://assets.newme.asia/wp-content/uploads/2025/03/06090852c6b94f8a/NM-PRC-25-DRS-25-MAR-14950-BLACK(1)-765x765.webp&search_type=concat HTTP/1.1" 200 18576
+INFO 2025-03-08 08:28:45,328 autoreload Watching for file changes with StatReloader
+INFO 2025-03-08 10:57:12,707 autoreload Watching for file changes with StatReloader
+WARNING 2025-03-08 10:57:56,580 basehttp "GET / HTTP/1.1" 404 2606
+INFO 2025-03-08 10:58:14,844 basehttp "GET /api/similar-products/?image_url=https://assets.newme.asia/wp-content/uploads/2025/02/19093826c5e812ff/NM-IN-56-DRS-24-SEP-9428-YELLOW(1)-889x1334.webp&search_type=combined_75 HTTP/1.1" 200 29052

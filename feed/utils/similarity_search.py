@@ -253,6 +253,12 @@ class SimilaritySearcher(metaclass=SingletonMeta):
                 similar_products.append({
                     'id': product.id,
                     'product_link': product.product_link,
+                    'product_name': product.name,
+                    'product_price': product.price,
+                    'discount_price': product.discount_price,
+                    'product_image': product.image_url,
+                    'product_brand': product.brand,
+                    'product_marketplace': product.marketplace,
                     'similarity_score': float(distances[0][i]),
                     'description': text_description if i == 0 else None  # Include description for first result only
                 })
