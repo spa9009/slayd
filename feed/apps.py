@@ -1,5 +1,7 @@
 from django.apps import AppConfig
-from django.conf import settings
+from fashion_clip.fashion_clip import FashionCLIP
+from transformers import CLIPProcessor, CLIPModel
+import torch
 
 
 
@@ -9,5 +11,14 @@ class FeedConfig(AppConfig):
 
     def ready(self):
         from . import signals
-        global fclip
-        fclip = settings.FASHIONCLIP_MODEL
+        global fclip, clip_model, clip_processor
+        
+        # Initialize FashionCLIP
+        fclip = FashionCLIP('fashion-clip')
+        
+        # Initialize CLIP transformer model and processor
+        clip_model = CLIPModel.from_pretrained("patrickjohncyh/fashion-clip")
+        clip_processor = CLIPProcessor.from_pretrained("patrickjohncyh/fashion-clip")
+        if torch.cuda.is_available():
+            clip_model = clip_model.cuda()
+        clip_model.eval()

@@ -5527,3 +5527,5 @@ ERROR 2025-03-07 20:02:26,941 basehttp "GET /api/similar-products/?image_url=htt
 INFO 2025-03-07 20:03:27,949 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/feed/utils/similarity_search.py changed, reloading.
 INFO 2025-03-07 20:03:43,706 autoreload Watching for file changes with StatReloader
 INFO 2025-03-07 20:04:51,450 basehttp "GET /api/similar-products/?image_url=https://assets.newme.asia/wp-content/uploads/2025/02/19093826c5e812ff/NM-IN-56-DRS-24-SEP-9428-YELLOW(1)-889x1334.webp&search_type=combined_75 HTTP/1.1" 200 18608
+INFO 2025-03-08 07:46:59,724 autoreload Watching for file changes with StatReloader
+INFO 2025-03-08 07:47:16,001 basehttp "GET /api/similar-products/?image_url=https://assets.newme.asia/wp-content/uploads/2025/02/19093826c5e812ff/NM-IN-56-DRS-24-SEP-9428-YELLOW(1)-889x1334.webp&search_type=combined_75 HTTP/1.1" 200 19630

@@ -1,14 +1,16 @@
 import os
+# Remove the offline mode settings since they're preventing the model download
 import numpy as np
 import faiss
 from PIL import Image
 import requests
 from io import BytesIO
 from feed.models import MyntraProducts
+from feed.apps import fclip, clip_model, clip_processor
 from django.conf import settings
 import psutil
 import logging
-from concurrent.futures import ThreadPoolExecutor
+import torch
 
 class SingletonMeta(type):
     _instances = {}
@@ -36,13 +38,16 @@ class SimilaritySearcher(metaclass=SingletonMeta):
             
             logging.debug(f"Using base path: {base_path}")
             
-            # Initialize FashionCLIP
-            logging.debug("Checking FashionCLIP model...")
-            if settings.FASHIONCLIP_MODEL is None:
-                raise RuntimeError("FashionCLIP model was not properly initialized at startup")
-            
-            self.fclip = settings.FASHIONCLIP_MODEL
-            logging.debug(f"FashionCLIP model accessed successfully")
+            # Initialize models
+            logging.debug("Initializing models...")
+            try:
+                self.fclip = fclip
+                self.model = clip_model
+                self.processor = clip_processor
+                logging.debug("Models initialized successfully")
+            except Exception as e:
+                logging.error(f"Failed to initialize models: {str(e)}")
+                raise
             
             # Load all FAISS indices
             logging.debug("Loading FAISS indices...")
@@ -88,34 +93,63 @@ class SimilaritySearcher(metaclass=SingletonMeta):
         return image.resize((224, 224))
 
     def get_text_description(self, image):
-        """Generate detailed text description using FashionCLIP zero-shot classification"""
+        """Generate detailed text description using CLIP zero-shot classification"""
         apparel_types = [
             "dress", "kurta", "shirt", "pants", "skirt", 
             "saree", "t-shirt", "jacket"
         ]
-        colors = [
-            "Orange", "Red", "Green", "Grey", "Pink", 
-            "Blue", "Purple", "White", "Black", "Yellow", "Beige",
-            "Maroon", "Burgundy", "Brown"
-        ]
-
+        
         # Generate category lists
         apparel_categories = [f"a photo of a {x}" for x in apparel_types]
-        color_categories = [f"a photo of {'an' if x[0].lower() in 'aeiou' else 'a'} {x} colored clothing" for x in colors]
-
-        # Get apparel type using zero-shot classification
-        predicted_apparel_idx = self.fclip.zero_shot_classification([image], apparel_categories)[0]
-        predicted_apparel = apparel_types[apparel_categories.index(predicted_apparel_idx)]
+        
+        # Use CLIP for classification
+        inputs = self.processor(
+            text=apparel_categories,
+            images=image,
+            return_tensors="pt",
+            padding=True
+        )
+        
+        if torch.cuda.is_available():
+            inputs = {k: v.cuda() for k, v in inputs.items()}
+        
+        with torch.no_grad():
+            outputs = self.model(**inputs)
+            logits = outputs.logits_per_image
+            probs = logits.softmax(dim=1)
+            predicted_apparel_idx = probs[0].argmax().item()
+        
+        predicted_apparel = apparel_types[predicted_apparel_idx]
 
         # If it's a dress, get more detailed attributes
         if predicted_apparel == "dress":
-            dress_classifier = DressClassifier(self.fclip)  # Pass fclip instance
+            dress_classifier = DressClassifier(self.model, self.processor)
             detailed_description = dress_classifier.generate_description(image)
             return detailed_description
         else:
-            # Get color using zero-shot classification
-            predicted_color_idx = self.fclip.zero_shot_classification([image], color_categories)[0]
-            predicted_color = colors[color_categories.index(predicted_color_idx)]
+            # For non-dress items, use simple description
+            color_categories = [
+                f"a photo of {'an' if x[0].lower() in 'aeiou' else 'a'} {x} colored clothing" 
+                for x in self.fclip.dress_colors
+            ]
+            
+            inputs = self.processor(
+                text=color_categories,
+                images=image,
+                return_tensors="pt",
+                padding=True
+            )
+            
+            if torch.cuda.is_available():
+                inputs = {k: v.cuda() for k, v in inputs.items()}
+            
+            with torch.no_grad():
+                outputs = self.model(**inputs)
+                logits = outputs.logits_per_image
+                probs = logits.softmax(dim=1)
+                predicted_color_idx = probs[0].argmax().item()
+            
+            predicted_color = self.fclip.dress_colors[predicted_color_idx]
             return f"This is a {predicted_color.lower()} {predicted_apparel}"
 
     def get_similar_products(self, image_path, top_k=20, search_type='combined_75'):
@@ -140,34 +174,28 @@ class SimilaritySearcher(metaclass=SingletonMeta):
             image_embeddings = self.fclip.encode_images(images=[image], batch_size=1)
             image_embeddings = image_embeddings / np.linalg.norm(image_embeddings, ord=2, axis=-1, keepdims=True)
 
+            # Get text embedding
+            text_description = self.get_text_description(image)
+            text_embeddings = self.fclip.encode_text([text_description], batch_size=1)
+            text_embeddings = text_embeddings / np.linalg.norm(text_embeddings, ord=2, axis=-1, keepdims=True)
+
             # Prepare query embedding based on search type
             if search_type == 'image':
                 query_embedding = image_embeddings
+            elif search_type == 'text':
+                query_embedding = text_embeddings
+            elif search_type == 'combined_60':
+                query_embedding = 0.60 * image_embeddings + 0.40 * text_embeddings
+                query_embedding = query_embedding / np.linalg.norm(query_embedding, ord=2, axis=-1, keepdims=True)
+            elif search_type == 'combined_75':
+                query_embedding = 0.75 * image_embeddings + 0.25 * text_embeddings
+                query_embedding = query_embedding / np.linalg.norm(query_embedding, ord=2, axis=-1, keepdims=True)
+            elif search_type == 'concat':
+                query_embedding = np.concatenate([image_embeddings[0], text_embeddings[0]])
+                query_embedding = query_embedding / np.linalg.norm(query_embedding)
+                query_embedding = query_embedding.reshape(1, -1)
             else:
-                # Get text description and convert dictionary to string
-                description_dict = self.get_text_description(image)
-                if isinstance(description_dict, dict):
-                    text_description = f"This is a {description_dict['color']} {description_dict['length']} {description_dict['fit']} dress with {description_dict['neckline']}, {description_dict['sleeve']}, made of {description_dict['material']}, featuring {description_dict['feature']}"
-                else:
-                    text_description = description_dict  # In case it's already a string
-
-                # Get text embedding
-                text_embeddings = self.fclip.encode_text([text_description], batch_size=1)
-                text_embeddings = text_embeddings / np.linalg.norm(text_embeddings, ord=2, axis=-1, keepdims=True)
-                if search_type == 'text':
-                    query_embedding = text_embeddings
-                elif search_type == 'combined_60':
-                    query_embedding = 0.60 * image_embeddings + 0.40 * text_embeddings
-                    query_embedding = query_embedding / np.linalg.norm(query_embedding, ord=2, axis=-1, keepdims=True)
-                elif search_type == 'combined_75':
-                    query_embedding = 0.75 * image_embeddings + 0.25 * text_embeddings
-                    query_embedding = query_embedding / np.linalg.norm(query_embedding, ord=2, axis=-1, keepdims=True)
-                elif search_type == 'concat':
-                    query_embedding = np.concatenate([image_embeddings[0], text_embeddings[0]])
-                    query_embedding = query_embedding / np.linalg.norm(query_embedding)
-                    query_embedding = query_embedding.reshape(1, -1)
-                else:
-                    raise ValueError(f"Invalid search type: {search_type}")
+                raise ValueError(f"Invalid search type: {search_type}")
 
             # Perform search using appropriate index
             distances, idx = self.indices[search_type].search(
@@ -184,6 +212,7 @@ class SimilaritySearcher(metaclass=SingletonMeta):
                     'id': product.id,
                     'product_link': product.product_link,
                     'similarity_score': float(distances[0][i]),
+                    'description': text_description if i == 0 else None  # Include description for first result only
                 })
 
             return similar_products
@@ -192,86 +221,134 @@ class SimilaritySearcher(metaclass=SingletonMeta):
             logging.error(f"Error in similarity search: {str(e)}", exc_info=True)
             raise Exception(f"Error in similarity search: {str(e)}")
 
+    def _monitor_memory_usage(self):
+        process = psutil.Process()
+        memory_info = process.memory_info()
+        memory_usage_mb = memory_info.rss / 1024 / 1024  # Convert to MB
+        
+        if memory_usage_mb > 1000:  # Alert if using more than 1GB
+            logging.warning(f"High memory usage detected: {memory_usage_mb:.2f} MB") 
+
 
 class DressClassifier:
-    def __init__(self, fclip):
-        self.fclip = fclip
+    def __init__(self, model, processor):
+        self.model = model
+        self.processor = processor
         
         self.dress_lengths = [
-            "Mini", "Knee-Length", "Midi", "Maxi", "Floor-Length"
+            "Micro", "Mini", "Knee-Length", "Midi", "Maxi",
+            "High-Low", "Tea-Length", "Floor-Length"
         ]
-
+        
         self.dress_necklines = [
-            "V-Neck", "Round Neck", "Square Neck", 
-            "Off-Shoulder", "Halter Neck", "Sweetheart"
+            "V-Neck", "Round Neck", "Square Neck", "Halter Neck",
+            "Off-Shoulder", "Boat Neck", "Sweetheart", "High Neck",
+            "Plunge Neck", "One-Shoulder", "Cowl Neck", "Collared", "Strapless"
         ]
-
+        
         self.dress_sleeves = [
-            "Sleeveless", "Short Sleeves", "Full Sleeves", 
-            "Puff Sleeves", "Cold Shoulder"
+            "Sleeveless", "Cap Sleeves", "Short Sleeves", "3/4 Sleeves",
+            "Full Sleeves", "Bell Sleeves", "Puff Sleeves", "Cold Shoulder",
+            "Bishop Sleeves", "Kimono Sleeves", "Ruffle Sleeves"
         ]
-
+        
         self.dress_materials = [
-            "Cotton", "Satin", "Velvet", "Denim", 
-            "Lace", "Silk", "Polyester", "Sequin"
+            "Cotton", "Linen", "Chiffon", "Satin", "Velvet", "Denim",
+            "Lace", "Polyester", "Georgette", "Silk", "Sequin", "Tulle",
+            "Crepe", "Organza", "Leather", "Knits", "Jacquard", "Tweed"
         ]
-
+        
         self.dress_fits = [
-            "Bodycon", "A-line", "Fit & Flare", "Wrap"
+            "Bodycon", "A-line", "Fit & Flare", "Shift", "Wrap",
+            "Empire Waist", "Peplum", "Smocked", "Mermaid", "Straight Cut"
         ]
-
+        
         self.dress_design_features = [
-            "Slit", "Cutout", "Ruffles", "Backless", "Asymmetrical Hem"
+            "Slit", "Cutout", "Ruffles", "Fringe", "Ruched",
+            "Embellished", "Backless", "Corset Detail", "Asymmetrical Hem",
+            "Tiered Layers", "Bow Detail", "Lace-Up", "Belted"
         ]
 
+        # Add colors list to DressClassifier
         self.dress_colors = [
-            "Orange", "Red", "Green", "Grey", "Pink", 
-            "Blue", "Purple", "White", "Black", "Yellow", "Beige", 
+            "Coffee Brown", "Orange", "Red", "Green", "Grey", "Pink", 
+            "Blue", "Purple", "White", "Black", "Yellow", "Beige",
             "Maroon", "Burgundy", "Brown"
         ]
 
-    def classify_attribute(self, image, categories, attribute_list):
-        pred = self.fclip.zero_shot_classification([image], categories)[0]
-        return attribute_list[categories.index(pred)]
+    def zero_shot_classification(self, image, categories):
+        """Perform zero-shot classification using CLIP"""
+        inputs = self.processor(
+            text=categories,
+            images=image,
+            return_tensors="pt",
+            padding=True
+        )
+        
+        # Move to GPU if available
+        if torch.cuda.is_available():
+            inputs = {k: v.cuda() for k, v in inputs.items()}
+            self.model = self.model.cuda()
+
+        with torch.no_grad():
+            outputs = self.model(**inputs)
+            logits = outputs.logits_per_image
+            probs = logits.softmax(dim=1)
+            
+        # Get the category with highest probability
+        predicted_idx = probs[0].argmax().item()
+        return categories[predicted_idx]
 
     def generate_description(self, image):
-        # Prepare all categories in batches
-        results = {}
-        
         # Color classification
-        color_categories = [f"a photo of {'an' if color[0].lower() in 'aeiou' else 'a'} {color} colored dress" 
-                           for color in self.dress_colors]
-        color_pred = self.fclip.zero_shot_classification([image], color_categories)[0]
-        results['color'] = self.dress_colors[color_categories.index(color_pred)]
-        
+        color_categories = [
+            f"a photo of {'an' if color[0].lower() in 'aeiou' else 'a'} {color} colored dress" 
+            for color in self.dress_colors
+        ]
+        color_pred = self.zero_shot_classification(image, color_categories)
+        predicted_color = self.dress_colors[color_categories.index(color_pred)]
+
         # Length classification
         length_categories = [f"a photo of a {length.lower()} dress" for length in self.dress_lengths]
-        length_pred = self.fclip.zero_shot_classification([image], length_categories)[0]
-        results['length'] = self.dress_lengths[length_categories.index(length_pred)]
-        
+        length_pred = self.zero_shot_classification(image, length_categories)
+        predicted_length = self.dress_lengths[length_categories.index(length_pred)]
+
         # Fit classification
         fit_categories = [f"a photo of a {fit.lower()} dress" for fit in self.dress_fits]
-        fit_pred = self.fclip.zero_shot_classification([image], fit_categories)[0]
-        results['fit'] = self.dress_fits[fit_categories.index(fit_pred)]
-        
+        fit_pred = self.zero_shot_classification(image, fit_categories)
+        predicted_fit = self.dress_fits[fit_categories.index(fit_pred)]
+
         # Neckline classification
         neckline_categories = [f"a photo of a dress with {neckline.lower()}" for neckline in self.dress_necklines]
-        neckline_pred = self.fclip.zero_shot_classification([image], neckline_categories)[0]
-        results['neckline'] = self.dress_necklines[neckline_categories.index(neckline_pred)]
-        
+        neckline_pred = self.zero_shot_classification(image, neckline_categories)
+        predicted_neckline = self.dress_necklines[neckline_categories.index(neckline_pred)]
+
         # Sleeve classification
         sleeve_categories = [f"a photo of a {sleeve.lower()} dress" for sleeve in self.dress_sleeves]
-        sleeve_pred = self.fclip.zero_shot_classification([image], sleeve_categories)[0]
-        results['sleeve'] = self.dress_sleeves[sleeve_categories.index(sleeve_pred)]
-        
+        sleeve_pred = self.zero_shot_classification(image, sleeve_categories)
+        predicted_sleeve = self.dress_sleeves[sleeve_categories.index(sleeve_pred)]
+
         # Material classification
         material_categories = [f"a photo of a {material.lower()} dress" for material in self.dress_materials]
-        material_pred = self.fclip.zero_shot_classification([image], material_categories)[0]
-        results['material'] = self.dress_materials[material_categories.index(material_pred)]
-        
-        # Feature classification
+        material_pred = self.zero_shot_classification(image, material_categories)
+        predicted_material = self.dress_materials[material_categories.index(material_pred)]
+
+        # Design feature classification
         feature_categories = [f"a photo of a dress with {feature.lower()}" for feature in self.dress_design_features]
-        feature_pred = self.fclip.zero_shot_classification([image], feature_categories)[0]
-        results['feature'] = self.dress_design_features[feature_categories.index(feature_pred)]
+        feature_pred = self.zero_shot_classification(image, feature_categories)
+        predicted_feature = self.dress_design_features[feature_categories.index(feature_pred)]
+
+        # Build description
+        description_parts = [
+            predicted_color.lower(),
+            predicted_material.lower(),
+            predicted_length.lower(),
+            predicted_fit.lower(),
+            predicted_neckline.lower(),
+            predicted_sleeve.lower()
+        ]
         
-        return results
+        base_description = "This is a " + " ".join(description_parts) + " dress"
+        base_description += f" with {predicted_feature.lower()}"
+
+        return base_description
