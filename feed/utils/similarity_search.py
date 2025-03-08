@@ -11,6 +11,7 @@ from django.conf import settings
 import psutil
 import logging
 import torch
+import traceback
 
 class SingletonMeta(type):
     _instances = {}
@@ -85,12 +86,46 @@ class SimilaritySearcher(metaclass=SingletonMeta):
         return np.load(path)
 
     def load_and_process_image(self, image_path):
-        if image_path.startswith(('http://', 'https://')):
-            response = requests.get(image_path, timeout=10)
-            image = Image.open(BytesIO(response.content)).convert("RGB")
-        else:
-            image = Image.open(image_path).convert("RGB")
-        return image.resize((224, 224))
+        logger = logging.getLogger(__name__)
+        try:
+            logger.debug(f"Attempting to load image from: {image_path}")
+            
+            if image_path.startswith(('http://', 'https://')):
+                try:
+                    response = requests.get(image_path, timeout=10)
+                    response.raise_for_status()  # Raise an exception for bad status codes
+                    logger.debug(f"Image download status code: {response.status_code}")
+                    logger.debug(f"Image content type: {response.headers.get('content-type')}")
+                    logger.debug(f"Image size: {len(response.content)} bytes")
+                    
+                    image = Image.open(BytesIO(response.content))
+                except requests.exceptions.RequestException as e:
+                    logger.error(f"Failed to download image: {str(e)}")
+                    raise
+                except Exception as e:
+                    logger.error(f"Failed to open downloaded image: {str(e)}")
+                    raise
+            else:
+                image = Image.open(image_path)
+            
+            # Check image mode and convert if necessary
+            logger.debug(f"Original image mode: {image.mode}")
+            logger.debug(f"Original image size: {image.size}")
+            
+            if image.mode != "RGB":
+                image = image.convert("RGB")
+                logger.debug("Converted image to RGB mode")
+            
+            # Resize image
+            resized_image = image.resize((224, 224))
+            logger.debug("Image resized to 224x224")
+            
+            return resized_image
+            
+        except Exception as e:
+            logger.error(f"Error in load_and_process_image: {str(e)}")
+            logger.error(f"Full traceback: {traceback.format_exc()}")
+            raise RuntimeError(f"Failed to process image: {str(e)}")
 
     def get_text_description(self, image):
         """Generate detailed text description using CLIP zero-shot classification"""
@@ -121,16 +156,17 @@ class SimilaritySearcher(metaclass=SingletonMeta):
         
         predicted_apparel = apparel_types[predicted_apparel_idx]
 
-        # If it's a dress, get more detailed attributes
+        # If it's a dress, get more detailed attributes using DressClassifier
         if predicted_apparel == "dress":
             dress_classifier = DressClassifier(self.model, self.processor)
             detailed_description = dress_classifier.generate_description(image)
             return detailed_description
         else:
-            # For non-dress items, use simple description
+            # For non-dress items, use basic color classification
+            dress_classifier = DressClassifier(self.model, self.processor)
             color_categories = [
                 f"a photo of {'an' if x[0].lower() in 'aeiou' else 'a'} {x} colored clothing" 
-                for x in self.fclip.dress_colors
+                for x in dress_classifier.dress_colors  # Use dress_classifier's colors
             ]
             
             inputs = self.processor(
@@ -149,49 +185,55 @@ class SimilaritySearcher(metaclass=SingletonMeta):
                 probs = logits.softmax(dim=1)
                 predicted_color_idx = probs[0].argmax().item()
             
-            predicted_color = self.fclip.dress_colors[predicted_color_idx]
+            predicted_color = dress_classifier.dress_colors[predicted_color_idx]
             return f"This is a {predicted_color.lower()} {predicted_apparel}"
 
     def get_similar_products(self, image_path, top_k=20, search_type='combined_75'):
-        """
-        Get similar products using specified search type.
-        
-        Args:
-            image_path: Path or URL to the query image
-            top_k: Number of similar products to return
-            search_type: One of 'image', 'text', 'combined_60', 'combined_75', or 'concat'
-        """
-        if not self._is_initialized:
-            self._initialize()
-            
+        logger = logging.getLogger(__name__)
         try:
-            logging.debug(f"Processing request for image: {image_path}")
+            logger.debug(f"Starting similarity search for {image_path}")
             
-            # Process input image
-            image = self.load_and_process_image(image_path)
-            
-            # Get image embedding
-            image_embeddings = self.fclip.encode_images(images=[image], batch_size=1)
-            image_embeddings = image_embeddings / np.linalg.norm(image_embeddings, ord=2, axis=-1, keepdims=True)
+            # Process input image with detailed error handling
+            try:
+                image = self.load_and_process_image(image_path)
+                logger.debug("Image loaded and processed successfully")
+            except Exception as e:
+                logger.error(f"Failed to load/process image: {str(e)}")
+                raise RuntimeError(f"Image processing failed: {str(e)}")
 
-            # Get text embedding
-            text_description = self.get_text_description(image)
-            text_embeddings = self.fclip.encode_text([text_description], batch_size=1)
-            text_embeddings = text_embeddings / np.linalg.norm(text_embeddings, ord=2, axis=-1, keepdims=True)
+            # Get image embedding with error handling
+            try:
+                logger.debug("Generating image embeddings")
+                image_embeddings = self.fclip.encode_images(images=[image], batch_size=1)
+                image_embeddings = image_embeddings / np.linalg.norm(image_embeddings, ord=2, axis=-1, keepdims=True)
+                logger.debug("Image embeddings generated successfully")
+            except Exception as e:
+                logger.error(f"Failed to generate image embeddings: {str(e)}")
+                raise RuntimeError(f"Embedding generation failed: {str(e)}")
+
+            # Get text description with error handling
+            try:
+                logger.debug("Generating text description")
+                text_description = self.get_text_description(image)
+                logger.debug(f"Generated text description: {text_description}")
+            except Exception as e:
+                logger.error(f"Failed to generate text description: {str(e)}")
+                raise RuntimeError(f"Text description generation failed: {str(e)}")
 
             # Prepare query embedding based on search type
             if search_type == 'image':
                 query_embedding = image_embeddings
             elif search_type == 'text':
-                query_embedding = text_embeddings
+                query_embedding = self.fclip.encode_text([text_description], batch_size=1)
+                query_embedding = query_embedding / np.linalg.norm(query_embedding, ord=2, axis=-1, keepdims=True)
             elif search_type == 'combined_60':
-                query_embedding = 0.60 * image_embeddings + 0.40 * text_embeddings
+                query_embedding = 0.60 * image_embeddings + 0.40 * self.fclip.encode_text([text_description], batch_size=1)
                 query_embedding = query_embedding / np.linalg.norm(query_embedding, ord=2, axis=-1, keepdims=True)
             elif search_type == 'combined_75':
-                query_embedding = 0.75 * image_embeddings + 0.25 * text_embeddings
+                query_embedding = 0.75 * image_embeddings + 0.25 * self.fclip.encode_text([text_description], batch_size=1)
                 query_embedding = query_embedding / np.linalg.norm(query_embedding, ord=2, axis=-1, keepdims=True)
             elif search_type == 'concat':
-                query_embedding = np.concatenate([image_embeddings[0], text_embeddings[0]])
+                query_embedding = np.concatenate([image_embeddings[0], self.fclip.encode_text([text_description], batch_size=1)[0]])
                 query_embedding = query_embedding / np.linalg.norm(query_embedding)
                 query_embedding = query_embedding.reshape(1, -1)
             else:
@@ -218,8 +260,9 @@ class SimilaritySearcher(metaclass=SingletonMeta):
             return similar_products
 
         except Exception as e:
-            logging.error(f"Error in similarity search: {str(e)}", exc_info=True)
-            raise Exception(f"Error in similarity search: {str(e)}")
+            logger.error(f"Error in get_similar_products: {str(e)}")
+            logger.error(f"Full traceback: {traceback.format_exc()}")
+            raise
 
     def _monitor_memory_usage(self):
         process = psutil.Process()

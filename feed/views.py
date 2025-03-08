@@ -9,6 +9,8 @@ from django.db.models import Q
 import random
 import logging
 from .utils.similarity_search import SimilaritySearcher
+import requests
+import traceback
 
 logger = logging.getLogger(__name__)
 
@@ -206,46 +208,64 @@ class MyntraProductsListCreateView(generics.ListCreateAPIView):
     queryset = MyntraProducts.objects.all()
     serializer_class = MyntraProductsSerializer
 
-class SimilarProductsAPI(APIView):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        try:
-            self.searcher = SimilaritySearcher()
-        except Exception as e:
-            logger.error(f"Failed to initialize SimilaritySearcher: {str(e)}")
-            raise
-
+class SimilarProductsView(APIView):
     def get(self, request):
+        logger = logging.getLogger(__name__)
         try:
             image_url = request.query_params.get('image_url')
+            search_type = request.query_params.get('search_type', 'combined_75')
+            
+            logger.debug(f"Processing request for image_url: {image_url}")
+            
             if not image_url:
                 return Response(
-                    {'error': 'image_url is required'}, 
+                    {"error": "image_url parameter is required"}, 
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
-            top_k = int(request.query_params.get('top_k', 20))
-            search_type = request.query_params.get('search_type', 'concat')
-
-            if search_type not in ['image', 'text', 'combined_75', 'combined_60', 'concat']:
-                return Response(    
-                    {'error': 'Invalid search_type. Must be one of: image, text, combined_75, combined_60, concat'}, 
+            # Validate image URL
+            try:
+                response = requests.head(image_url, timeout=5)
+                content_type = response.headers.get('content-type', '')
+                if not content_type.startswith('image/'):
+                    logger.error(f"Invalid content type: {content_type}")
+                    return Response(
+                        {"error": f"URL does not point to a valid image. Content-Type: {content_type}"}, 
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+            except requests.exceptions.RequestException as e:
+                logger.error(f"Failed to validate image URL: {str(e)}")
+                return Response(
+                    {"error": f"Failed to access image URL: {str(e)}"}, 
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
-            similar_products = self.searcher.get_similar_products(
-                image_path=image_url,
-                top_k=top_k,
-                search_type=search_type
-            )
-
-            return Response({
-                'results': similar_products
-            })
+            # Get similar products
+            try:
+                searcher = SimilaritySearcher()
+                similar_products = searcher.get_similar_products(
+                    image_url, 
+                    search_type=search_type
+                )
+                return Response(similar_products)
+            except RuntimeError as e:
+                logger.error(f"Runtime error in similarity search: {str(e)}")
+                return Response(
+                    {"error": str(e)}, 
+                    status=status.HTTP_422_UNPROCESSABLE_ENTITY
+                )
+            except Exception as e:
+                logger.error(f"Unexpected error: {str(e)}")
+                logger.error(f"Traceback: {traceback.format_exc()}")
+                return Response(
+                    {"error": "An unexpected error occurred"}, 
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
 
         except Exception as e:
-            logger.error(f"Error processing request: {str(e)}", exc_info=True)
+            logger.error(f"Unhandled exception: {str(e)}")
+            logger.error(f"Traceback: {traceback.format_exc()}")
             return Response(
-                {'error': 'Internal server error'}, 
+                {"error": "Internal server error"}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
