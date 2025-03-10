@@ -6,12 +6,14 @@ from PIL import Image
 import requests
 from io import BytesIO
 from feed.models import MyntraProducts
-from feed.apps import fclip, clip_model, clip_processor
+from feed.model_loader import get_model_instance
 from django.conf import settings
 import psutil
 import logging
 import torch
 import traceback
+import gc
+from contextlib import contextmanager
 
 class SingletonMeta(type):
     _instances = {}
@@ -42,9 +44,10 @@ class SimilaritySearcher(metaclass=SingletonMeta):
             # Initialize models
             logging.debug("Initializing models...")
             try:
-                self.fclip = fclip
-                self.model = clip_model
-                self.processor = clip_processor
+                model_instance = get_model_instance()
+                self.fclip = model_instance.fclip
+                self.model = model_instance.clip_model
+                self.processor = model_instance.clip_processor
                 logging.debug("Models initialized successfully")
             except Exception as e:
                 logging.error(f"Failed to initialize models: {str(e)}")
@@ -71,6 +74,10 @@ class SimilaritySearcher(metaclass=SingletonMeta):
             self._is_initialized = True
             logging.debug("Initialization completed successfully")
             
+            # Fix: Add proper cleanup and tensor management
+            self._device = 'cuda' if torch.cuda.is_available() else 'cpu'
+            self._cached_tensors = {}
+
         except Exception as e:
             logging.error(f"Initialization error: {str(e)}", exc_info=True)
             raise RuntimeError(f"Failed to initialize SimilaritySearcher: {str(e)}")
@@ -188,95 +195,113 @@ class SimilaritySearcher(metaclass=SingletonMeta):
             predicted_color = dress_classifier.dress_colors[predicted_color_idx]
             return f"This is a {predicted_color.lower()} {predicted_apparel}"
 
-    def get_similar_products(self, image_path, top_k=20, search_type='combined_75'):
-        logger = logging.getLogger(__name__)
+    @contextmanager
+    def tensor_management(self):
         try:
-            logger.debug(f"Starting similarity search for {image_path}")
-            
-            # Process input image with detailed error handling
+            yield
+        finally:
+            self._cleanup_tensors()
+            gc.collect()
+            torch.cuda.empty_cache() if torch.cuda.is_available() else None
+
+    def get_similar_products(self, image_path, top_k=20, search_type='combined_75'):
+        with self.tensor_management():
+            logger = logging.getLogger(__name__)
             try:
-                image = self.load_and_process_image(image_path)
-                logger.debug("Image loaded and processed successfully")
+                logger.debug(f"Starting similarity search for {image_path}")
+                
+                # Process input image with detailed error handling
+                try:
+                    image = self.load_and_process_image(image_path)
+                    logger.debug("Image loaded and processed successfully")
+                except Exception as e:
+                    logger.error(f"Failed to load/process image: {str(e)}")
+                    raise RuntimeError(f"Image processing failed: {str(e)}")
+
+                # Get image embedding with error handling
+                try:
+                    logger.debug("Generating image embeddings")
+                    image_embeddings = self.fclip.encode_images(images=[image], batch_size=1)
+                    image_embeddings = image_embeddings / np.linalg.norm(image_embeddings, ord=2, axis=-1, keepdims=True)
+                    logger.debug("Image embeddings generated successfully")
+                except Exception as e:
+                    logger.error(f"Failed to generate image embeddings: {str(e)}")
+                    raise RuntimeError(f"Embedding generation failed: {str(e)}")
+
+                # Get text description with error handling
+                try:
+                    logger.debug("Generating text description")
+                    text_description = self.get_text_description(image)
+                    logger.debug(f"Generated text description: {text_description}")
+                except Exception as e:
+                    logger.error(f"Failed to generate text description: {str(e)}")
+                    raise RuntimeError(f"Text description generation failed: {str(e)}")
+
+                # Prepare query embedding based on search type
+                if search_type == 'image':
+                    query_embedding = image_embeddings
+                elif search_type == 'text':
+                    query_embedding = self.fclip.encode_text([text_description], batch_size=1)
+                    query_embedding = query_embedding / np.linalg.norm(query_embedding, ord=2, axis=-1, keepdims=True)
+                elif search_type == 'combined_60':
+                    query_embedding = 0.60 * image_embeddings + 0.40 * self.fclip.encode_text([text_description], batch_size=1)
+                    query_embedding = query_embedding / np.linalg.norm(query_embedding, ord=2, axis=-1, keepdims=True)
+                elif search_type == 'combined_75':
+                    query_embedding = 0.75 * image_embeddings + 0.25 * self.fclip.encode_text([text_description], batch_size=1)
+                    query_embedding = query_embedding / np.linalg.norm(query_embedding, ord=2, axis=-1, keepdims=True)
+                elif search_type == 'concat':
+                    query_embedding = np.concatenate([image_embeddings[0], self.fclip.encode_text([text_description], batch_size=1)[0]])
+                    query_embedding = query_embedding / np.linalg.norm(query_embedding)
+                    query_embedding = query_embedding.reshape(1, -1)
+                else:
+                    raise ValueError(f"Invalid search type: {search_type}")
+
+                # Perform search using appropriate index
+                distances, idx = self.indices[search_type].search(
+                    np.array(query_embedding, dtype="float32"),
+                    top_k
+                )
+
+                # Get product details
+                similar_products = []
+                for i in range(len(idx[0])):
+                    product_id = str(self.product_ids[idx[0][i]])
+                    product = MyntraProducts.objects.get(id=product_id)
+                    similar_products.append({
+                        'id': product.id,
+                        'product_link': product.product_link,
+                        'product_name': product.name,
+                        'product_price': product.price,
+                        'discount_price': product.discount_price,
+                        'product_image': product.image_url,
+                        'product_brand': product.brand,
+                        'product_marketplace': product.marketplace,
+                        'similarity_score': float(distances[0][i]),
+                        'description': text_description if i == 0 else None  # Include description for first result only
+                    })
+
+                return similar_products
+
             except Exception as e:
-                logger.error(f"Failed to load/process image: {str(e)}")
-                raise RuntimeError(f"Image processing failed: {str(e)}")
+                logger.error(f"Error in get_similar_products: {str(e)}")
+                logger.error(f"Full traceback: {traceback.format_exc()}")
+                raise
 
-            # Get image embedding with error handling
-            try:
-                logger.debug("Generating image embeddings")
-                image_embeddings = self.fclip.encode_images(images=[image], batch_size=1)
-                image_embeddings = image_embeddings / np.linalg.norm(image_embeddings, ord=2, axis=-1, keepdims=True)
-                logger.debug("Image embeddings generated successfully")
-            except Exception as e:
-                logger.error(f"Failed to generate image embeddings: {str(e)}")
-                raise RuntimeError(f"Embedding generation failed: {str(e)}")
-
-            # Get text description with error handling
-            try:
-                logger.debug("Generating text description")
-                text_description = self.get_text_description(image)
-                logger.debug(f"Generated text description: {text_description}")
-            except Exception as e:
-                logger.error(f"Failed to generate text description: {str(e)}")
-                raise RuntimeError(f"Text description generation failed: {str(e)}")
-
-            # Prepare query embedding based on search type
-            if search_type == 'image':
-                query_embedding = image_embeddings
-            elif search_type == 'text':
-                query_embedding = self.fclip.encode_text([text_description], batch_size=1)
-                query_embedding = query_embedding / np.linalg.norm(query_embedding, ord=2, axis=-1, keepdims=True)
-            elif search_type == 'combined_60':
-                query_embedding = 0.60 * image_embeddings + 0.40 * self.fclip.encode_text([text_description], batch_size=1)
-                query_embedding = query_embedding / np.linalg.norm(query_embedding, ord=2, axis=-1, keepdims=True)
-            elif search_type == 'combined_75':
-                query_embedding = 0.75 * image_embeddings + 0.25 * self.fclip.encode_text([text_description], batch_size=1)
-                query_embedding = query_embedding / np.linalg.norm(query_embedding, ord=2, axis=-1, keepdims=True)
-            elif search_type == 'concat':
-                query_embedding = np.concatenate([image_embeddings[0], self.fclip.encode_text([text_description], batch_size=1)[0]])
-                query_embedding = query_embedding / np.linalg.norm(query_embedding)
-                query_embedding = query_embedding.reshape(1, -1)
-            else:
-                raise ValueError(f"Invalid search type: {search_type}")
-
-            # Perform search using appropriate index
-            distances, idx = self.indices[search_type].search(
-                np.array(query_embedding, dtype="float32"),
-                top_k
-            )
-
-            # Get product details
-            similar_products = []
-            for i in range(len(idx[0])):
-                product_id = str(self.product_ids[idx[0][i]])
-                product = MyntraProducts.objects.get(id=product_id)
-                similar_products.append({
-                    'id': product.id,
-                    'product_link': product.product_link,
-                    'product_name': product.name,
-                    'product_price': product.price,
-                    'discount_price': product.discount_price,
-                    'product_image': product.image_url,
-                    'product_brand': product.brand,
-                    'product_marketplace': product.marketplace,
-                    'similarity_score': float(distances[0][i]),
-                    'description': text_description if i == 0 else None  # Include description for first result only
-                })
-
-            return similar_products
-
-        except Exception as e:
-            logger.error(f"Error in get_similar_products: {str(e)}")
-            logger.error(f"Full traceback: {traceback.format_exc()}")
-            raise
-
-    def _monitor_memory_usage(self):
+    def _monitor_memory(self, operation_name):
         process = psutil.Process()
         memory_info = process.memory_info()
-        memory_usage_mb = memory_info.rss / 1024 / 1024  # Convert to MB
-        
-        if memory_usage_mb > 1000:  # Alert if using more than 1GB
-            logging.warning(f"High memory usage detected: {memory_usage_mb:.2f} MB") 
+        memory_mb = memory_info.rss / 1024 / 1024
+        logging.info(f"Memory usage after {operation_name}: {memory_mb:.2f} MB")
+        if memory_mb > 1000:  # Alert if over 1GB
+            logging.warning(f"High memory usage detected in {operation_name}")
+
+    def _cleanup_tensors(self):
+        for tensor in self._cached_tensors.values():
+            if hasattr(tensor, 'cpu'):
+                tensor.cpu()
+            del tensor
+        self._cached_tensors.clear()
+        torch.cuda.empty_cache() if torch.cuda.is_available() else None
 
 
 class DressClassifier:
@@ -349,55 +374,65 @@ class DressClassifier:
         return categories[predicted_idx]
 
     def generate_description(self, image):
-        # Color classification
-        color_categories = [
-            f"a photo of {'an' if color[0].lower() in 'aeiou' else 'a'} {color} colored dress" 
-            for color in self.dress_colors
-        ]
-        color_pred = self.zero_shot_classification(image, color_categories)
-        predicted_color = self.dress_colors[color_categories.index(color_pred)]
+        try:
+            with torch.no_grad():  # Prevent gradient computation
+                # Color classification
+                color_categories = [
+                    f"a photo of {'an' if color[0].lower() in 'aeiou' else 'a'} {color} colored dress" 
+                    for color in self.dress_colors
+                ]
+                color_pred = self.zero_shot_classification(image, color_categories)
+                predicted_color = self.dress_colors[color_categories.index(color_pred)]
 
-        # Length classification
-        length_categories = [f"a photo of a {length.lower()} dress" for length in self.dress_lengths]
-        length_pred = self.zero_shot_classification(image, length_categories)
-        predicted_length = self.dress_lengths[length_categories.index(length_pred)]
+                # Length classification
+                length_categories = [f"a photo of a {length.lower()} dress" for length in self.dress_lengths]
+                length_pred = self.zero_shot_classification(image, length_categories)
+                predicted_length = self.dress_lengths[length_categories.index(length_pred)]
 
-        # Fit classification
-        fit_categories = [f"a photo of a {fit.lower()} dress" for fit in self.dress_fits]
-        fit_pred = self.zero_shot_classification(image, fit_categories)
-        predicted_fit = self.dress_fits[fit_categories.index(fit_pred)]
+                # Fit classification
+                fit_categories = [f"a photo of a {fit.lower()} dress" for fit in self.dress_fits]
+                fit_pred = self.zero_shot_classification(image, fit_categories)
+                predicted_fit = self.dress_fits[fit_categories.index(fit_pred)]
 
-        # Neckline classification
-        neckline_categories = [f"a photo of a dress with {neckline.lower()}" for neckline in self.dress_necklines]
-        neckline_pred = self.zero_shot_classification(image, neckline_categories)
-        predicted_neckline = self.dress_necklines[neckline_categories.index(neckline_pred)]
+                # Neckline classification
+                neckline_categories = [f"a photo of a dress with {neckline.lower()}" for neckline in self.dress_necklines]
+                neckline_pred = self.zero_shot_classification(image, neckline_categories)
+                predicted_neckline = self.dress_necklines[neckline_categories.index(neckline_pred)]
 
-        # Sleeve classification
-        sleeve_categories = [f"a photo of a {sleeve.lower()} dress" for sleeve in self.dress_sleeves]
-        sleeve_pred = self.zero_shot_classification(image, sleeve_categories)
-        predicted_sleeve = self.dress_sleeves[sleeve_categories.index(sleeve_pred)]
+                # Sleeve classification
+                sleeve_categories = [f"a photo of a {sleeve.lower()} dress" for sleeve in self.dress_sleeves]
+                sleeve_pred = self.zero_shot_classification(image, sleeve_categories)
+                predicted_sleeve = self.dress_sleeves[sleeve_categories.index(sleeve_pred)]
 
-        # Material classification
-        material_categories = [f"a photo of a {material.lower()} dress" for material in self.dress_materials]
-        material_pred = self.zero_shot_classification(image, material_categories)
-        predicted_material = self.dress_materials[material_categories.index(material_pred)]
+                # Material classification
+                material_categories = [f"a photo of a {material.lower()} dress" for material in self.dress_materials]
+                material_pred = self.zero_shot_classification(image, material_categories)
+                predicted_material = self.dress_materials[material_categories.index(material_pred)]
 
-        # Design feature classification
-        feature_categories = [f"a photo of a dress with {feature.lower()}" for feature in self.dress_design_features]
-        feature_pred = self.zero_shot_classification(image, feature_categories)
-        predicted_feature = self.dress_design_features[feature_categories.index(feature_pred)]
+                # Design feature classification
+                feature_categories = [f"a photo of a dress with {feature.lower()}" for feature in self.dress_design_features]
+                feature_pred = self.zero_shot_classification(image, feature_categories)
+                predicted_feature = self.dress_design_features[feature_categories.index(feature_pred)]
 
-        # Build description
-        description_parts = [
-            predicted_color.lower(),
-            predicted_material.lower(),
-            predicted_length.lower(),
-            predicted_fit.lower(),
-            predicted_neckline.lower(),
-            predicted_sleeve.lower()
-        ]
-        
-        base_description = "This is a " + " ".join(description_parts) + " dress"
-        base_description += f" with {predicted_feature.lower()}"
+                # Build description
+                description_parts = [
+                    predicted_color.lower(),
+                    predicted_material.lower(),
+                    predicted_length.lower(),
+                    predicted_fit.lower(),
+                    predicted_neckline.lower(),
+                    predicted_sleeve.lower()
+                ]
+                
+                base_description = "This is a " + " ".join(description_parts) + " dress"
+                base_description += f" with {predicted_feature.lower()}"
 
-        return base_description
+                # Cleanup
+                torch.cuda.empty_cache() if torch.cuda.is_available() else None
+                gc.collect()
+
+                return base_description
+        finally:
+            # Cleanup
+            torch.cuda.empty_cache() if torch.cuda.is_available() else None
+            gc.collect()

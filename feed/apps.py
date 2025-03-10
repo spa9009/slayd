@@ -1,9 +1,5 @@
 from django.apps import AppConfig
-from fashion_clip.fashion_clip import FashionCLIP
-from transformers import CLIPProcessor, CLIPModel
-import torch
-
-
+from .model_loader import get_model_instance
 
 class FeedConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
@@ -11,14 +7,7 @@ class FeedConfig(AppConfig):
 
     def ready(self):
         from . import signals
-        global fclip, clip_model, clip_processor
-        
-        # Initialize FashionCLIP
-        fclip = FashionCLIP('fashion-clip')
-        
-        # Initialize CLIP transformer model and processor
-        clip_model = CLIPModel.from_pretrained("patrickjohncyh/fashion-clip")
-        clip_processor = CLIPProcessor.from_pretrained("patrickjohncyh/fashion-clip")
-        if torch.cuda.is_available():
-            clip_model = clip_model.cuda()
-        clip_model.eval()
+        global model_instance
+
+        # Load singleton instance
+        model_instance = get_model_instance()

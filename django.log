@@ -5549,3 +5549,9 @@ INFO 2025-03-08 12:42:29,678 autoreload /Users/sparsh/Documents/workspace/dev/sl
 INFO 2025-03-08 12:42:42,652 autoreload Watching for file changes with StatReloader
 INFO 2025-03-08 12:43:22,791 basehttp "GET /account/webhook/?hub.mode=subscribe&hub.verify_token=slayd&hub.challenge=CHALLENGE123 HTTP/1.1" 200 12
 WARNING 2025-03-08 12:43:35,518 basehttp "GET /account/webhook/?hub.mode=subscribe&hub.verify_token=hello&hub.challenge=CHALLENGE123 HTTP/1.1" 403 9
+INFO 2025-03-10 17:52:37,820 autoreload Watching for file changes with StatReloader
+INFO 2025-03-10 17:53:18,549 basehttp "GET /api/similar-products/?image_url=https://assets.newme.asia/wp-content/uploads/2025/02/19093826c5e812ff/NM-IN-56-DRS-24-SEP-9428-YELLOW(1)-889x1334.webp&search_type=combined_75 HTTP/1.1" 200 29052
+INFO 2025-03-10 17:53:18,751 basehttp "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+INFO 2025-03-10 18:02:54,263 autoreload Watching for file changes with StatReloader
+INFO 2025-03-10 18:03:12,402 basehttp "GET /api/similar-products/?image_url=https://assets.newme.asia/wp-content/uploads/2025/02/19093826c5e812ff/NM-IN-56-DRS-24-SEP-9428-YELLOW(1)-889x1334.webp&search_type=combined_75 HTTP/1.1" 200 29052
+INFO 2025-03-10 18:03:33,735 basehttp "GET /api/similar-products/?image_url=https://img.tatacliq.com/images/i7/437Wx649H/MP000000011128483_437Wx649H_202111102257311.jpeg&search_type=combined_75 HTTP/1.1" 200 29915
