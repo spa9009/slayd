@@ -308,7 +308,9 @@ class DressClassifier:
     def __init__(self, model, processor):
         self.model = model
         self.processor = processor
+        self.logger = logging.getLogger(__name__)
         
+        # Basic attributes
         self.dress_lengths = [
             "Micro", "Mini", "Knee-Length", "Midi", "Maxi",
             "High-Low", "Tea-Length", "Floor-Length"
@@ -343,96 +345,181 @@ class DressClassifier:
             "Tiered Layers", "Bow Detail", "Lace-Up", "Belted"
         ]
 
-        # Add colors list to DressClassifier
         self.dress_colors = [
-            "Coffee Brown", "Orange", "Red", "Green", "Grey", "Pink", 
+            "Orange", "Red", "Green", "Grey", "Pink", 
             "Blue", "Purple", "White", "Black", "Yellow", "Beige",
             "Maroon", "Burgundy", "Brown"
         ]
 
-    def zero_shot_classification(self, image, categories):
-        """Perform zero-shot classification using CLIP"""
-        inputs = self.processor(
-            text=categories,
-            images=image,
-            return_tensors="pt",
-            padding=True
-        )
+        # Print-related attributes
+        self.print_types = [
+            "Floral", "Geometric", "Polka Dots", "Leopard", "Zebra",
+            "Snake", "Vertical Stripes", "Horizontal Stripes",
+            "Diagonal Stripes", "Abstract", "Tie-Dye", "Paisley",
+            "Checkered", "Gingham", "Solid"
+        ]
         
-        # Move to GPU if available
-        if torch.cuda.is_available():
-            inputs = {k: v.cuda() for k, v in inputs.items()}
-            self.model = self.model.cuda()
+        self.print_color_styles = [
+            "Pastel", "Bright", "Neon", "Dark", "Ombre",
+            "Two-Tone", "Multi-Color"
+        ]
+        
+        self.print_sizes = [
+            "Micro", "Bold", "Delicate", "Large Motif"
+        ]
 
-        with torch.no_grad():
-            outputs = self.model(**inputs)
-            logits = outputs.logits_per_image
-            probs = logits.softmax(dim=1)
+        self.print_status = [
+            "Printed", "Solid"
+        ]
+
+    def _classify_attribute(self, image, categories, attribute_list):
+        """Helper method for zero-shot classification using transformer"""
+        try:
+            inputs = self.processor(
+                text=categories,
+                images=image,
+                return_tensors="pt",
+                padding=True
+            )
             
-        # Get the category with highest probability
-        predicted_idx = probs[0].argmax().item()
-        return categories[predicted_idx]
+            if torch.cuda.is_available():
+                inputs = {k: v.cuda() for k, v in inputs.items()}
+            
+            with torch.no_grad():
+                outputs = self.model(**inputs)
+                probs = outputs.logits_per_image.softmax(dim=1)
+                
+                # Get top 3 predictions and their probabilities
+                top_probs, top_indices = torch.topk(probs[0], min(3, len(attribute_list)))
+                
+                # Log top 3 predictions
+                self.logger.debug("\nTop 3 predictions:")
+                for prob, idx in zip(top_probs, top_indices):
+                    self.logger.debug(f"  {attribute_list[idx]}: {prob.item():.2%}")
+                
+                predicted_idx = top_indices[0].item()
+                return attribute_list[predicted_idx]
+                
+        except Exception as e:
+            self.logger.error(f"Error in _classify_attribute: {str(e)}")
+            raise
 
     def generate_description(self, image):
+        """Generate enhanced description using transformer"""
+        self.logger.debug("\nStarting Classification Results:")
+        self.logger.debug("="*50)
+
         try:
-            with torch.no_grad():  # Prevent gradient computation
-                # Color classification
-                color_categories = [
-                    f"a photo of {'an' if color[0].lower() in 'aeiou' else 'a'} {color} colored dress" 
-                    for color in self.dress_colors
+            # First determine if the dress is printed or solid
+            print_status_categories = [
+                f"a photo of a {status.lower()} dress" 
+                for status in self.print_status
+            ]
+            predicted_print_status = self._classify_attribute(
+                image, print_status_categories, self.print_status
+            )
+            self.logger.debug(f"Print Status: {predicted_print_status}")
+
+            print_details = []
+            if predicted_print_status == "Printed":
+                # Print type classification
+                print_type_categories = [
+                    f"a photo of a dress with {print_type.lower()} print pattern" 
+                    for print_type in self.print_types[:-1]  # Exclude 'Solid'
                 ]
-                color_pred = self.zero_shot_classification(image, color_categories)
-                predicted_color = self.dress_colors[color_categories.index(color_pred)]
+                predicted_print_type = self._classify_attribute(
+                    image, print_type_categories, self.print_types[:-1]
+                )
+                self.logger.debug(f"Print Type: {predicted_print_type}")
 
-                # Length classification
-                length_categories = [f"a photo of a {length.lower()} dress" for length in self.dress_lengths]
-                length_pred = self.zero_shot_classification(image, length_categories)
-                predicted_length = self.dress_lengths[length_categories.index(length_pred)]
-
-                # Fit classification
-                fit_categories = [f"a photo of a {fit.lower()} dress" for fit in self.dress_fits]
-                fit_pred = self.zero_shot_classification(image, fit_categories)
-                predicted_fit = self.dress_fits[fit_categories.index(fit_pred)]
-
-                # Neckline classification
-                neckline_categories = [f"a photo of a dress with {neckline.lower()}" for neckline in self.dress_necklines]
-                neckline_pred = self.zero_shot_classification(image, neckline_categories)
-                predicted_neckline = self.dress_necklines[neckline_categories.index(neckline_pred)]
-
-                # Sleeve classification
-                sleeve_categories = [f"a photo of a {sleeve.lower()} dress" for sleeve in self.dress_sleeves]
-                sleeve_pred = self.zero_shot_classification(image, sleeve_categories)
-                predicted_sleeve = self.dress_sleeves[sleeve_categories.index(sleeve_pred)]
-
-                # Material classification
-                material_categories = [f"a photo of a {material.lower()} dress" for material in self.dress_materials]
-                material_pred = self.zero_shot_classification(image, material_categories)
-                predicted_material = self.dress_materials[material_categories.index(material_pred)]
-
-                # Design feature classification
-                feature_categories = [f"a photo of a dress with {feature.lower()}" for feature in self.dress_design_features]
-                feature_pred = self.zero_shot_classification(image, feature_categories)
-                predicted_feature = self.dress_design_features[feature_categories.index(feature_pred)]
-
-                # Build description
-                description_parts = [
-                    predicted_color.lower(),
-                    predicted_material.lower(),
-                    predicted_length.lower(),
-                    predicted_fit.lower(),
-                    predicted_neckline.lower(),
-                    predicted_sleeve.lower()
+                # Print color style classification
+                color_style_categories = [
+                    f"a photo of a dress with {style.lower()} print colors" 
+                    for style in self.print_color_styles
                 ]
+                predicted_color_style = self._classify_attribute(
+                    image, color_style_categories, self.print_color_styles
+                )
+                self.logger.debug(f"Print Color Style: {predicted_color_style}")
+
+                # Print size classification
+                size_categories = [
+                    f"a photo of a dress with {size.lower()} print pattern" 
+                    for size in self.print_sizes
+                ]
+                predicted_size = self._classify_attribute(
+                    image, size_categories, self.print_sizes
+                )
+                self.logger.debug(f"Print Size: {predicted_size}")
                 
-                base_description = "This is a " + " ".join(description_parts) + " dress"
-                base_description += f" with {predicted_feature.lower()}"
+                print_details = [
+                    predicted_color_style.lower(),
+                    predicted_size.lower(),
+                    f"{predicted_print_type.lower()}-printed"
+                ]
 
-                # Cleanup
-                torch.cuda.empty_cache() if torch.cuda.is_available() else None
-                gc.collect()
+            # Basic attribute classifications
+            color_categories = [
+                f"a photo of {'an' if color[0].lower() in 'aeiou' else 'a'} {color} colored dress" 
+                for color in self.dress_colors
+            ]
+            predicted_color = self._classify_attribute(image, color_categories, self.dress_colors)
+            self.logger.debug(f"Color: {predicted_color}")
 
-                return base_description
+            length_categories = [f"a photo of a {length.lower()} dress" for length in self.dress_lengths]
+            predicted_length = self._classify_attribute(image, length_categories, self.dress_lengths)
+            self.logger.debug(f"Length: {predicted_length}")
+
+            fit_categories = [f"a photo of a {fit.lower()} dress" for fit in self.dress_fits]
+            predicted_fit = self._classify_attribute(image, fit_categories, self.dress_fits)
+            self.logger.debug(f"Fit: {predicted_fit}")
+
+            neckline_categories = [f"a photo of a dress with {neckline.lower()}" for neckline in self.dress_necklines]
+            predicted_neckline = self._classify_attribute(image, neckline_categories, self.dress_necklines)
+            self.logger.debug(f"Neckline: {predicted_neckline}")
+
+            sleeve_categories = [f"a photo of a {sleeve.lower()} dress" for sleeve in self.dress_sleeves]
+            predicted_sleeve = self._classify_attribute(image, sleeve_categories, self.dress_sleeves)
+            self.logger.debug(f"Sleeves: {predicted_sleeve}")
+
+            material_categories = [f"a photo of a {material.lower()} dress" for material in self.dress_materials]
+            predicted_material = self._classify_attribute(image, material_categories, self.dress_materials)
+            self.logger.debug(f"Material: {predicted_material}")
+
+            feature_categories = [f"a photo of a dress with {feature.lower()}" for feature in self.dress_design_features]
+            predicted_feature = self._classify_attribute(image, feature_categories, self.dress_design_features)
+            self.logger.debug(f"Design Feature: {predicted_feature}")
+
+            # Build description
+            description_parts = [
+                predicted_color.lower(),
+                predicted_material.lower(),
+                predicted_length.lower(),
+                predicted_fit.lower(),
+                predicted_neckline.lower(),
+                predicted_sleeve.lower()
+            ]
+            
+            # Add print information if present
+            if print_details:
+                description_parts = print_details + description_parts
+            
+            base_description = "This is a " + " ".join(description_parts) + " dress"
+            base_description += f" with {predicted_feature.lower()}"
+            
+            self.logger.debug("\nFinal Description:")
+            self.logger.debug("="*50)
+            self.logger.debug(base_description)
+            self.logger.debug("="*50)
+
+            return base_description
+
+        except Exception as e:
+            self.logger.error(f"Error in generate_description: {str(e)}")
+            self.logger.error(traceback.format_exc())
+            raise
         finally:
             # Cleanup
-            torch.cuda.empty_cache() if torch.cuda.is_available() else None
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
             gc.collect()

@@ -5555,3 +5555,5 @@ INFO 2025-03-10 17:53:18,751 basehttp "GET /static/rest_framework/css/bootstrap.
 INFO 2025-03-10 18:02:54,263 autoreload Watching for file changes with StatReloader
 INFO 2025-03-10 18:03:12,402 basehttp "GET /api/similar-products/?image_url=https://assets.newme.asia/wp-content/uploads/2025/02/19093826c5e812ff/NM-IN-56-DRS-24-SEP-9428-YELLOW(1)-889x1334.webp&search_type=combined_75 HTTP/1.1" 200 29052
 INFO 2025-03-10 18:03:33,735 basehttp "GET /api/similar-products/?image_url=https://img.tatacliq.com/images/i7/437Wx649H/MP000000011128483_437Wx649H_202111102257311.jpeg&search_type=combined_75 HTTP/1.1" 200 29915
+INFO 2025-03-10 20:03:49,951 autoreload Watching for file changes with StatReloader
+INFO 2025-03-10 20:04:31,423 basehttp "GET /api/similar-products/?image_url=https://img.tatacliq.com/images/i7/437Wx649H/MP000000011128483_437Wx649H_202111102257311.jpeg&search_type=combined_75 HTTP/1.1" 200 29922
