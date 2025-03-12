@@ -135,8 +135,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-APPEND_SLASH=False
-
 # Local development settings
 if DEBUG:
     FAISS_INDICES_PATH = os.path.join(BASE_DIR, 'indices')

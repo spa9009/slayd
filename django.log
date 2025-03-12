@@ -5557,10 +5557,3 @@ INFO 2025-03-10 18:03:12,402 basehttp "GET /api/similar-products/?image_url=http
 INFO 2025-03-10 18:03:33,735 basehttp "GET /api/similar-products/?image_url=https://img.tatacliq.com/images/i7/437Wx649H/MP000000011128483_437Wx649H_202111102257311.jpeg&search_type=combined_75 HTTP/1.1" 200 29915
 INFO 2025-03-10 20:03:49,951 autoreload Watching for file changes with StatReloader
 INFO 2025-03-10 20:04:31,423 basehttp "GET /api/similar-products/?image_url=https://img.tatacliq.com/images/i7/437Wx649H/MP000000011128483_437Wx649H_202111102257311.jpeg&search_type=combined_75 HTTP/1.1" 200 29922
-INFO 2025-03-10 20:07:31,430 autoreload Watching for file changes with StatReloader
-INFO 2025-03-10 20:21:13,452 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/feed/model_loader.py changed, reloading.
-INFO 2025-03-10 20:21:32,916 autoreload Watching for file changes with StatReloader
-INFO 2025-03-10 20:22:58,032 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/feed/model_loader.py changed, reloading.
-INFO 2025-03-10 20:23:15,100 autoreload Watching for file changes with StatReloader
-INFO 2025-03-10 20:23:42,625 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/feed/model_loader.py changed, reloading.
-INFO 2025-03-10 20:24:00,931 autoreload Watching for file changes with StatReloader
