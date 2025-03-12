@@ -99,8 +99,13 @@ class SimilaritySearcher(metaclass=SingletonMeta):
             
             if image_path.startswith(('http://', 'https://')):
                 try:
-                    response = requests.get(image_path, timeout=10)
+                    headers = {
+                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+                    }
+                    response = requests.get(image_path, headers=headers, timeout=5, stream=True)
+                    print(image_path)
                     response.raise_for_status()  # Raise an exception for bad status codes
+                    
                     logger.debug(f"Image download status code: {response.status_code}")
                     logger.debug(f"Image content type: {response.headers.get('content-type')}")
                     logger.debug(f"Image size: {len(response.content)} bytes")

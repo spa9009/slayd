@@ -230,3 +230,36 @@ INFO 2025-03-12 10:14:16,744 metrics [LOCAL] Metric - Name: ResponseTime, Value:
 INFO 2025-03-12 10:14:16,744 metrics [LOCAL] Metric - Name: StatusCode, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}, {'Name': 'StatusCode', 'Value': '200'}]
 INFO 2025-03-12 10:14:16,744 basehttp "GET /api/similar-products/?image_url=https://assets.newme.asia/wp-content/uploads/2025/02/19093826c5e812ff/NM-IN-56-DRS-24-SEP-9428-YELLOW(1)-889x1334.webp&search_type=combined_75 HTTP/1.1" 200 29052
 INFO 2025-03-12 10:18:30,702 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/slayd/settings.py changed, reloading.
+INFO 2025-03-12 14:48:51,688 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 20:38:46,195 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/feed/utils/similarity_search.py changed, reloading.
+INFO 2025-03-12 20:39:03,757 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 20:39:57,178 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/feed/utils/similarity_search.py changed, reloading.
+INFO 2025-03-12 20:40:15,335 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 20:40:18,422 metrics [LOCAL] Metric - Name: RequestCount, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}, {'Name': 'Method', 'Value': 'GET'}]
+INFO 2025-03-12 20:40:20,889 metrics [LOCAL] Metric - Name: ProcessingTime, Value: 2462.908983230591, Dimensions: [{'Name': 'Endpoint', 'Value': 'SimilarProductsView'}]
+INFO 2025-03-12 20:40:20,954 metrics [LOCAL] Metric - Name: ResponseTime, Value: 2532.212257385254, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}]
+INFO 2025-03-12 20:40:20,954 metrics [LOCAL] Metric - Name: StatusCode, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}, {'Name': 'StatusCode', 'Value': '422'}]
+WARNING 2025-03-12 20:40:20,955 basehttp "GET /api/similar-products/?image_url=https://i.imgur.com/QH4ayCW.jpeg&search_type=combined_75 HTTP/1.1" 422 10618
+INFO 2025-03-12 20:43:19,878 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/feed/utils/similarity_search.py changed, reloading.
+INFO 2025-03-12 20:43:38,290 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 20:43:44,467 metrics [LOCAL] Metric - Name: RequestCount, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}, {'Name': 'Method', 'Value': 'GET'}]
+INFO 2025-03-12 20:43:55,136 metrics [LOCAL] Metric - Name: Success, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': 'SimilarProductsView'}, {'Name': 'SearchType', 'Value': 'combined_75'}]
+INFO 2025-03-12 20:43:55,137 metrics [LOCAL] Metric - Name: ProcessingTime, Value: 10668.308973312378, Dimensions: [{'Name': 'Endpoint', 'Value': 'SimilarProductsView'}]
+INFO 2025-03-12 20:43:55,166 metrics [LOCAL] Metric - Name: ResponseTime, Value: 10699.391841888428, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}]
+INFO 2025-03-12 20:43:55,166 metrics [LOCAL] Metric - Name: StatusCode, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}, {'Name': 'StatusCode', 'Value': '200'}]
+INFO 2025-03-12 20:43:55,167 basehttp "GET /api/similar-products/?image_url=https://i.imgur.com/QH4ayCW.jpeg&search_type=combined_75 HTTP/1.1" 200 28552
+INFO 2025-03-12 20:58:37,473 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/feed/utils/similarity_search.py changed, reloading.
+INFO 2025-03-12 20:58:56,317 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 20:58:59,865 metrics [LOCAL] Metric - Name: RequestCount, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}, {'Name': 'Method', 'Value': 'GET'}]
+INFO 2025-03-12 20:59:01,928 metrics [LOCAL] Metric - Name: ProcessingTime, Value: 2060.2259635925293, Dimensions: [{'Name': 'Endpoint', 'Value': 'SimilarProductsView'}]
+INFO 2025-03-12 20:59:01,969 metrics [LOCAL] Metric - Name: ResponseTime, Value: 2103.938102722168, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}]
+INFO 2025-03-12 20:59:01,969 metrics [LOCAL] Metric - Name: StatusCode, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}, {'Name': 'StatusCode', 'Value': '422'}]
+WARNING 2025-03-12 20:59:01,969 basehttp "GET /api/similar-products/?image_url=https://i.imgur.com/QH4ayCW.jpeg&search_type=combined_75 HTTP/1.1" 422 10685
+INFO 2025-03-12 20:59:18,519 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/feed/utils/similarity_search.py changed, reloading.
+INFO 2025-03-12 20:59:35,947 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 20:59:45,343 metrics [LOCAL] Metric - Name: RequestCount, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}, {'Name': 'Method', 'Value': 'GET'}]
+INFO 2025-03-12 21:00:03,282 metrics [LOCAL] Metric - Name: Success, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': 'SimilarProductsView'}, {'Name': 'SearchType', 'Value': 'combined_75'}]
+INFO 2025-03-12 21:00:03,283 metrics [LOCAL] Metric - Name: ProcessingTime, Value: 17936.566829681396, Dimensions: [{'Name': 'Endpoint', 'Value': 'SimilarProductsView'}]
+INFO 2025-03-12 21:00:03,328 metrics [LOCAL] Metric - Name: ResponseTime, Value: 17984.70187187195, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}]
+INFO 2025-03-12 21:00:03,328 metrics [LOCAL] Metric - Name: StatusCode, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}, {'Name': 'StatusCode', 'Value': '200'}]
+INFO 2025-03-12 21:00:03,328 basehttp "GET /api/similar-products/?image_url=https://i.imgur.com/0bqVzWb.jpeg&search_type=combined_75 HTTP/1.1" 200 27648

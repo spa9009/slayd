@@ -223,24 +223,6 @@ class SimilarProductsView(APIView):
                     {"error": "image_url parameter is required"}, 
                     status=status.HTTP_400_BAD_REQUEST
                 )
-
-            # Validate image URL
-            try:
-                response = requests.head(image_url, timeout=5)
-                content_type = response.headers.get('content-type', '')
-                if not content_type.startswith('image/'):
-                    logger.error(f"Invalid content type: {content_type}")
-                    return Response(
-                        {"error": f"URL does not point to a valid image. Content-Type: {content_type}"}, 
-                        status=status.HTTP_400_BAD_REQUEST
-                    )
-            except requests.exceptions.RequestException as e:
-                logger.error(f"Failed to validate image URL: {str(e)}")
-                return Response(
-                    {"error": f"Failed to access image URL: {str(e)}"}, 
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-
             # Get similar products
             try:
                 searcher = SimilaritySearcher()
