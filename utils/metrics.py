@@ -5,7 +5,6 @@ from functools import wraps
 from datetime import datetime
 from django.conf import settings
 
-cloudwatch = boto3.client('cloudwatch', region_name='ap-south-1')
 
 class MetricsUtil:
     @staticmethod
@@ -18,7 +17,8 @@ class MetricsUtil:
         if settings.DEBUG or os.getenv('ENVIRONMENT') == 'local':
             print(f"[LOCAL] Metric - Name: {name}, Value: {value}, Dimensions: {dimensions}")
             return
-        
+        cloudwatch = boto3.client('cloudwatch', region_name='ap-south-1')
+
         try:
             cloudwatch.put_metric_data(
                 Namespace='Slayd/API',
