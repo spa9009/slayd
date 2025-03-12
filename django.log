@@ -229,3 +229,4 @@ INFO 2025-03-12 10:14:16,700 metrics [LOCAL] Metric - Name: ProcessingTime, Valu
 INFO 2025-03-12 10:14:16,744 metrics [LOCAL] Metric - Name: ResponseTime, Value: 10065.597295761108, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}]
 INFO 2025-03-12 10:14:16,744 metrics [LOCAL] Metric - Name: StatusCode, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}, {'Name': 'StatusCode', 'Value': '200'}]
 INFO 2025-03-12 10:14:16,744 basehttp "GET /api/similar-products/?image_url=https://assets.newme.asia/wp-content/uploads/2025/02/19093826c5e812ff/NM-IN-56-DRS-24-SEP-9428-YELLOW(1)-889x1334.webp&search_type=combined_75 HTTP/1.1" 200 29052
+INFO 2025-03-12 10:18:30,702 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/slayd/settings.py changed, reloading.

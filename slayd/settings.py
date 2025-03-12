@@ -137,11 +137,7 @@ USE_TZ = True
 
 APPEND_SLASH=False
 
-# Local development settings
-if DEBUG:
-    FAISS_INDICES_PATH = os.path.join(BASE_DIR, 'indices')
-else:
-    FAISS_INDICES_PATH = os.environ.get('FAISS_INDICES_PATH', '/opt/fashion_recommendation/indices')
+FAISS_INDICES_PATH = os.path.join(BASE_DIR, 'indices')
 
 
 # Static files (CSS, JavaScript, Images)
