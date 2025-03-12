@@ -4,15 +4,28 @@ import os
 from functools import wraps
 from datetime import datetime
 from django.conf import settings
+import logging
 
+logger = logging.getLogger(__name__)
 
 class MetricsUtil:
     _cloudwatch_client = None
 
     @classmethod
     def get_cloudwatch_client(cls):
-        if cls._cloudwatch_client is None and not (settings.DEBUG or os.getenv('ENVIRONMENT') == 'local'):
-            cls._cloudwatch_client = boto3.client('cloudwatch', region_name='ap-south-1')
+        logger.debug("Attempting to get CloudWatch client")
+        if cls._cloudwatch_client is None:
+            try:
+                logger.debug("Creating new CloudWatch client")
+                session = boto3.Session()
+                # Log AWS configuration
+                logger.debug(f"AWS Region: {session.region_name}")
+                logger.debug(f"AWS Credentials available: {session.get_credentials() is not None}")
+                
+                cls._cloudwatch_client = session.client('cloudwatch', region_name='ap-south-1')
+                logger.info("Successfully created CloudWatch client")
+            except Exception as e:
+                logger.error(f"Failed to create CloudWatch client: {str(e)}", exc_info=True)
         return cls._cloudwatch_client
 
     @staticmethod
@@ -20,27 +33,36 @@ class MetricsUtil:
         """
         Send a single metric to CloudWatch
         """
-
-        # Skip metrics in local development
-        if settings.DEBUG or os.getenv('ENVIRONMENT') == 'local':
-            print(f"[LOCAL] Metric - Name: {name}, Value: {value}, Dimensions: {dimensions}")
+        logger.debug(f"put_metric called with name={name}, value={value}, dimensions={dimensions}")
+        
+        if settings.DEBUG:
+            logger.info(f"[LOCAL] Metric - Name: {name}, Value: {value}, Dimensions: {dimensions}")
             return
+
         try:
+            logger.debug("Getting CloudWatch client")
             client = MetricsUtil.get_cloudwatch_client()
             if client:
-                client.put_metric_data(
-                    Namespace='Slayd/API',
-                    MetricData=[{
+                logger.debug(f"Attempting to send metric: {name}")
+                metric_data = {
+                    'Namespace': 'Slayd/API',
+                    'MetricData': [{
                         'MetricName': name,
                         'Value': value,
                         'Unit': unit,
                         'Dimensions': dimensions,
                         'Timestamp': datetime.now(datetime.UTC)
                     }]
-                )
+                }
+                logger.debug(f"Sending metric data: {metric_data}")
+                
+                client.put_metric_data(**metric_data)
+                logger.info(f"Successfully sent metric: {name}")
+            else:
+                logger.error("CloudWatch client is None")
         except Exception as e:
-            # Log the error but don't raise it to avoid disrupting the main flow
-            print(f"Failed to put CloudWatch metric: {str(e)}")
+            logger.error(f"Failed to put CloudWatch metric: {str(e)}", exc_info=True)
+            logger.error(f"Metric details - Name: {name}, Value: {value}, Dimensions: {dimensions}")
 
     @staticmethod
     def track_execution_time(endpoint_name):

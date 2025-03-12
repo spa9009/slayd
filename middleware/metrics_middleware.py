@@ -5,11 +5,12 @@ from datetime import datetime
 from django.conf import settings
 from utils.metrics import MetricsUtil
 
-logger = logging.getLogger('api.metrics')
+logger = logging.getLogger(__name__)
 
 class MetricsMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
+        logger.info("MetricsMiddleware initialized")
 
     def __call__(self, request):
         start_time = time.time()
@@ -26,6 +27,7 @@ class MetricsMiddleware:
         logger.info(f"Incoming request: {request_data}")
         
         # Send request metric
+        logger.debug("Sending RequestCount metric")
         MetricsUtil.put_metric('RequestCount', 1, [
             {'Name': 'Endpoint', 'Value': request.path},
             {'Name': 'Method', 'Value': request.method}
@@ -36,10 +38,12 @@ class MetricsMiddleware:
         duration = (time.time() - start_time) * 1000  # milliseconds
         
         # Send response metrics
+        logger.debug("Sending ResponseTime metric")
         MetricsUtil.put_metric('ResponseTime', duration, [
             {'Name': 'Endpoint', 'Value': request.path}
         ], 'Milliseconds')
         
+        logger.debug("Sending StatusCode metric")
         MetricsUtil.put_metric(f'StatusCode', 1, [
             {'Name': 'Endpoint', 'Value': request.path},
             {'Name': 'StatusCode', 'Value': str(response.status_code)}

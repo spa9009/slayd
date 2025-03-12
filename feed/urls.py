@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import PostListCreateView, PostDetailView, ProductListCreateView, ProductDetailView, ProductSearchView, RankedPostsAPIView, SimilarPostsView, CurationDetailView, MyntraProductsListCreateView, SimilarProductsView
+from .views import PostListCreateView, PostDetailView, ProductListCreateView, ProductDetailView, ProductSearchView, RankedPostsAPIView, SimilarPostsView, CurationDetailView, MyntraProductsListCreateView, SimilarProductsView, test_aws_config
 
 urlpatterns = [
     path('posts/', PostListCreateView.as_view(), name='post-list-create'),
@@ -12,4 +12,5 @@ urlpatterns = [
     path('curation/<int:pk>/', CurationDetailView.as_view(), name='curation-detail'),
     path('myntra/products/', MyntraProductsListCreateView.as_view(), name='myntra-products-list-create'),
     path('similar-products/', SimilarProductsView.as_view(), name='similar-products'),
+    path('test-aws/', test_aws_config, name='test-aws-config'),
 ]

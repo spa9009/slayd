@@ -10,6 +10,8 @@ import logging
 from .utils.similarity_search import SimilaritySearcher
 import requests
 from utils.metrics import MetricsUtil
+import boto3
+from rest_framework.decorators import api_view
 
 logger = logging.getLogger(__name__)
 
@@ -268,3 +270,30 @@ class SimilarProductsView(APIView):
                 {"error": "Internal server error"}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+@api_view(['GET'])
+def test_aws_config(request):
+    logger = logging.getLogger(__name__)
+    try:
+        session = boto3.Session()
+        credentials = session.get_credentials()
+        
+        # Test if we can list CloudWatch metrics
+        cw = session.client('cloudwatch')
+        metrics = cw.list_metrics(Namespace='AWS/EC2')
+        
+        return Response({
+            'status': 'success',
+            'aws_config': {
+                'region': session.region_name,
+                'has_credentials': credentials is not None,
+                'credential_type': type(credentials).__name__ if credentials else None,
+                'can_list_metrics': bool(metrics),
+            }
+        })
+    except Exception as e:
+        logger.error("AWS configuration test failed", exc_info=True)
+        return Response({
+            'status': 'error',
+            'error': str(e)
+        }, status=500)
