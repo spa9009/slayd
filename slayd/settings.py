@@ -36,8 +36,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-6u9$*8@)(-z!fkw&7z^wp8#ys+r+p6=1!^p7ouqd2-g#avv)gj'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['http://localhost:3000', '3.110.40.235', '127.0.0.1', 'api.slayd.in', '43.204.235.28', 'https://slayd.in']
 CORS_ALLOW_ALL_ORIGINS = True
@@ -210,13 +209,18 @@ LOGGING = {
         },
         'boto3': {
             'handlers': ['console', 'file'],
-            'level': 'DEBUG',
-            'propagate': True,
+            'level': 'WARNING',
+            'propagate': False,
         },
         'botocore': {
             'handlers': ['console', 'file'],
-            'level': 'DEBUG',
-            'propagate': True,
+            'level': 'WARNING',
+            'propagate': False,
+        },
+        'urllib3': {
+            'handlers': ['console'],
+            'level': 'WARNING',
+            'propagate': False,
         }
     },
 }

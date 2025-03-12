@@ -11,3 +11,221 @@ INFO 2025-03-12 09:57:50,082 autoreload /Users/sparsh/Documents/workspace/dev/sl
 INFO 2025-03-12 09:58:07,856 autoreload Watching for file changes with StatReloader
 INFO 2025-03-12 09:58:20,224 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/feed/urls.py changed, reloading.
 INFO 2025-03-12 09:58:33,335 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 10:00:48,556 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/slayd/settings.py changed, reloading.
+INFO 2025-03-12 10:03:08,110 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 10:03:19,485 credentials Found credentials in shared credentials file: ~/.aws/credentials
+INFO 2025-03-12 10:03:19,748 metrics Successfully created CloudWatch client
+ERROR 2025-03-12 10:03:19,748 metrics Failed to put CloudWatch metric: type object 'datetime.datetime' has no attribute 'UTC'
+Traceback (most recent call last):
+  File "/Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py", line 54, in put_metric
+    'Timestamp': datetime.now(datetime.UTC)
+                              ^^^^^^^^^^^^
+AttributeError: type object 'datetime.datetime' has no attribute 'UTC'
+ERROR 2025-03-12 10:03:19,749 metrics Metric details - Name: RequestCount, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}, {'Name': 'Method', 'Value': 'GET'}]
+ERROR 2025-03-12 10:03:19,917 metrics Failed to put CloudWatch metric: type object 'datetime.datetime' has no attribute 'UTC'
+Traceback (most recent call last):
+  File "/Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py", line 54, in put_metric
+    'Timestamp': datetime.now(datetime.UTC)
+                              ^^^^^^^^^^^^
+AttributeError: type object 'datetime.datetime' has no attribute 'UTC'
+ERROR 2025-03-12 10:03:19,930 metrics Metric details - Name: ProcessingTime, Value: 165.99702835083008, Dimensions: [{'Name': 'Endpoint', 'Value': 'SimilarProductsView'}]
+ERROR 2025-03-12 10:03:20,033 metrics Failed to put CloudWatch metric: type object 'datetime.datetime' has no attribute 'UTC'
+Traceback (most recent call last):
+  File "/Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py", line 54, in put_metric
+    'Timestamp': datetime.now(datetime.UTC)
+                              ^^^^^^^^^^^^
+AttributeError: type object 'datetime.datetime' has no attribute 'UTC'
+ERROR 2025-03-12 10:03:20,033 metrics Metric details - Name: ResponseTime, Value: 568.2179927825928, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}]
+ERROR 2025-03-12 10:03:20,033 metrics Failed to put CloudWatch metric: type object 'datetime.datetime' has no attribute 'UTC'
+Traceback (most recent call last):
+  File "/Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py", line 54, in put_metric
+    'Timestamp': datetime.now(datetime.UTC)
+                              ^^^^^^^^^^^^
+AttributeError: type object 'datetime.datetime' has no attribute 'UTC'
+ERROR 2025-03-12 10:03:20,033 metrics Metric details - Name: StatusCode, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}, {'Name': 'StatusCode', 'Value': '422'}]
+WARNING 2025-03-12 10:03:20,034 basehttp "GET /api/similar-products/?image_url=https://assets.newme.asia/wp-content/uploads/2025/02/19093826c5e812ff/NM-IN-56-DRS-24-SEP-9428-YELLOW(1)-889x1334.webp&search_type=combined_75 HTTP/1.1" 422 11087
+INFO 2025-03-12 10:04:13,479 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/slayd/settings.py changed, reloading.
+INFO 2025-03-12 10:04:30,246 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 10:04:34,455 metrics Successfully created CloudWatch client
+ERROR 2025-03-12 10:04:34,456 metrics Failed to put CloudWatch metric: type object 'datetime.datetime' has no attribute 'UTC'
+Traceback (most recent call last):
+  File "/Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py", line 54, in put_metric
+    'Timestamp': datetime.now(datetime.UTC)
+                              ^^^^^^^^^^^^
+AttributeError: type object 'datetime.datetime' has no attribute 'UTC'
+ERROR 2025-03-12 10:04:34,457 metrics Metric details - Name: RequestCount, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}, {'Name': 'Method', 'Value': 'GET'}]
+ERROR 2025-03-12 10:04:34,519 metrics Failed to put CloudWatch metric: type object 'datetime.datetime' has no attribute 'UTC'
+Traceback (most recent call last):
+  File "/Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py", line 54, in put_metric
+    'Timestamp': datetime.now(datetime.UTC)
+                              ^^^^^^^^^^^^
+AttributeError: type object 'datetime.datetime' has no attribute 'UTC'
+ERROR 2025-03-12 10:04:34,520 metrics Metric details - Name: ProcessingTime, Value: 61.3558292388916, Dimensions: [{'Name': 'Endpoint', 'Value': 'SimilarProductsView'}]
+ERROR 2025-03-12 10:04:34,798 metrics Failed to put CloudWatch metric: type object 'datetime.datetime' has no attribute 'UTC'
+Traceback (most recent call last):
+  File "/Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py", line 54, in put_metric
+    'Timestamp': datetime.now(datetime.UTC)
+                              ^^^^^^^^^^^^
+AttributeError: type object 'datetime.datetime' has no attribute 'UTC'
+ERROR 2025-03-12 10:04:34,798 metrics Metric details - Name: ResponseTime, Value: 412.33205795288086, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}]
+ERROR 2025-03-12 10:04:34,798 metrics Failed to put CloudWatch metric: type object 'datetime.datetime' has no attribute 'UTC'
+Traceback (most recent call last):
+  File "/Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py", line 54, in put_metric
+    'Timestamp': datetime.now(datetime.UTC)
+                              ^^^^^^^^^^^^
+AttributeError: type object 'datetime.datetime' has no attribute 'UTC'
+ERROR 2025-03-12 10:04:34,798 metrics Metric details - Name: StatusCode, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}, {'Name': 'StatusCode', 'Value': '422'}]
+WARNING 2025-03-12 10:04:34,799 basehttp "GET /api/similar-products/?image_url=https://assets.newme.asia/wp-content/uploads/2025/02/19093826c5e812ff/NM-IN-56-DRS-24-SEP-9428-YELLOW(1)-889x1334.webp&search_type=combined_75 HTTP/1.1" 422 11087
+INFO 2025-03-12 10:05:22,988 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py changed, reloading.
+INFO 2025-03-12 10:05:40,298 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 10:06:01,070 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py changed, reloading.
+INFO 2025-03-12 10:06:16,033 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 10:06:19,814 metrics Successfully created CloudWatch client
+ERROR 2025-03-12 10:06:20,278 metrics Failed to put CloudWatch metric: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+Traceback (most recent call last):
+  File "/Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py", line 47, in put_metric
+    client.put_metric_data(**metric_data)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 569, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 1023, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.exceptions.ClientError: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+ERROR 2025-03-12 10:06:20,287 metrics Metric details - Name: RequestCount, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}, {'Name': 'Method', 'Value': 'GET'}]
+ERROR 2025-03-12 10:06:20,492 metrics Failed to put CloudWatch metric: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+Traceback (most recent call last):
+  File "/Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py", line 47, in put_metric
+    client.put_metric_data(**metric_data)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 569, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 1023, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.exceptions.ClientError: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+ERROR 2025-03-12 10:06:20,493 metrics Metric details - Name: ProcessingTime, Value: 166.6879653930664, Dimensions: [{'Name': 'Endpoint', 'Value': 'SimilarProductsView'}]
+ERROR 2025-03-12 10:06:20,620 metrics Failed to put CloudWatch metric: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+Traceback (most recent call last):
+  File "/Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py", line 47, in put_metric
+    client.put_metric_data(**metric_data)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 569, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 1023, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.exceptions.ClientError: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+ERROR 2025-03-12 10:06:20,621 metrics Metric details - Name: ResponseTime, Value: 834.5839977264404, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}]
+ERROR 2025-03-12 10:06:20,653 metrics Failed to put CloudWatch metric: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+Traceback (most recent call last):
+  File "/Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py", line 47, in put_metric
+    client.put_metric_data(**metric_data)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 569, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 1023, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.exceptions.ClientError: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+ERROR 2025-03-12 10:06:20,653 metrics Metric details - Name: StatusCode, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}, {'Name': 'StatusCode', 'Value': '422'}]
+WARNING 2025-03-12 10:06:20,654 basehttp "GET /api/similar-products/?image_url=https://assets.newme.asia/wp-content/uploads/2025/02/19093826c5e812ff/NM-IN-56-DRS-24-SEP-9428-YELLOW(1)-889x1334.webp&search_type=combined_75 HTTP/1.1" 422 11087
+INFO 2025-03-12 10:08:13,947 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 10:08:52,771 metrics Successfully created CloudWatch client
+ERROR 2025-03-12 10:08:53,592 metrics Failed to put CloudWatch metric: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+Traceback (most recent call last):
+  File "/Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py", line 47, in put_metric
+    client.put_metric_data(**metric_data)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 569, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 1023, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.exceptions.ClientError: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+ERROR 2025-03-12 10:08:53,596 metrics Metric details - Name: RequestCount, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}, {'Name': 'Method', 'Value': 'GET'}]
+ERROR 2025-03-12 10:08:53,797 metrics Failed to put CloudWatch metric: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+Traceback (most recent call last):
+  File "/Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py", line 47, in put_metric
+    client.put_metric_data(**metric_data)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 569, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 1023, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.exceptions.ClientError: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+ERROR 2025-03-12 10:08:53,797 metrics Metric details - Name: ProcessingTime, Value: 156.74805641174316, Dimensions: [{'Name': 'Endpoint', 'Value': 'SimilarProductsView'}]
+ERROR 2025-03-12 10:08:53,874 metrics Failed to put CloudWatch metric: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+Traceback (most recent call last):
+  File "/Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py", line 47, in put_metric
+    client.put_metric_data(**metric_data)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 569, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 1023, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.exceptions.ClientError: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+ERROR 2025-03-12 10:08:53,874 metrics Metric details - Name: ResponseTime, Value: 1187.3857975006104, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}]
+ERROR 2025-03-12 10:08:53,912 metrics Failed to put CloudWatch metric: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+Traceback (most recent call last):
+  File "/Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py", line 47, in put_metric
+    client.put_metric_data(**metric_data)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 569, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 1023, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.exceptions.ClientError: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+ERROR 2025-03-12 10:08:53,916 metrics Metric details - Name: StatusCode, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}, {'Name': 'StatusCode', 'Value': '422'}]
+WARNING 2025-03-12 10:08:53,916 basehttp "GET /api/similar-products/?image_url=https://assets.newme.asia/wp-content/uploads/2025/02/19093826c5e812ff/NM-IN-56-DRS-24-SEP-9428-YELLOW(1)-889x1334.webp&search_type=combined_75 HTTP/1.1" 422 11087
+INFO 2025-03-12 10:11:54,638 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 10:11:59,592 metrics Successfully created CloudWatch client
+ERROR 2025-03-12 10:11:59,890 metrics Failed to put CloudWatch metric: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+Traceback (most recent call last):
+  File "/Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py", line 47, in put_metric
+    client.put_metric_data(**metric_data)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 569, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 1023, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.exceptions.ClientError: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+ERROR 2025-03-12 10:11:59,894 metrics Metric details - Name: RequestCount, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}, {'Name': 'Method', 'Value': 'GET'}]
+ERROR 2025-03-12 10:12:00,351 metrics Failed to put CloudWatch metric: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+Traceback (most recent call last):
+  File "/Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py", line 47, in put_metric
+    client.put_metric_data(**metric_data)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 569, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 1023, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.exceptions.ClientError: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+ERROR 2025-03-12 10:12:00,353 metrics Metric details - Name: ProcessingTime, Value: 251.86610221862793, Dimensions: [{'Name': 'Endpoint', 'Value': 'SimilarProductsView'}]
+ERROR 2025-03-12 10:12:00,668 metrics Failed to put CloudWatch metric: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+Traceback (most recent call last):
+  File "/Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py", line 47, in put_metric
+    client.put_metric_data(**metric_data)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 569, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 1023, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.exceptions.ClientError: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+ERROR 2025-03-12 10:12:00,668 metrics Metric details - Name: ResponseTime, Value: 1093.5957431793213, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}]
+ERROR 2025-03-12 10:12:00,703 metrics Failed to put CloudWatch metric: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+Traceback (most recent call last):
+  File "/Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py", line 47, in put_metric
+    client.put_metric_data(**metric_data)
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 569, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sparsh/miniforge3/lib/python3.12/site-packages/botocore/client.py", line 1023, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.exceptions.ClientError: An error occurred (AccessDenied) when calling the PutMetricData operation: User: arn:aws:iam::739275440812:user/s3-full-local is not authorized to perform: cloudwatch:PutMetricData because no identity-based policy allows the cloudwatch:PutMetricData action
+ERROR 2025-03-12 10:12:00,703 metrics Metric details - Name: StatusCode, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}, {'Name': 'StatusCode', 'Value': '422'}]
+WARNING 2025-03-12 10:12:00,703 basehttp "GET /api/similar-products/?image_url=https://assets.newme.asia/wp-content/uploads/2025/02/19093826c5e812ff/NM-IN-56-DRS-24-SEP-9428-YELLOW(1)-889x1334.webp&search_type=combined_75 HTTP/1.1" 422 11087
+INFO 2025-03-12 10:12:44,445 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py changed, reloading.
+INFO 2025-03-12 10:13:00,349 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 10:14:01,213 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 10:14:06,679 metrics [LOCAL] Metric - Name: RequestCount, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}, {'Name': 'Method', 'Value': 'GET'}]
+INFO 2025-03-12 10:14:16,699 metrics [LOCAL] Metric - Name: Success, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': 'SimilarProductsView'}, {'Name': 'SearchType', 'Value': 'combined_75'}]
+INFO 2025-03-12 10:14:16,700 metrics [LOCAL] Metric - Name: ProcessingTime, Value: 10018.028974533081, Dimensions: [{'Name': 'Endpoint', 'Value': 'SimilarProductsView'}]
+INFO 2025-03-12 10:14:16,744 metrics [LOCAL] Metric - Name: ResponseTime, Value: 10065.597295761108, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}]
+INFO 2025-03-12 10:14:16,744 metrics [LOCAL] Metric - Name: StatusCode, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/api/similar-products/'}, {'Name': 'StatusCode', 'Value': '200'}]
+INFO 2025-03-12 10:14:16,744 basehttp "GET /api/similar-products/?image_url=https://assets.newme.asia/wp-content/uploads/2025/02/19093826c5e812ff/NM-IN-56-DRS-24-SEP-9428-YELLOW(1)-889x1334.webp&search_type=combined_75 HTTP/1.1" 200 29052

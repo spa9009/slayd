@@ -26,8 +26,6 @@ class MetricsMiddleware:
         
         logger.info(f"Incoming request: {request_data}")
         
-        # Send request metric
-        logger.debug("Sending RequestCount metric")
         MetricsUtil.put_metric('RequestCount', 1, [
             {'Name': 'Endpoint', 'Value': request.path},
             {'Name': 'Method', 'Value': request.method}
@@ -36,14 +34,10 @@ class MetricsMiddleware:
         response = self.get_response(request)
         
         duration = (time.time() - start_time) * 1000  # milliseconds
-        
-        # Send response metrics
-        logger.debug("Sending ResponseTime metric")
         MetricsUtil.put_metric('ResponseTime', duration, [
             {'Name': 'Endpoint', 'Value': request.path}
         ], 'Milliseconds')
         
-        logger.debug("Sending StatusCode metric")
         MetricsUtil.put_metric(f'StatusCode', 1, [
             {'Name': 'Endpoint', 'Value': request.path},
             {'Name': 'StatusCode', 'Value': str(response.status_code)}
