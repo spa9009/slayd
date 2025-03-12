@@ -1,2 +1,7 @@
 INFO 2025-03-12 09:19:02,727 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/slayd/settings.py changed, reloading.
 INFO 2025-03-12 09:19:19,353 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 09:26:00,026 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py changed, reloading.
+INFO 2025-03-12 09:26:16,213 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 09:27:42,782 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 09:28:39,452 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 09:29:19,772 basehttp "GET /api/similar-products/?image_url=https://assets.newme.asia/wp-content/uploads/2025/02/19093826c5e812ff/NM-IN-56-DRS-24-SEP-9428-YELLOW(1)-889x1334.webp&search_type=combined_75 HTTP/1.1" 200 29052

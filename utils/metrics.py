@@ -7,6 +7,14 @@ from django.conf import settings
 
 
 class MetricsUtil:
+    _cloudwatch_client = None
+
+    @classmethod
+    def get_cloudwatch_client(cls):
+        if cls._cloudwatch_client is None and not (settings.DEBUG or os.getenv('ENVIRONMENT') == 'local'):
+            cls._cloudwatch_client = boto3.client('cloudwatch', region_name='ap-south-1')
+        return cls._cloudwatch_client
+
     @staticmethod
     def put_metric(name, value, dimensions, unit='Count'):
         """
@@ -17,19 +25,19 @@ class MetricsUtil:
         if settings.DEBUG or os.getenv('ENVIRONMENT') == 'local':
             print(f"[LOCAL] Metric - Name: {name}, Value: {value}, Dimensions: {dimensions}")
             return
-        cloudwatch = boto3.client('cloudwatch', region_name='ap-south-1')
-
         try:
-            cloudwatch.put_metric_data(
-                Namespace='Slayd/API',
-                MetricData=[{
-                    'MetricName': name,
-                    'Value': value,
-                    'Unit': unit,
-                    'Dimensions': dimensions,
-                    'Timestamp': datetime.now(datetime.UTC)
-                }]
-            )
+            client = MetricsUtil.get_cloudwatch_client()
+            if client:
+                client.put_metric_data(
+                    Namespace='Slayd/API',
+                    MetricData=[{
+                        'MetricName': name,
+                        'Value': value,
+                        'Unit': unit,
+                        'Dimensions': dimensions,
+                        'Timestamp': datetime.now(datetime.UTC)
+                    }]
+                )
         except Exception as e:
             # Log the error but don't raise it to avoid disrupting the main flow
             print(f"Failed to put CloudWatch metric: {str(e)}")
