@@ -198,6 +198,25 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': False,
         },
-        # You can add more loggers for other parts of your application
+        'utils.metrics': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'api.metrics': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'boto3': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'botocore': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        }
     },
 }
