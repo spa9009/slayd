@@ -9,6 +9,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
+from utils.metrics import MetricsUtil
 
 class SignUpView(APIView):
     def post(self, request):
@@ -100,7 +101,7 @@ class UserPreferenceView(APIView) :
     
 
 class MetaWebhookView(View):
-    # Verification endpoint for webhook setup
+    @MetricsUtil.track_execution_time('MetaWebhookVerification')
     def get(self, request):
         VERIFY_TOKEN = "slayd"
         mode = request.GET.get('hub.mode')
@@ -109,21 +110,49 @@ class MetaWebhookView(View):
 
         if mode and token:
             if mode == 'subscribe' and token == VERIFY_TOKEN:
+                MetricsUtil.record_success('MetaWebhookVerification', [
+                    {'Name': 'VerificationType', 'Value': 'Challenge'}
+                ])
                 return HttpResponse(challenge)
             else:
+                MetricsUtil.record_failure('MetaWebhookVerification', 'InvalidToken', [
+                    {'Name': 'Mode', 'Value': mode}
+                ])
                 return HttpResponse('Forbidden', status=403)
 
+        MetricsUtil.record_failure('MetaWebhookVerification', 'MissingParameters')
         return HttpResponse('Bad Request', status=400)
 
-    # Event listener for incoming webhook events
     @method_decorator(csrf_exempt)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 
+    @MetricsUtil.track_execution_time('MetaWebhookEvent')
     def post(self, request):
         try:
             data = json.loads(request.body)
+            
+            # Extract event type if available in the webhook payload
+            event_type = data.get('entry', [{}])[0].get('changes', [{}])[0].get('field', 'unknown')
+            
+            MetricsUtil.put_metric(
+                'WebhookEventReceived',
+                1,
+                [
+                    {'Name': 'Endpoint', 'Value': 'MetaWebhook'},
+                    {'Name': 'EventType', 'Value': event_type}
+                ]
+            )
+            
             print("Webhook received:", data)
+            MetricsUtil.record_success('MetaWebhookEvent', [
+                {'Name': 'EventType', 'Value': event_type}
+            ])
             return JsonResponse({'status': 'success'})
+            
         except json.JSONDecodeError:
+            MetricsUtil.record_failure('MetaWebhookEvent', 'InvalidJSON')
             return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            MetricsUtil.record_failure('MetaWebhookEvent', type(e).__name__)
+            return JsonResponse({'error': 'Internal Server Error'}, status=500)

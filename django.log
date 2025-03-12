@@ -5557,3 +5557,43 @@ INFO 2025-03-10 18:03:12,402 basehttp "GET /api/similar-products/?image_url=http
 INFO 2025-03-10 18:03:33,735 basehttp "GET /api/similar-products/?image_url=https://img.tatacliq.com/images/i7/437Wx649H/MP000000011128483_437Wx649H_202111102257311.jpeg&search_type=combined_75 HTTP/1.1" 200 29915
 INFO 2025-03-10 20:03:49,951 autoreload Watching for file changes with StatReloader
 INFO 2025-03-10 20:04:31,423 basehttp "GET /api/similar-products/?image_url=https://img.tatacliq.com/images/i7/437Wx649H/MP000000011128483_437Wx649H_202111102257311.jpeg&search_type=combined_75 HTTP/1.1" 200 29922
+INFO 2025-03-12 06:54:44,498 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 06:55:08,728 basehttp "GET /api/similar-products/?image_url=https://assets.newme.asia/wp-content/uploads/2025/02/19093826c5e812ff/NM-IN-56-DRS-24-SEP-9428-YELLOW(1)-889x1334.webp&search_type=combined_75 HTTP/1.1" 200 29052
+INFO 2025-03-12 07:18:25,232 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/feed/views.py changed, reloading.
+INFO 2025-03-12 07:18:41,744 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 07:18:50,952 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/feed/views.py changed, reloading.
+INFO 2025-03-12 07:19:06,961 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 07:19:30,858 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/feed/views.py changed, reloading.
+INFO 2025-03-12 07:19:47,416 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 07:31:39,192 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/feed/views.py changed, reloading.
+INFO 2025-03-12 07:32:00,116 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 07:34:06,823 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/feed/views.py changed, reloading.
+INFO 2025-03-12 07:34:24,937 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 07:41:58,511 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/feed/views.py changed, reloading.
+INFO 2025-03-12 07:42:16,635 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 07:58:16,960 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 08:00:45,331 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/feed/views.py changed, reloading.
+INFO 2025-03-12 08:01:03,161 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 08:01:11,707 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/feed/views.py changed, reloading.
+INFO 2025-03-12 08:01:27,737 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 08:12:49,209 basehttp - Broken pipe from ('127.0.0.1', 53421)
+INFO 2025-03-12 08:12:49,210 basehttp - Broken pipe from ('127.0.0.1', 53376)
+INFO 2025-03-12 08:12:53,567 basehttp "GET /api/similar-products/?image_url=https://assets.newme.asia/wp-content/uploads/2025/02/19093826c5e812ff/NM-IN-56-DRS-24-SEP-9428-YELLOW(1)-889x1334.webp&search_type=combined_75 HTTP/1.1" 200 29052
+INFO 2025-03-12 08:12:53,953 basehttp "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+INFO 2025-03-12 08:12:53,955 basehttp "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+INFO 2025-03-12 08:12:53,957 basehttp "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+INFO 2025-03-12 08:12:53,975 basehttp "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+INFO 2025-03-12 08:12:53,978 basehttp "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+INFO 2025-03-12 08:12:53,982 basehttp "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+INFO 2025-03-12 08:12:53,986 basehttp "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+INFO 2025-03-12 08:12:53,993 basehttp "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+INFO 2025-03-12 08:12:54,026 basehttp "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+INFO 2025-03-12 08:12:54,027 basehttp "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+INFO 2025-03-12 08:12:54,070 basehttp "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+INFO 2025-03-12 08:12:54,154 basehttp "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+INFO 2025-03-12 08:12:54,190 basehttp "GET /static/rest_framework/css/bootstrap.min.css.map HTTP/1.1" 200 540434
+INFO 2025-03-12 08:14:13,791 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py changed, reloading.
+INFO 2025-03-12 08:14:29,469 autoreload Watching for file changes with StatReloader
+INFO 2025-03-12 08:15:14,541 basehttp "GET /api/similar-products/?image_url=https://assets.newme.asia/wp-content/uploads/2025/02/19093826c5e812ff/NM-IN-56-DRS-24-SEP-9428-YELLOW(1)-889x1334.webp&search_type=combined_75 HTTP/1.1" 200 29052
+INFO 2025-03-12 08:19:43,341 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/utils/metrics.py changed, reloading.
+INFO 2025-03-12 08:20:00,730 autoreload Watching for file changes with StatReloader

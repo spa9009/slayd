@@ -3,14 +3,13 @@ from .models import Product, Post, TaggedProduct, Media, Curation, MyntraProduct
 from .serializers import ProductSerializer, PostSerializer, CurationSerializer, MyntraProductsSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.db.models import Q
 import random
 import logging
 from .utils.similarity_search import SimilaritySearcher
 import requests
-import traceback
+from utils.metrics import MetricsUtil
 
 logger = logging.getLogger(__name__)
 
@@ -209,15 +208,15 @@ class MyntraProductsListCreateView(generics.ListCreateAPIView):
     serializer_class = MyntraProductsSerializer
 
 class SimilarProductsView(APIView):
+    @MetricsUtil.track_execution_time('SimilarProductsView')
     def get(self, request):
         logger = logging.getLogger(__name__)
         try:
             image_url = request.query_params.get('image_url')
             search_type = request.query_params.get('search_type', 'combined_75')
             
-            logger.debug(f"Processing request for image_url: {image_url}")
-            
             if not image_url:
+                MetricsUtil.record_failure('SimilarProductsView', 'MissingImageURL')
                 return Response(
                     {"error": "image_url parameter is required"}, 
                     status=status.HTTP_400_BAD_REQUEST
@@ -247,6 +246,10 @@ class SimilarProductsView(APIView):
                     image_url, 
                     search_type=search_type
                 )
+                
+                MetricsUtil.record_success('SimilarProductsView', [
+                    {'Name': 'SearchType', 'Value': search_type}
+                ])
                 return Response(similar_products)
             except RuntimeError as e:
                 logger.error(f"Runtime error in similarity search: {str(e)}")
@@ -255,16 +258,12 @@ class SimilarProductsView(APIView):
                     status=status.HTTP_422_UNPROCESSABLE_ENTITY
                 )
             except Exception as e:
-                logger.error(f"Unexpected error: {str(e)}")
-                logger.error(f"Traceback: {traceback.format_exc()}")
-                return Response(
-                    {"error": "An unexpected error occurred"}, 
-                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
-                )
+                MetricsUtil.record_failure('SimilarProductsView', type(e).__name__)
+                raise
 
         except Exception as e:
+            MetricsUtil.record_failure('SimilarProductsView', 'UnhandledException')
             logger.error(f"Unhandled exception: {str(e)}")
-            logger.error(f"Traceback: {traceback.format_exc()}")
             return Response(
                 {"error": "Internal server error"}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
