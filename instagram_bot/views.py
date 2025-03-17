@@ -279,7 +279,7 @@ class MetaWebhookView(View):
             # Make Pinterest API request
             api_url = f"https://api.pinterest.com/v5/pins/{pin_id}"
             headers = {
-                "Authorization": f"Bearer {self.PINTEREST_ACCESS_TOKEN}",
+                "Authorization": f"Bearer {settings.PINTEREST_ACCESS_TOKEN}",
                 "Content-Type": "application/json"
             }
             
@@ -373,7 +373,7 @@ class MetaWebhookView(View):
         """Test Pinterest API access"""
         try:
             headers = {
-                "Authorization": f"Bearer {self.PINTEREST_ACCESS_TOKEN}",
+                "Authorization": f"Bearer {settings.PINTEREST_ACCESS_TOKEN}",
                 "Content-Type": "application/json"
             }
             
