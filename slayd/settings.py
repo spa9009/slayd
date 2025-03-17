@@ -39,7 +39,18 @@ SECRET_KEY = 'django-insecure-6u9$*8@)(-z!fkw&7z^wp8#ys+r+p6=1!^p7ouqd2-g#avv)gj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['http://localhost:3000', '43.205.235.112', '127.0.0.1', 'api.slayd.in', '43.204.235.28', 'https://slayd.in']
+ALLOWED_HOSTS = [
+    'localhost:3000',
+    '43.205.235.112',
+    '127.0.0.1',
+    'api.slayd.in',
+    '43.204.235.28',
+    'slayd.in',
+    'e248-182-69-129-27.ngrok-free.app',
+    'localhost',
+    '1df6-2401-4900-1c55-46ef-2959-d63a-32ce-8640.ngrok-free.app'
+]
+
 CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
@@ -51,6 +62,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'instagram_bot',
     'rest_framework',
     'corsheaders',
     'feed',
@@ -95,12 +107,8 @@ WSGI_APPLICATION = 'slayd.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'product_info',
-        'USER': 'slayd_admin',
-        'PASSWORD': 'slayd-pass',
-        'HOST': 'slayd-app.c1e8o8y28hk9.ap-south-1.rds.amazonaws.com',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -198,3 +206,9 @@ LOGGING = {
         # You can add more loggers for other parts of your application
     },
 }
+
+INSTAGRAM_ACCESS_TOKEN = "IGAAhRitqpc7JBZAFBYTHVaN1NYaE5MT2R3S29iNzFSSFdCYmFmMVkybjZAMVC1BQi1ua1A5S1kybEkzRTJsQnIzeWwyVGlIMThXOVpSbmw3dlZAWX3ZAWQU1HZAjF6dnJiMzBFc285ZAkZAaOV9lMWFPRE00dzdR"
+
+# Media files configuration
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
