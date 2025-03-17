@@ -2,3 +2,4 @@ __pycache__/
 indices/
 /django.log
 /webhook_log.txt
+.env
