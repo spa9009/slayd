@@ -133,3 +133,17 @@ class MyntraProductEmbeddings(models.Model):
 
     def __str__(self):
         return f'{self.id} {self.myntra_product.id}'
+
+class MyntraProductTags(models.Model):
+    myntra_product = models.OneToOneField(MyntraProducts, on_delete=models.CASCADE, related_name='tag')
+    color = models.CharField(max_length=255, null=True, blank=True)
+    fit = models.CharField(max_length=255, null=True, blank=True)
+    length = models.CharField(max_length=255, null=True, blank=True)
+    print = models.CharField(max_length=255, null=True, blank=True)
+    sleeve = models.CharField(max_length=255, null=True, blank=True)
+    material = models.CharField(max_length=255, null=True, blank=True)
+    neckline = models.CharField(max_length=255, null=True, blank=True)
+    design = models.CharField(max_length=255, null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.id} {self.myntra_product.id}'
