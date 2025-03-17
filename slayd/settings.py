@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'instagram_bot',
     'rest_framework',
     'corsheaders',
     'feed',
@@ -220,3 +221,9 @@ LOGGING = {
         }
     },
 }
+
+INSTAGRAM_ACCESS_TOKEN = "IGAAhRitqpc7JBZAFBYTHVaN1NYaE5MT2R3S29iNzFSSFdCYmFmMVkybjZAMVC1BQi1ua1A5S1kybEkzRTJsQnIzeWwyVGlIMThXOVpSbmw3dlZAWX3ZAWQU1HZAjF6dnJiMzBFc285ZAkZAaOV9lMWFPRE00dzdR"
+
+# Media files configuration
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

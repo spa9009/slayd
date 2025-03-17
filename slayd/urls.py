@@ -6,4 +6,5 @@ urlpatterns = [
     path('api/', include('feed.urls')),
     path('account/', include('account.urls')),
     path('activity/', include('activity.urls')),
+    path('instagram/', include('instagram_bot.urls')),
 ]

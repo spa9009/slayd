@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from feed.models import Product, ProductEmbeddings
+from feed.models import MyntraProducts, MyntraProductEmbeddings
 import numpy as np
 from PIL import Image
 from io import BytesIO
@@ -15,15 +15,15 @@ class Command(BaseCommand):
         fclip = FashionCLIP('fashion-clip')
         self.stdout.write("Model loaded. Proceeding further")
 
-        products = list(Product.objects.filter(
+        products = list(MyntraProducts.objects.filter(
             embedding__isnull=True  # Only select products without embeddings
-        ) | Product.objects.filter(
+        ) | MyntraProducts.objects.filter(
             embedding__image_embedding__isnull=True  # Retry products with missing image embeddings
-        ) | Product.objects.filter(
+        ) | MyntraProducts.objects.filter(
             embedding__text_embedding__isnull=True  # Retry products with missing text embeddings
         ))
         print("Total unprocessed products are: " + str(len(products)))
-        batch_size = 32
+        batch_size = 64
         total_batches = ceil(len(products) / batch_size)
 
         for batch_index in range(total_batches):
@@ -37,12 +37,12 @@ class Command(BaseCommand):
             brands = {}
 
             for product in batch_products:
-                image_url = product.image_url
+                image_url = product.image_url.replace('https://feed-images-01.s3.ap-south-1.amazonaws.com', 'https://d19dlu1w9mnmln.cloudfront.net')
                 try:
                     response = requests.get(image_url, timeout=10)
                     img = Image.open(BytesIO(response.content)).convert("RGB").resize((224, 224))
                     images[product.id] = img
-                    categories[product.id] = f"{product.category} {product.subcategory} {product.gender}"
+                    categories[product.id] = f"{product.category} {product.subcategory} {product.gender} {product.name} {product.color}"
                     brands[product.id] = product.brand
                 except Exception as e:
                     self.stdout.write(self.style.ERROR(f"Failed to process product {product.id}: {str(e)}"))
@@ -57,17 +57,17 @@ class Command(BaseCommand):
                     with transaction.atomic():
                         for product_id in images.keys():
                             try:
-                                product = Product.objects.get(id=product_id)
+                                product = MyntraProducts.objects.get(id=product_id)
 
-                                ProductEmbeddings.objects.update_or_create(
-                                    product=product,
+                                MyntraProductEmbeddings.objects.update_or_create(
+                                    myntra_product=product,
                                     defaults={
                                         'image_embedding': image_embeddings_dict[product_id].tolist(),
                                         'text_embedding': text_embeddings_dict[product_id].tolist(),
                                     }
                                 )
 
-                            except Product.DoesNotExist:
+                            except MyntraProducts.DoesNotExist:
                                 self.stdout.write(f"Product with ID {product_id} not found.")
 
                     self.stdout.write(f"Batch {batch_index + 1}/{total_batches} processed successfully")
@@ -91,7 +91,7 @@ def convert_embeddings(images, categories, brands, model):
     category_embeddings = category_embeddings / np.linalg.norm(category_embeddings, ord=2, axis=-1, keepdims=True)
     brand_embeddings = brand_embeddings / np.linalg.norm(brand_embeddings, ord=2, axis=-1, keepdims=True)
 
-    text_embeddings = 0.75 * category_embeddings + 0.25 * brand_embeddings
+    text_embeddings = category_embeddings
     text_embeddings = text_embeddings / np.linalg.norm(text_embeddings, ord=2, axis=-1, keepdims=True)
 
     image_embeddings_dict = {product_id: embedding for product_id, embedding in zip(images.keys(), image_embeddings)}

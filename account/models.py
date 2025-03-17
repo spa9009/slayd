@@ -13,7 +13,7 @@ class User(models.Model):
     username = models.CharField(max_length=20, unique=True)
     password = models.CharField(max_length=100)
     age = models.IntegerField()
-    gender = models.CharField(choices=GENDERS)
+    gender = models.CharField(choices=GENDERS, max_length=10)
     phone = models.CharField(max_length=10, unique=True)
 
     def __str__(self):
@@ -32,7 +32,7 @@ class UserRecord(models.Model):
     username = models.CharField(max_length=20, unique=True)
     password = models.CharField(max_length=100)
     age = models.IntegerField()
-    gender = models.CharField(choices=GENDERS)
+    gender = models.CharField(choices=GENDERS, max_length=10)
     phone = models.CharField(max_length=10, unique=True)
 
     def __str__(self):
