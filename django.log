@@ -668,3 +668,13 @@ INFO 2025-03-17 10:48:23,008 metrics [LOCAL] Metric - Name: StatusCode, Value: 1
 INFO 2025-03-17 10:48:23,009 basehttp "GET /instagram/webhook/ HTTP/1.1" 200 18
 INFO 2025-03-17 10:51:26,369 autoreload /Users/sparsh/Documents/workspace/dev/slayd-main/slayd/instagram_bot/views.py changed, reloading.
 INFO 2025-03-17 10:51:51,808 autoreload Watching for file changes with StatReloader
+INFO 2025-03-18 15:02:06,822 autoreload Watching for file changes with StatReloader
+INFO 2025-03-18 15:03:30,895 autoreload Watching for file changes with StatReloader
+INFO 2025-03-18 15:03:40,224 metrics [LOCAL] Metric - Name: RequestCount, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/'}, {'Name': 'Method', 'Value': 'GET'}]
+INFO 2025-03-18 15:03:40,576 metrics [LOCAL] Metric - Name: ResponseTime, Value: 383.93282890319824, Dimensions: [{'Name': 'Endpoint', 'Value': '/'}]
+INFO 2025-03-18 15:03:40,591 metrics [LOCAL] Metric - Name: StatusCode, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/'}, {'Name': 'StatusCode', 'Value': '404'}]
+WARNING 2025-03-18 15:03:40,644 basehttp "GET / HTTP/1.1" 404 2759
+INFO 2025-03-18 15:04:32,772 metrics [LOCAL] Metric - Name: RequestCount, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/activity/upload/'}, {'Name': 'Method', 'Value': 'POST'}]
+INFO 2025-03-18 15:04:34,113 metrics [LOCAL] Metric - Name: ResponseTime, Value: 1344.6159362792969, Dimensions: [{'Name': 'Endpoint', 'Value': '/activity/upload/'}]
+INFO 2025-03-18 15:04:34,125 metrics [LOCAL] Metric - Name: StatusCode, Value: 1, Dimensions: [{'Name': 'Endpoint', 'Value': '/activity/upload/'}, {'Name': 'StatusCode', 'Value': '201'}]
+INFO 2025-03-18 15:04:34,169 basehttp "POST //activity/upload/ HTTP/1.1" 201 99
