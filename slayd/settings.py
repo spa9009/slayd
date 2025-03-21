@@ -196,30 +196,30 @@ LOGGING = {
         },
         'utils.metrics': {
             'handlers': ['console', 'file'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': True,
         },
         'api.metrics': {
             'handlers': ['console', 'file'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': True,
         },
         'boto3': {
             'handlers': ['console', 'file'],
-            'level': 'WARNING',
+            'level': 'INFO',
             'propagate': False,
         },
         'botocore': {
             'handlers': ['console', 'file'],
-            'level': 'WARNING',
+            'level': 'INFO',
             'propagate': False,
         },
         'urllib3': {
             'handlers': ['console'],
-            'level': 'WARNING',
+            'level': 'INFO',
             'propagate': False,
         },
-        'slayd.instagram_bot': {
+        'instagram_bot.views': {
             'handlers': ['console', 'file'],
             'level': 'INFO',
             'propagate': True,

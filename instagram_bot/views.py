@@ -452,7 +452,13 @@ class MetaWebhookView(View):
                             attachment_type = attachment.get('type')
                             url = attachment.get('payload', {}).get('url')
                             
-                            if attachment_type in ['image', 'share']:
+                            if attachment_type == 'ig_reel':
+                                # Send a response for Instagram Reels
+                                self.send_instagram_reply(
+                                    sender_id,
+                                    "Thanks for sharing the Reel! 🎬 Currently, I can only help you find similar products from images. Please share a photo or screenshot instead! 📸"
+                                )
+                            elif attachment_type in ['image', 'share']:
                                 if attachment_type == 'share':
                                     url = self.extract_carousel_image(attachment)
                                 
