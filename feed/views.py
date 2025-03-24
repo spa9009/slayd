@@ -216,6 +216,8 @@ class SimilarProductsView(APIView):
         try:
             image_url = request.query_params.get('image_url')
             search_type = request.query_params.get('search_type', 'combined_75')
+            page = int(request.query_params.get('page', 1))
+            items_per_page = int(request.query_params.get('items_per_page', 20))
             
             if not image_url:
                 MetricsUtil.record_failure('SimilarProductsView', 'MissingImageURL')
@@ -223,16 +225,21 @@ class SimilarProductsView(APIView):
                     {"error": "image_url parameter is required"}, 
                     status=status.HTTP_400_BAD_REQUEST
                 )
+            
             # Get similar products
             try:
                 searcher = SimilaritySearcher()
                 similar_products = searcher.get_similar_products(
                     image_url, 
-                    search_type=search_type
+                    search_type=search_type,
+                    page=page,
+                    items_per_page=items_per_page,
+                    top_k=100
                 )
                 
                 MetricsUtil.record_success('SimilarProductsView', [
-                    {'Name': 'SearchType', 'Value': search_type}
+                    {'Name': 'SearchType', 'Value': search_type},
+                    {'Name': 'Page', 'Value': str(page)}
                 ])
                 return Response(similar_products)
             except RuntimeError as e:
@@ -245,6 +252,12 @@ class SimilarProductsView(APIView):
                 MetricsUtil.record_failure('SimilarProductsView', type(e).__name__)
                 raise
 
+        except ValueError as e:
+            MetricsUtil.record_failure('SimilarProductsView', 'InvalidPaginationParameters')
+            return Response(
+                {"error": f"Invalid pagination parameters: {str(e)}"}, 
+                status=status.HTTP_416_REQUESTED_RANGE_NOT_SATISFIABLE
+            )
         except Exception as e:
             MetricsUtil.record_failure('SimilarProductsView', 'UnhandledException')
             logger.error(f"Unhandled exception: {str(e)}")

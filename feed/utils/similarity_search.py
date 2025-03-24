@@ -209,12 +209,23 @@ class SimilaritySearcher(metaclass=SingletonMeta):
             gc.collect()
             torch.cuda.empty_cache() if torch.cuda.is_available() else None
 
-    def get_similar_products(self, image_path, top_k=20, search_type='combined_75'):
+    def get_similar_products(self, image_path, top_k=100, page=1, items_per_page=20, search_type='combined_75'):
         with self.tensor_management():
             logger = logging.getLogger(__name__)
             try:
-                logger.debug(f"Starting similarity search for {image_path}")
+                logger.debug(f"Starting similarity search for {image_path} - Page {page}")
                 
+                # Validate pagination parameters
+                if page < 1:
+                    raise ValueError("Page number must be greater than 0")
+                
+                # Calculate start and end indices for pagination
+                start_idx = (page - 1) * items_per_page
+                end_idx = start_idx + items_per_page - 1 
+                
+                if start_idx >= top_k:
+                    return []
+
                 # Process input image with detailed error handling
                 try:
                     image = self.load_and_process_image(image_path)
@@ -261,16 +272,17 @@ class SimilaritySearcher(metaclass=SingletonMeta):
                 else:
                     raise ValueError(f"Invalid search type: {search_type}")
 
-                # Perform search using appropriate index
+                # Perform search using appropriate index - fetch all top_k results
                 distances, idx = self.indices[search_type].search(
                     np.array(query_embedding, dtype="float32"),
                     top_k
                 )
 
-                # Get product details
+                # Get product details for the requested page
                 similar_products = []
-                for i in range(len(idx[0])):
+                for i in range(start_idx, min(end_idx, len(idx[0]))):
                     product_id = str(self.product_ids[idx[0][i]])
+                    print(product_id)
                     product = MyntraProducts.objects.get(id=product_id)
                     similar_products.append({
                         'id': product.id,
@@ -282,10 +294,18 @@ class SimilaritySearcher(metaclass=SingletonMeta):
                         'product_brand': product.brand,
                         'product_marketplace': product.marketplace,
                         'similarity_score': float(distances[0][i]),
-                        'description': text_description if i == 0 else None  # Include description for first result only
+                        'description': text_description if i == start_idx and page == 1 else None  # Include description for first result of first page only
                     })
 
-                return similar_products
+                return {
+                    'products': similar_products,
+                    'pagination': {
+                        'current_page': page,
+                        'total_pages': (top_k + items_per_page - 1) // items_per_page,
+                        'total_items': top_k,
+                        'items_per_page': items_per_page
+                    }
+                }
 
             except Exception as e:
                 logger.error(f"Error in get_similar_products: {str(e)}")

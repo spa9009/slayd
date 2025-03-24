@@ -3,3 +3,4 @@ indices/
 /django.log
 /webhook_log.txt
 .env
+django.log
