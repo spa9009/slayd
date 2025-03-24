@@ -221,7 +221,7 @@ class SimilaritySearcher(metaclass=SingletonMeta):
                 
                 # Calculate start and end indices for pagination
                 start_idx = (page - 1) * items_per_page
-                end_idx = start_idx + items_per_page - 1 
+                end_idx = start_idx + items_per_page
                 
                 if start_idx >= top_k:
                     return []
