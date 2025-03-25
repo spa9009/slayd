@@ -14,6 +14,8 @@ import torch
 import traceback
 import gc
 from contextlib import contextmanager
+import hashlib
+from django.core.cache import cache
 
 class SingletonMeta(type):
     _instances = {}
@@ -215,6 +217,9 @@ class SimilaritySearcher(metaclass=SingletonMeta):
             try:
                 logger.debug(f"Starting similarity search for {image_path} - Page {page}")
                 
+                # Create a cache key using only image_path and top_k
+                cache_key = hashlib.md5(f"{image_path}:{top_k}:{search_type}".encode()).hexdigest()
+                
                 # Validate pagination parameters
                 if page < 1:
                     raise ValueError("Page number must be greater than 0")
@@ -226,13 +231,27 @@ class SimilaritySearcher(metaclass=SingletonMeta):
                 if start_idx >= top_k:
                     return []
 
-                # Process input image with detailed error handling
-                try:
-                    image = self.load_and_process_image(image_path)
-                    logger.debug("Image loaded and processed successfully")
-                except Exception as e:
-                    logger.error(f"Failed to load/process image: {str(e)}")
-                    raise RuntimeError(f"Image processing failed: {str(e)}")
+                # Try to get full results from cache
+                cached_results = cache.get(cache_key)
+                if cached_results:
+                    logger.debug(f"Cache hit for {image_path}")
+                    # Extract the requested page from cached results
+                    all_products = cached_results['products']
+                    paginated_products = all_products[start_idx:end_idx]
+                    
+                    return {
+                        'products': paginated_products,
+                        'pagination': {
+                            'current_page': page,
+                            'total_pages': (top_k + items_per_page - 1) // items_per_page,
+                            'total_items': top_k,
+                            'items_per_page': items_per_page
+                        }
+                    }
+
+                # If not in cache, process the image and get all results
+                image = self.load_and_process_image(image_path)
+                logger.debug("Image loaded and processed successfully")
 
                 # Get image embedding with error handling
                 try:
@@ -272,19 +291,18 @@ class SimilaritySearcher(metaclass=SingletonMeta):
                 else:
                     raise ValueError(f"Invalid search type: {search_type}")
 
-                # Perform search using appropriate index - fetch all top_k results
+                # Get all results up to top_k
                 distances, idx = self.indices[search_type].search(
                     np.array(query_embedding, dtype="float32"),
                     top_k
                 )
 
-                # Get product details for the requested page
-                similar_products = []
-                for i in range(start_idx, min(end_idx, len(idx[0]))):
+                # Get all product details
+                all_similar_products = []
+                for i in range(len(idx[0])):
                     product_id = str(self.product_ids[idx[0][i]])
-                    print(product_id)
                     product = MyntraProducts.objects.get(id=product_id)
-                    similar_products.append({
+                    all_similar_products.append({
                         'id': product.id,
                         'product_link': product.product_link,
                         'product_name': product.name,
@@ -294,11 +312,15 @@ class SimilaritySearcher(metaclass=SingletonMeta):
                         'product_brand': product.brand,
                         'product_marketplace': product.marketplace,
                         'similarity_score': float(distances[0][i]),
-                        'description': text_description if i == start_idx and page == 1 else None  # Include description for first result of first page only
+                        'description': text_description if i == 0 else None  # Include description for first result only
                     })
 
+                # Cache the full result set
+                cache.set(cache_key, {'products': all_similar_products}, timeout=300)  # Cache for 5 minutes
+
+                # Return only the requested page
                 return {
-                    'products': similar_products,
+                    'products': all_similar_products[start_idx:end_idx],
                     'pagination': {
                         'current_page': page,
                         'total_pages': (top_k + items_per_page - 1) // items_per_page,

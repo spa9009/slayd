@@ -230,6 +230,13 @@ LOGGING = {
 INSTAGRAM_ACCESS_TOKEN = "IGAAhRitqpc7JBZAFBYTHVaN1NYaE5MT2R3S29iNzFSSFdCYmFmMVkybjZAMVC1BQi1ua1A5S1kybEkzRTJsQnIzeWwyVGlIMThXOVpSbmw3dlZAWX3ZAWQU1HZAjF6dnJiMzBFc285ZAkZAaOV9lMWFPRE00dzdR"
 PINTEREST_ACCESS_TOKEN = os.getenv('PINTEREST_ACCESS_TOKEN')
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1'
+    }
+}
+
 # Media files configuration
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
