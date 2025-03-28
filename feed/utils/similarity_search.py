@@ -297,34 +297,51 @@ class SimilaritySearcher(metaclass=SingletonMeta):
                     top_k
                 )
 
-                # Get all product details
+                # Get all product details with error handling
                 all_similar_products = []
                 for i in range(len(idx[0])):
                     product_id = str(self.product_ids[idx[0][i]])
-                    product = MyntraProducts.objects.get(id=product_id)
-                    all_similar_products.append({
-                        'id': product.id,
-                        'product_link': product.product_link,
-                        'product_name': product.name,
-                        'product_price': product.price,
-                        'discount_price': product.discount_price,
-                        'product_image': product.image_url,
-                        'product_brand': product.brand,
-                        'product_marketplace': product.marketplace,
-                        'similarity_score': float(distances[0][i]),
-                        'description': text_description if i == 0 else None  # Include description for first result only
-                    })
+                    try:
+                        product = MyntraProducts.objects.get(id=product_id)
+                        all_similar_products.append({
+                            'id': product.id,
+                            'product_link': product.product_link,
+                            'product_name': product.name,
+                            'product_price': product.price,
+                            'discount_price': product.discount_price,
+                            'product_image': product.image_url,
+                            'product_brand': product.brand,
+                            'product_marketplace': product.marketplace,
+                            'similarity_score': float(distances[0][i]),
+                            'description': text_description if i == 0 else None
+                        })
+                    except MyntraProducts.DoesNotExist:
+                        logger.warning(f"Product with ID {product_id} not found in database")
+                        continue
+                    except Exception as e:
+                        logger.error(f"Error processing product {product_id}: {str(e)}")
+                        continue
+
+                # Adjust pagination based on actual number of valid products
+                total_valid_products = len(all_similar_products)
+                total_pages = (total_valid_products + items_per_page - 1) // items_per_page
+
+                # Ensure page number is valid
+                page = min(max(1, page), total_pages) if total_pages > 0 else 1
+
+                # Calculate start and end indices for pagination
+                start_idx = (page - 1) * items_per_page
+                end_idx = min(start_idx + items_per_page, total_valid_products)
 
                 # Cache the full result set
                 cache.set(cache_key, {'products': all_similar_products}, timeout=300)  # Cache for 5 minutes
 
-                # Return only the requested page
                 return {
                     'products': all_similar_products[start_idx:end_idx],
                     'pagination': {
                         'current_page': page,
-                        'total_pages': (top_k + items_per_page - 1) // items_per_page,
-                        'total_items': top_k,
+                        'total_pages': total_pages,
+                        'total_items': total_valid_products,
                         'items_per_page': items_per_page
                     }
                 }
@@ -443,6 +460,13 @@ class DressClassifier:
                 self.logger.debug("\nTop 3 predictions:")
                 for prob, idx in zip(top_probs, top_indices):
                     self.logger.debug(f"  {attribute_list[idx]}: {prob.item():.2%}")
+
+                if attribute_list == self.print_status:
+                    printed_idx = attribute_list.index("Printed")
+                    printed_prob = probs[0][printed_idx].item()
+                    if printed_prob >= 0.15: 
+                        return "Printed"
+                    return "Solid"
                 
                 predicted_idx = top_indices[0].item()
                 return attribute_list[predicted_idx]
