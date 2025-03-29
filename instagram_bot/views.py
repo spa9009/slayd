@@ -605,18 +605,8 @@ class MetaWebhookView(View):
                                 
                                 url, error_type = self.extract_carousel_image(attachment)
                                 
-                                # Handle different error types
-                                if error_type == "error_private_post":
-                                    self.send_instagram_reply(
-                                        sender_id,
-                                        "Sorry, I can't process posts from private accounts! 🔒\n\n"
-                                        "Please make sure to:\n"
-                                        "1. Share posts from public accounts only\n"
-                                        "2. Or take a screenshot of the post and share it with me\n"
-                                        "3. Or share a different inspiration from a public account 📸"
-                                    )
-                                    return
-                                elif error_type == "error_api_failed":
+                                # Handle remaining error types
+                                if error_type == "error_api_failed":
                                     self.send_instagram_reply(
                                         sender_id,
                                         "Sorry, I had trouble accessing that post. Could you try sharing a screenshot instead? 📸"
