@@ -7,13 +7,14 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.conf import settings
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 from urllib.parse import quote, urlencode
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from pathlib import Path
 import uuid
+from django.core.cache import cache
 
 logger = logging.getLogger(__name__)
 
@@ -157,7 +158,7 @@ class MetaWebhookView(View):
             media_id_match = re.search(r'media_id=([^&]+)', url)
             if not media_id_match:
                 logger.warning("❌ Could not extract media ID from URL")
-                return url
+                return None, "error_invalid_url"
 
             media_id = media_id_match.group(1)
             logger.info(f"🎯 Processing media with ID: {media_id}")
@@ -173,7 +174,7 @@ class MetaWebhookView(View):
                 # Handle single image post
                 if 'media_url' in data:
                     logger.info(f"✅ Found single image URL: {data['media_url']}")
-                    return data['media_url']
+                    return data['media_url'], None
                 
                 # Handle carousel post
                 if data.get('media_type') == 'CAROUSEL_ALBUM' and 'children' in data:
@@ -183,14 +184,22 @@ class MetaWebhookView(View):
                     # Get first image URL from carousel
                     if children and 'media_url' in children[0]:
                         logger.info(f"✅ Using first carousel image: {children[0]['media_url']}")
-                        return children[0]['media_url']
+                        return children[0]['media_url'], None
+            
+            # Check for specific error messages
+            error_data = response.json() if response.status_code != 200 else {}
+            error_message = error_data.get('error', {}).get('message', '')
+            
+            if response.status_code == 400 and ('permission' in error_message.lower() or 'private' in error_message.lower()):
+                logger.warning("❌ Private post detected")
+                return None, "error_private_post"
             
             logger.warning(f"❌ API request failed: {response.status_code} - {response.text}")
-            return url
+            return None, "error_api_failed"
             
         except Exception as e:
             logger.exception("Error handling carousel")
-            return url
+            return None, "error_general"
 
     def extract_carousel_image(self, attachment):
         """Extract the specific image URL from a carousel share"""
@@ -217,13 +226,19 @@ class MetaWebhookView(View):
                         media_url = response.json().get('media_url')
                         if media_url:
                             logger.info(f"✅ Found image URL: {media_url}")
-                            return media_url
+                            return media_url, None
+                        
+                    error_data = response.json() if response.status_code != 200 else {}
+                    error_message = error_data.get('error', {}).get('message', '')
+                    
+                    if response.status_code == 400 and ('permission' in error_message.lower() or 'private' in error_message.lower()):
+                        return None, "error_private_post"
                         
                     logger.warning(f"⚠️ Could not get media URL from API: {response.text}")
-                    return url
+                    return None, "error_api_failed"
                 
                 logger.warning("⚠️ Using original CDN URL")
-                return url
+                return url, None
             
             # Handle regular Instagram post shares
             elif 'instagram.com' in url:
@@ -233,11 +248,11 @@ class MetaWebhookView(View):
                     return self.handle_carousel_post(url, None)
             
             logger.warning("⚠️ Using original URL as fallback")
-            return url
+            return url, None
             
         except Exception as e:
             logger.exception("Error processing image")
-            return url
+            return None, "error_general"
 
     def extract_pinterest_image(self, text):
         """Extract image URL from Pinterest link using Pinterest API"""
@@ -390,6 +405,100 @@ class MetaWebhookView(View):
             logger.exception("Pinterest API test failed")
             return False
 
+    def is_human_response_active(self, sender_id):
+        """Check if there's an active human response window for this user"""
+        cache_key = f"human_response_{sender_id}"
+        last_human_response = cache.get(cache_key)
+        return bool(last_human_response)
+
+    def mark_human_response(self, sender_id):
+        """Mark that a human has responded to this user"""
+        cache_key = f"human_response_{sender_id}"
+        # Set cache with 1 hour expiration
+        cache.set(cache_key, datetime.now(), timeout=3600)  # 3600 seconds = 1 hour
+
+    def handle_text_message(self, sender_id, text, is_echo=False, from_page_id=None):
+        """Handle different types of text messages"""
+        try:
+            # If this is a message from the page (human response)
+            if is_echo and from_page_id:
+                self.mark_human_response(sender_id)
+                return
+
+            # Check if we're in human response window
+            if self.is_human_response_active(sender_id):
+                # Skip automated responses for text messages
+                # but still process Pinterest links
+                if 'pin.it/' in text or 'pinterest.com/pin/' in text:
+                    self.send_instagram_reply(
+                        sender_id,
+                        "Processing your Pinterest link... 🔍"
+                    )
+                    # Extract and process Pinterest image
+                    image_url = self.extract_pinterest_image(text)
+                    if image_url:
+                        imgur_url = self.rehost_image(image_url)
+                        if imgur_url:
+                            self.send_product_card(
+                                recipient_id=sender_id,
+                                image_url=imgur_url,
+                                title="Found similar products from Pinterest! 🛍️",
+                                subtitle="Check out these matches for your Pinterest inspiration"
+                            )
+                        else:
+                            self.send_instagram_reply(
+                                sender_id,
+                                "Sorry, I had trouble processing that Pinterest image. Could you try sharing another one? 🙏"
+                            )
+                    return
+
+            # Regular automated response flow
+            if 'pin.it/' in text or 'pinterest.com/pin/' in text:
+                # ... existing Pinterest handling ...
+                self.send_instagram_reply(
+                    sender_id,
+                    "Processing your Pinterest link... 🔍"
+                )
+                # Extract and process Pinterest image
+                image_url = self.extract_pinterest_image(text)
+                if image_url:
+                    imgur_url = self.rehost_image(image_url)
+                    if imgur_url:
+                        self.send_product_card(
+                            recipient_id=sender_id,
+                            image_url=imgur_url,
+                            title="Found similar products from Pinterest! 🛍️",
+                            subtitle="Check out these matches for your Pinterest inspiration"
+                        )
+                    else:
+                        self.send_instagram_reply(
+                            sender_id,
+                            "Sorry, I had trouble processing that Pinterest image. Could you try sharing another one? 🙏"
+                        )
+                return
+            elif self.is_feedback_message(text):
+                # ... existing feedback handling ...
+                return
+            else:
+                # Default response for other text messages
+                self.send_instagram_reply(
+                    sender_id,
+                    "Hi! 👋 I'm your fashion assistant and I can help you find similar products from any fashion inspiration!\n\n"
+                    "Just share with me:\n"
+                    "📸 A photo\n"
+                    "🎯 An Instagram post\n"
+                    "📌 A Pinterest link\n"
+                    "🎬 A video/reel\n\n"
+                    "Try it now! Share something you'd like to find. 😊"
+                )
+
+        except Exception as e:
+            logger.exception("Error handling text message")
+            self.send_instagram_reply(
+                sender_id,
+                "Sorry, I encountered an error. Please try again! 🙏"
+            )
+
     def post(self, request, *args, **kwargs):
         try:
             data = json.loads(request.body)
@@ -403,72 +512,145 @@ class MetaWebhookView(View):
                     sender_id = messaging.get('sender', {}).get('id')
                     message = messaging.get('message', {})
                     
-                    # Skip echo messages
-                    if message.get('is_echo'):
-                        continue
+                    # Get echo and page ID information
+                    is_echo = message.get('is_echo', False)
+                    from_page_id = None
+                    if is_echo:
+                        from_page_id = messaging.get('sender', {}).get('id')
                     
-                    # Handle text messages (for Pinterest links)
+                    # Handle text messages
                     if 'text' in message:
                         text = message.get('text', '').strip()
-                        if 'pin.it/' in text or 'pinterest.com/pin/' in text:
-                            logger.info("📌 Pinterest link detected!")
-                            self.send_instagram_reply(
-                                sender_id,
-                                "Processing your Pinterest link... 🔍"
-                            )
-                            
-                            # Extract image from Pinterest
-                            image_url = self.extract_pinterest_image(text)
-                            if image_url:
-                                # Upload to Imgur
-                                imgur_url = self.rehost_image(image_url)
-                                if imgur_url:
-                                    self.send_product_card(
-                                        recipient_id=sender_id,
-                                        image_url=imgur_url,
-                                        title="Found similar products from Pinterest! 🛍️",
-                                        subtitle="Check out these matches for your Pinterest inspiration"
-                                    )
-                                else:
-                                    self.send_instagram_reply(
-                                        sender_id,
-                                        "Sorry, I had trouble processing that Pinterest image. Could you try sharing another one? 🙏"
-                                    )
-                            else:
-                                self.send_instagram_reply(
-                                    sender_id,
-                                    "Sorry, I couldn't access that Pinterest pin. Make sure it's a public pin and try again! 🔒"
-                                )
-                        else:
-                            # Handle other text messages as before
-                            self.send_instagram_reply(
-                                sender_id,
-                                "Thanks for your message! 🌟\nBrowse our collection: https://slayd.in/collection"
-                            )
+                        self.handle_text_message(
+                            sender_id, 
+                            text, 
+                            is_echo=is_echo, 
+                            from_page_id=from_page_id
+                        )
                     
-                    # Handle attachments (images and shares) as before
+                    # Handle attachments (images, shares, etc.)
                     if 'attachments' in message:
+                        # Process attachments regardless of human response window
                         for attachment in message.get('attachments', []):
                             attachment_type = attachment.get('type')
                             url = attachment.get('payload', {}).get('url')
                             
-                            if attachment_type == 'ig_reel':
-                                # Send a response for Instagram Reels
+                            # Initial response based on type
+                            type_responses = {
+                                'image': "Processing your image... 🔍",
+                                'share': "Processing your shared post... 🔍",
+                                'video': "Processing your video... Let me help you find products from it! 🎬",
+                                'ig_reel': "Processing your reel... Let me help you find products from it! 🎬"
+                            }
+                            
+                            if attachment_type in type_responses:
                                 self.send_instagram_reply(
                                     sender_id,
-                                    "Thanks for sharing the Reel! 🎬 Currently, I can only help you find similar products from images. Please share a photo or screenshot instead! 📸"
+                                    type_responses[attachment_type]
                                 )
-                            elif attachment_type in ['image', 'share']:
-                                if attachment_type == 'share':
-                                    url = self.extract_carousel_image(attachment)
-                                
+                            
+                            # Handle different attachment types
+                            if attachment_type == 'image':
                                 imgur_url = self.rehost_image(url)
                                 if imgur_url:
                                     self.send_product_card(
                                         recipient_id=sender_id,
                                         image_url=imgur_url,
-                                        title="Check out these similar products! 🛍️",
-                                        subtitle="We found some great matches for your style"
+                                        title="Found similar products! 🛍️",
+                                        subtitle="Check out these matches for your style"
+                                    )
+                                else:
+                                    self.send_instagram_reply(
+                                        sender_id,
+                                        "Sorry, I had trouble processing that image. Could you try sharing another one? 🙏"
+                                    )
+                                    
+                            elif attachment_type == 'share':
+                                # Inform about carousel limitation
+                                self.send_instagram_reply(
+                                    sender_id,
+                                    "Note: For carousel posts, I can only process the first photo due to Instagram restrictions. If you want to find products from other photos in the carousel, please take a screenshot and share it with me! 📸"
+                                )
+                                
+                                url, error_type = self.extract_carousel_image(attachment)
+                                
+                                # Handle different error types
+                                if error_type == "error_private_post":
+                                    self.send_instagram_reply(
+                                        sender_id,
+                                        "Sorry, I can't process posts from private accounts! 🔒\n\n"
+                                        "Please make sure to:\n"
+                                        "1. Share posts from public accounts only\n"
+                                        "2. Or take a screenshot of the post and share it with me\n"
+                                        "3. Or share a different inspiration from a public account 📸"
+                                    )
+                                    return
+                                elif error_type == "error_api_failed":
+                                    self.send_instagram_reply(
+                                        sender_id,
+                                        "Sorry, I had trouble accessing that post. Could you try sharing a screenshot instead? 📸"
+                                    )
+                                    return
+                                elif error_type == "error_general":
+                                    self.send_instagram_reply(
+                                        sender_id,
+                                        "Sorry, something went wrong. Could you try sharing the post again or send a screenshot? 📸"
+                                    )
+                                    return
+                                
+                                if url:
+                                    imgur_url = self.rehost_image(url)
+                                    if imgur_url:
+                                        self.send_product_card(
+                                            recipient_id=sender_id,
+                                            image_url=imgur_url,
+                                            title="Found similar products! 🛍️",
+                                            subtitle="Check out these matches for your style"
+                                        )
+                                    else:
+                                        self.send_instagram_reply(
+                                            sender_id,
+                                            "Sorry, I had trouble processing that shared post. Could you try sharing a screenshot instead? 📸"
+                                        )
+                                    
+                            elif attachment_type in ['video', 'ig_reel']:
+                                try:
+                                    # Extract thumbnail or first frame URL if available
+                                    thumbnail_url = (
+                                        attachment.get('payload', {}).get('thumbnail_url') or 
+                                        attachment.get('payload', {}).get('url')
+                                    )
+                                    
+                                    if thumbnail_url:
+                                        # Try to process the thumbnail
+                                        imgur_url = self.rehost_image(thumbnail_url)
+                                        if imgur_url:
+                                            self.send_product_card(
+                                                recipient_id=sender_id,
+                                                image_url=imgur_url,
+                                                title="Found products from your video! 🎬",
+                                                subtitle="Check out these matches from your video"
+                                            )
+                                            return
+                                    
+                                    # If no thumbnail or processing failed
+                                    self.send_instagram_reply(
+                                        sender_id,
+                                        "I can process your video/reel! Please:\n\n"
+                                        "1. Pause the video at the product you're interested in 🎯\n"
+                                        "2. Take a screenshot 📸\n"
+                                        "3. Share the screenshot with me\n\n"
+                                        "I'll find similar products for you! ✨"
+                                    )
+                                except Exception as e:
+                                    logger.exception("Error processing video/reel")
+                                    self.send_instagram_reply(
+                                        sender_id,
+                                        "I can help you find products from your video/reel! Please:\n\n"
+                                        "1. Pause at the product you like 🎯\n"
+                                        "2. Take a screenshot 📸\n"
+                                        "3. Share it with me\n\n"
+                                        "I'll find similar products for you! ✨"
                                     )
 
             return JsonResponse({'status': 'success'})
