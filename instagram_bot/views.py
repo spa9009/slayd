@@ -13,7 +13,10 @@ from urllib.parse import quote, urlencode
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from pathlib import Path
-import uuid
+from instagram_bot.models import VideoPost, ChildImage
+from django.http import HttpResponse
+from django.db import transaction
+
 
 logger = logging.getLogger(__name__)
 
@@ -24,6 +27,7 @@ class MetaWebhookView(View):
     LOG_FILE = os.path.join(settings.BASE_DIR, 'webhook_log.txt')
     IMGUR_CLIENT_ID = "2202f7d1fca273b"
     PINTEREST_APP_ID = "1512605"
+    VIDEO_PROCESSOR_URL = "https://video-api.slayd.in/process-video"
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -366,6 +370,33 @@ class MetaWebhookView(View):
         except Exception as e:
             logger.exception("Error in fallback scraping")
             return None
+        
+
+    def trigger_video_processing(self, video_url, sender_id):
+         """Trigger video processing in a separate thread"""
+         try:
+             payload = {
+                 "url": video_url,
+                 "sender_id": sender_id
+             }
+             
+             # Make the API call in a non-blocking way
+             response = requests.post(
+                 self.VIDEO_PROCESSOR_URL,
+                 json=payload,
+                 timeout=1  # Short timeout to ensure quick response
+             )
+             
+             logger.info(f"Video processing triggered for sender {sender_id}")
+             return True
+             
+         except requests.exceptions.Timeout:
+             # This is expected due to short timeout
+             logger.info("Request timeout as expected - video processing started")
+             return True
+         except Exception as e:
+             logger.exception("Error triggering video processing")
+             return False
 
     def test_pinterest_api(self):
         """Test Pinterest API access"""
@@ -452,12 +483,13 @@ class MetaWebhookView(View):
                             attachment_type = attachment.get('type')
                             url = attachment.get('payload', {}).get('url')
                             
-                            if attachment_type == 'ig_reel':
+                            if attachment_type in ['ig_reel', 'video']:
                                 # Send a response for Instagram Reels
                                 self.send_instagram_reply(
                                     sender_id,
-                                    "Thanks for sharing the Reel! 🎬 Currently, I can only help you find similar products from images. Please share a photo or screenshot instead! 📸"
+                                    "Thanks for sharing the Reel! 🎬 We are processing your request and will notify you once we have the results! 📸"
                                 )
+                                self.trigger_video_processing(url, sender_id)
                             elif attachment_type in ['image', 'share']:
                                 if attachment_type == 'share':
                                     url = self.extract_carousel_image(attachment)
@@ -545,3 +577,148 @@ class MetaWebhookView(View):
         except Exception as e:
             logger.exception("Error sending product card")
             return False
+        
+
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class VideoWebhookView(View):
+    """
+    Webhook view for handling video and image data from external services.
+    Expects POST requests with JSON payload containing:
+    - video_url: URL of the video
+    - child_images: Array of image URLs
+    - sender_id: Instagram sender ID
+    """
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.INSTAGRAM_API_URL = "https://graph.instagram.com/v22.0/me/messages"
+    
+    def validate_payload(self, data):
+        """Validate the incoming webhook payload"""
+        required_fields = ['video_url', 'child_images', 'sender_id']
+        missing_fields = [field for field in required_fields if not data.get(field)]
+        
+        if missing_fields:
+            raise ValueError(f"Missing required fields: {', '.join(missing_fields)}")
+        
+        if not isinstance(data['child_images'], list):
+            raise ValueError("child_images must be an array")
+            
+        return True
+    
+    @transaction.atomic
+    def save_data(self, video_url, child_images):
+        """Save video and image data to database"""
+        try:
+            # Create video post
+            video_post = VideoPost.objects.create(
+                video_url=video_url,
+            )
+            
+            # Create child images
+            child_image_objects = [
+                ChildImage(
+                    video_post=video_post,
+                    image_url=image_url
+                ) for image_url in child_images
+            ]
+            ChildImage.objects.bulk_create(child_image_objects)
+            
+            return video_post
+            
+        except Exception as e:
+            logger.exception("Failed to save data to database")
+            raise
+
+    def send_product_card(self, sender_id, video_url):
+        try:
+            url = f"https://graph.instagram.com/v22.0/17841472211809579/messages"
+            headers = {
+                "Authorization": f"Bearer {settings.INSTAGRAM_ACCESS_TOKEN}",
+                "Content-Type": "application/json"
+            }   
+            
+            encoded_url = quote(video_url)
+            payload = {
+                "recipient": {"id": sender_id},
+                "message": {
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "generic",
+                            "elements": [{
+                                "title": "Check out these similar products! 🛍️",
+                                "image_url": video_url,
+                                "subtitle": "We found some great matches for your style",
+                                "buttons": [{
+                                    "type": "web_url",
+                                    "url": f"https://slayd.in/select-frame/?url={encoded_url}",
+                                    "title": "View Similar Products"
+                                }]
+                            }]
+                        }
+                    }
+                }
+            }
+            
+            response = requests.post(url, headers=headers, json=payload)
+            if response.status_code != 200:
+                raise Exception(f"API error: {response.text}")
+            
+            return True
+            
+        except Exception as e:
+            logger.exception("Error sending product card")
+            return False
+    
+    def post(self, request, *args, **kwargs):
+        try:
+            # Parse and log request
+            data = json.loads(request.body)
+            logger.info("Received webhook request: %s", json.dumps(data, indent=2))
+            
+            # Validate payload
+            self.validate_payload(data)
+            
+            # Extract data
+            video_url = data['video_url']
+            child_images = data['child_images']
+            sender_id = data['sender_id']
+            
+            # Save data to database
+            video_post = self.save_data(
+                video_url=video_url,
+                child_images=child_images,
+            )
+            
+            # Send Instagram message
+            self.send_product_card(
+                sender_id=sender_id,
+                video_url=video_url
+            )
+            
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Video and images processed successfully',
+                'video_post_id': video_post.id
+            })
+            
+        except json.JSONDecodeError:
+            logger.error("Invalid JSON payload")
+            return JsonResponse({
+                'error': 'Invalid JSON payload'
+            }, status=400)
+            
+        except ValueError as e:
+            logger.error(f"Validation error: {str(e)}")
+            return JsonResponse({
+                'error': str(e)
+            }, status=400)
+            
+        except Exception as e:
+            logger.exception("Webhook processing error")
+            return JsonResponse({
+                'error': f'Internal server error: {str(e)}'
+            }, status=500)
