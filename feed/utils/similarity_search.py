@@ -172,11 +172,14 @@ class SimilaritySearcher(metaclass=SingletonMeta):
             detailed_description = dress_classifier.generate_description(image)
             return detailed_description
         else:
-            # For non-dress items, use basic color classification
-            dress_classifier = DressClassifier(self.model, self.processor)
+            dress_colors = [
+                "Orange", "Red", "Green", "Grey", "Pink", 
+                "Blue", "Purple", "White", "Black", "Yellow", "Beige",
+                "Maroon", "Burgundy", "Brown"
+            ]
             color_categories = [
                 f"a photo of {'an' if x[0].lower() in 'aeiou' else 'a'} {x} colored clothing" 
-                for x in dress_classifier.dress_colors  # Use dress_classifier's colors
+                for x in dress_colors  # Use dress_classifier's colors
             ]
             
             inputs = self.processor(
@@ -195,7 +198,7 @@ class SimilaritySearcher(metaclass=SingletonMeta):
                 probs = logits.softmax(dim=1)
                 predicted_color_idx = probs[0].argmax().item()
             
-            predicted_color = dress_classifier.dress_colors[predicted_color_idx]
+            predicted_color = dress_colors[predicted_color_idx]
             return f"This is a {predicted_color.lower()} {predicted_apparel}"
 
     @contextmanager
