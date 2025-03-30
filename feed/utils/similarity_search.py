@@ -59,11 +59,7 @@ class SimilaritySearcher(metaclass=SingletonMeta):
             logging.debug("Loading FAISS indices...")
             try:
                 self.indices = {
-                    'image': self._load_index(os.path.join(base_path, 'image_faiss_index_fclip.bin')),
-                    'text': self._load_index(os.path.join(base_path, 'text_faiss_index_fclip.bin')),
-                    'combined_60': self._load_index(os.path.join(base_path, 'combined_faiss_index_60_fclip.bin')),
-                    'combined_75': self._load_index(os.path.join(base_path, 'combined_faiss_index_75_fclip.bin')),
-                    'concat': self._load_index(os.path.join(base_path, 'concat_faiss_index_fclip.bin'))
+                    'combined_75': self._load_index(os.path.join(base_path, 'combined_faiss_index_75_fclip.bin'))
                 }
                 logging.debug("Loaded all indices successfully")
                 
@@ -144,7 +140,7 @@ class SimilaritySearcher(metaclass=SingletonMeta):
     def get_text_description(self, image):
         """Generate detailed text description using CLIP zero-shot classification"""
         apparel_types = [
-            "dress", "kurta", "shirt", "pants", "skirt", 
+            "dress", "kurta", "top", "shirt", "pants", "skirt", 
             "saree", "t-shirt", "jacket"
         ]
         
@@ -171,8 +167,8 @@ class SimilaritySearcher(metaclass=SingletonMeta):
         predicted_apparel = apparel_types[predicted_apparel_idx]
 
         # If it's a dress, get more detailed attributes using DressClassifier
-        if predicted_apparel == "dress":
-            dress_classifier = DressClassifier(self.model, self.processor)
+        if predicted_apparel == "dress" or predicted_apparel == "top":
+            dress_classifier = DressClassifier(self.model, self.processor, predicted_apparel)
             detailed_description = dress_classifier.generate_description(image)
             return detailed_description
         else:
@@ -369,10 +365,11 @@ class SimilaritySearcher(metaclass=SingletonMeta):
 
 
 class DressClassifier:
-    def __init__(self, model, processor):
+    def __init__(self, model, processor, predicted_apparel):
         self.model = model
         self.processor = processor
         self.logger = logging.getLogger(__name__)
+        self.predicted_apparel = predicted_apparel
         
         # Basic attributes
         self.dress_lengths = [
@@ -483,7 +480,7 @@ class DressClassifier:
         try:
             # First determine if the dress is printed or solid
             print_status_categories = [
-                f"a photo of a {status.lower()} dress" 
+                f"a photo of a {status.lower()} {self.predicted_apparel}" 
                 for status in self.print_status
             ]
             predicted_print_status = self._classify_attribute(
@@ -495,7 +492,7 @@ class DressClassifier:
             if predicted_print_status == "Printed":
                 # Print type classification
                 print_type_categories = [
-                    f"a photo of a dress with {print_type.lower()} print pattern" 
+                    f"a photo of a {self.predicted_apparel} with {print_type.lower()} print pattern" 
                     for print_type in self.print_types[:-1]  # Exclude 'Solid'
                 ]
                 predicted_print_type = self._classify_attribute(
@@ -505,7 +502,7 @@ class DressClassifier:
 
                 # Print color style classification
                 color_style_categories = [
-                    f"a photo of a dress with {style.lower()} print colors" 
+                    f"a photo of a {self.predicted_apparel} with {style.lower()} print colors" 
                     for style in self.print_color_styles
                 ]
                 predicted_color_style = self._classify_attribute(
@@ -515,7 +512,7 @@ class DressClassifier:
 
                 # Print size classification
                 size_categories = [
-                    f"a photo of a dress with {size.lower()} print pattern" 
+                    f"a photo of a {self.predicted_apparel} with {size.lower()} print pattern" 
                     for size in self.print_sizes
                 ]
                 predicted_size = self._classify_attribute(
@@ -537,27 +534,27 @@ class DressClassifier:
             predicted_color = self._classify_attribute(image, color_categories, self.dress_colors)
             self.logger.debug(f"Color: {predicted_color}")
 
-            length_categories = [f"a photo of a {length.lower()} dress" for length in self.dress_lengths]
+            length_categories = [f"a photo of a {length.lower()} {self.predicted_apparel}" for length in self.dress_lengths]
             predicted_length = self._classify_attribute(image, length_categories, self.dress_lengths)
             self.logger.debug(f"Length: {predicted_length}")
 
-            fit_categories = [f"a photo of a {fit.lower()} dress" for fit in self.dress_fits]
+            fit_categories = [f"a photo of a {fit.lower()} {self.predicted_apparel}" for fit in self.dress_fits]
             predicted_fit = self._classify_attribute(image, fit_categories, self.dress_fits)
             self.logger.debug(f"Fit: {predicted_fit}")
 
-            neckline_categories = [f"a photo of a dress with {neckline.lower()}" for neckline in self.dress_necklines]
+            neckline_categories = [f"a photo of a {self.predicted_apparel} with {neckline.lower()}" for neckline in self.dress_necklines]
             predicted_neckline = self._classify_attribute(image, neckline_categories, self.dress_necklines)
             self.logger.debug(f"Neckline: {predicted_neckline}")
 
-            sleeve_categories = [f"a photo of a {sleeve.lower()} dress" for sleeve in self.dress_sleeves]
+            sleeve_categories = [f"a photo of a {sleeve.lower()} {self.predicted_apparel}" for sleeve in self.dress_sleeves]
             predicted_sleeve = self._classify_attribute(image, sleeve_categories, self.dress_sleeves)
             self.logger.debug(f"Sleeves: {predicted_sleeve}")
 
-            material_categories = [f"a photo of a {material.lower()} dress" for material in self.dress_materials]
+            material_categories = [f"a photo of a {material.lower()} {self.predicted_apparel}" for material in self.dress_materials]
             predicted_material = self._classify_attribute(image, material_categories, self.dress_materials)
             self.logger.debug(f"Material: {predicted_material}")
 
-            feature_categories = [f"a photo of a dress with {feature.lower()}" for feature in self.dress_design_features]
+            feature_categories = [f"a photo of a {self.predicted_apparel} with {feature.lower()}" for feature in self.dress_design_features]
             predicted_feature = self._classify_attribute(image, feature_categories, self.dress_design_features)
             self.logger.debug(f"Design Feature: {predicted_feature}")
 
@@ -575,7 +572,7 @@ class DressClassifier:
             if print_details:
                 description_parts = print_details + description_parts
             
-            base_description = "This is a " + " ".join(description_parts) + " dress"
+            base_description = "This is a " + " ".join(description_parts) + " " + self.predicted_apparel
             base_description += f" with {predicted_feature.lower()}"
             
             self.logger.debug("\nFinal Description:")
