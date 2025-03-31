@@ -477,7 +477,7 @@ class MetaWebhookView(View):
                             # Handle other text messages as before
                             self.send_instagram_reply(
                                 sender_id,
-                                "Thanks for your message! 🌟\nBrowse our collection: https://slayd.in/collection"
+                                "Hey! 😊 We currently support female fashion searches only. You can send us Instagram posts, images, or Pinterest post links to discover similar fashion items! 💃👗🛍️"
                             )
                     
                     # Handle attachments (images and shares) as before
