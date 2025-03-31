@@ -16,13 +16,16 @@ import gc
 from contextlib import contextmanager
 import hashlib
 from django.core.cache import cache
+from threading import Lock
 
 class SingletonMeta(type):
     _instances = {}
+    _lock = Lock()
     
     def __call__(cls, *args, **kwargs):
-        if cls not in cls._instances:
-            cls._instances[cls] = super().__call__(*args, **kwargs)
+        with cls._lock:
+            if cls not in cls._instances:
+                cls._instances[cls] = super().__call__(*args, **kwargs)
         return cls._instances[cls]
 
 class SimilaritySearcher(metaclass=SingletonMeta):
@@ -93,49 +96,24 @@ class SimilaritySearcher(metaclass=SingletonMeta):
     def load_and_process_image(self, image_path):
         logger = logging.getLogger(__name__)
         try:
-            logger.debug(f"Attempting to load image from: {image_path}")
-            
             if image_path.startswith(('http://', 'https://')):
-                try:
-                    headers = {
-                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-                    }
-                    response = requests.get(image_path, headers=headers, timeout=5, stream=True)
-                    print(image_path)
-                    response.raise_for_status()  # Raise an exception for bad status codes
-                    
-                    logger.debug(f"Image download status code: {response.status_code}")
-                    logger.debug(f"Image content type: {response.headers.get('content-type')}")
-                    logger.debug(f"Image size: {len(response.content)} bytes")
-                    
-                    image = Image.open(BytesIO(response.content))
-                except requests.exceptions.RequestException as e:
-                    logger.error(f"Failed to download image: {str(e)}")
-                    raise
-                except Exception as e:
-                    logger.error(f"Failed to open downloaded image: {str(e)}")
-                    raise
+                headers = {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+                }
+                response = requests.get(image_path, headers=headers, timeout=5, stream=True)
+                response.raise_for_status()
+                with Image.open(BytesIO(response.content)) as image:
+                    if image.mode != "RGB":
+                        image = image.convert("RGB")
+                    return image.resize((224, 224))
             else:
-                image = Image.open(image_path)
-            
-            # Check image mode and convert if necessary
-            logger.debug(f"Original image mode: {image.mode}")
-            logger.debug(f"Original image size: {image.size}")
-            
-            if image.mode != "RGB":
-                image = image.convert("RGB")
-                logger.debug("Converted image to RGB mode")
-            
-            # Resize image
-            resized_image = image.resize((224, 224))
-            logger.debug("Image resized to 224x224")
-            
-            return resized_image
-            
+                with Image.open(image_path) as image:
+                    if image.mode != "RGB":
+                        image = image.convert("RGB")
+                    return image.resize((224, 224))
         except Exception as e:
             logger.error(f"Error in load_and_process_image: {str(e)}")
-            logger.error(f"Full traceback: {traceback.format_exc()}")
-            raise RuntimeError(f"Failed to process image: {str(e)}")
+            raise
 
     def get_text_description(self, image):
         """Generate detailed text description using CLIP zero-shot classification"""
@@ -298,10 +276,19 @@ class SimilaritySearcher(metaclass=SingletonMeta):
 
                 # Get all product details with error handling
                 all_similar_products = []
+                seen_products = set()  # Track seen product name+brand combinations
                 for i in range(len(idx[0])):
                     product_id = str(self.product_ids[idx[0][i]])
                     try:
                         product = MyntraProducts.objects.get(id=product_id)
+                        # Create unique key for product using name and brand
+                        product_key = f"{product.product_link.lower()}_{product.color.lower()}"
+                        
+                        # Skip if we've seen this product before
+                        if product_key in seen_products:
+                            continue
+                            
+                        seen_products.add(product_key)
                         all_similar_products.append({
                             'id': product.id,
                             'product_link': product.product_link,
@@ -334,6 +321,13 @@ class SimilaritySearcher(metaclass=SingletonMeta):
 
                 # Cache the full result set
                 cache.set(cache_key, {'products': all_similar_products}, timeout=300)  # Cache for 5 minutes
+
+                # Clear CUDA tensors
+                if torch.cuda.is_available():
+                    for v in query_embedding.values():
+                        v.cpu()
+                    del query_embedding
+                    torch.cuda.empty_cache()
 
                 return {
                     'products': all_similar_products[start_idx:end_idx],
