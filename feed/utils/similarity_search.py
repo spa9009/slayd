@@ -40,7 +40,7 @@ class SimilaritySearcher(metaclass=SingletonMeta):
         try:
             logging.debug("Starting initialization...")
             if settings.DEBUG:
-                base_path = os.path.join(settings.BASE_DIR, 'indices')
+                base_path = os.path.join(settings.BASE_DIR, 'indices_ivf')
             else:
                 base_path = getattr(settings, 'FAISS_INDICES_PATH', '/opt/fashion_recommendation/indices')
             
@@ -62,8 +62,10 @@ class SimilaritySearcher(metaclass=SingletonMeta):
             logging.debug("Loading FAISS indices...")
             try:
                 self.indices = {
-                    'combined_75': self._load_index(os.path.join(base_path, 'combined_faiss_index_75_fclip.bin'))
+                    'combined_75': self._load_index(os.path.join(base_path, 'combined_faiss_index_75_ivf50.bin')),
                 }
+                # Set nprobe parameter for IVF index
+                self.indices['combined_75'].nprobe = 50
                 logging.debug("Loaded all indices successfully")
                 
                 self.product_ids = self._load_product_ids(os.path.join(base_path, 'product_ids.npy'))
