@@ -138,7 +138,7 @@ USE_TZ = True
 
 APPEND_SLASH=False
 
-FAISS_INDICES_PATH = os.path.join(BASE_DIR, 'indices')
+FAISS_INDICES_PATH = os.path.join(BASE_DIR, 'indices_ivf')
 
 
 # Static files (CSS, JavaScript, Images)
