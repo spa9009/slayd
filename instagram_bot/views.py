@@ -16,6 +16,9 @@ from pathlib import Path
 from instagram_bot.models import VideoPost, ChildImage
 from django.http import HttpResponse
 from django.db import transaction
+from rest_framework import generics
+from .serializers import VideoPostSerializer
+from utils.commn_utils import get_cdn_url
 
 
 logger = logging.getLogger(__name__)
@@ -632,7 +635,7 @@ class VideoWebhookView(View):
             logger.exception("Failed to save data to database")
             raise
 
-    def send_product_card(self, sender_id, video_url):
+    def send_product_card(self, sender_id, video_id, carousel_image_url):
         try:
             url = f"https://graph.instagram.com/v22.0/17841472211809579/messages"
             headers = {
@@ -640,7 +643,6 @@ class VideoWebhookView(View):
                 "Content-Type": "application/json"
             }   
             
-            encoded_url = quote(video_url)
             payload = {
                 "recipient": {"id": sender_id},
                 "message": {
@@ -650,11 +652,11 @@ class VideoWebhookView(View):
                             "template_type": "generic",
                             "elements": [{
                                 "title": "Check out these similar products! 🛍️",
-                                "image_url": video_url,
+                                "image_url": carousel_image_url,
                                 "subtitle": "We found some great matches for your style",
                                 "buttons": [{
                                     "type": "web_url",
-                                    "url": f"https://slayd.in/select-frame/?url={encoded_url}",
+                                    "url": f"https://slayd.in/select-frame/?id={video_id}",
                                     "title": "View Similar Products"
                                 }]
                             }]
@@ -696,7 +698,8 @@ class VideoWebhookView(View):
             # Send Instagram message
             self.send_product_card(
                 sender_id=sender_id,
-                video_url=video_url
+                video_id=video_post.id,
+                carousel_image_url=get_cdn_url(child_images[0])
             )
             
             return JsonResponse({
@@ -722,3 +725,23 @@ class VideoWebhookView(View):
             return JsonResponse({
                 'error': f'Internal server error: {str(e)}'
             }, status=500)
+
+class VideoPostListView(generics.ListAPIView):
+    """
+    API endpoint to fetch all video posts with their child images.
+    Supports pagination and ordering by creation date.
+    """
+    queryset = VideoPost.objects.all().order_by('-created_at')
+    serializer_class = VideoPostSerializer
+    
+    def get_queryset(self):
+        """
+        Optionally filter by video_id if provided in query params
+        """
+        queryset = super().get_queryset()
+        video_id = self.request.query_params.get('video_id', None)
+        
+        if video_id:
+            queryset = queryset.filter(id=video_id)
+            
+        return queryset
