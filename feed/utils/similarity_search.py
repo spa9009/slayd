@@ -188,7 +188,7 @@ class SimilaritySearcher(metaclass=SingletonMeta):
             gc.collect()
             torch.cuda.empty_cache() if torch.cuda.is_available() else None
 
-    def get_similar_products(self, image_path, top_k=100, page=1, items_per_page=20, search_type='combined_75'):
+    def get_similar_products(self, image_path, top_k=120, page=1, items_per_page=20, search_type='combined_75'):
         with self.tensor_management():
             logger = logging.getLogger(__name__)
             try:

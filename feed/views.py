@@ -234,7 +234,7 @@ class SimilarProductsView(APIView):
                     search_type=search_type,
                     page=page,
                     items_per_page=items_per_page,
-                    top_k=100
+                    top_k=120
                 )
                 
                 MetricsUtil.record_success('SimilarProductsView', [
