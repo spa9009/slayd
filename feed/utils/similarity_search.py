@@ -121,7 +121,7 @@ class SimilaritySearcher(metaclass=SingletonMeta):
         """Generate detailed text description using CLIP zero-shot classification"""
         apparel_types = [
             "dress", "kurta", "top", "shirt", "pants", "skirt", 
-            "saree", "t-shirt", "jacket"
+            "saree", "t-shirt", "jacket", "co-ord set"
         ]
         
         # Generate category lists
