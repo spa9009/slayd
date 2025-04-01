@@ -17,7 +17,7 @@ import hashlib
 from django.core.cache import cache
 from threading import Lock
 from feed.utils.classifier.dress_classifier import DressClassifier
-
+from feed.utils.classifier.tops_classifier import TopsClassifier
 class SingletonMeta(type):
     _instances = {}
     _lock = Lock()
@@ -122,7 +122,7 @@ class SimilaritySearcher(metaclass=SingletonMeta):
         apparel_types = [
             "dress", "kurta", "top", "shirt", "pants", "skirt", "suit", "pants", "jeans", "shorts",
             "saree", "t-shirt", "jacket", "lehenga", "joggers", "skorts", "sweatshirt", "hoodie",
-            "jumpsuit"
+            "jumpsuit", "bralette"
         ]
         
         # Generate category lists
@@ -148,9 +148,13 @@ class SimilaritySearcher(metaclass=SingletonMeta):
         predicted_apparel = apparel_types[predicted_apparel_idx]
 
         # If it's a dress, get more detailed attributes using DressClassifier
-        if predicted_apparel == "dress" or predicted_apparel == "top":
+        if predicted_apparel == "dress" :
             dress_classifier = DressClassifier(self.model, self.processor, predicted_apparel)
             detailed_description = dress_classifier.generate_description(image)
+            return detailed_description
+        elif predicted_apparel == "top" or predicted_apparel == "bralette":
+            top_classifier = TopsClassifier(self.model, self.processor, predicted_apparel)
+            detailed_description = top_classifier.generate_description(image)
             return detailed_description
         else:
             dress_colors = [
