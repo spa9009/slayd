@@ -120,8 +120,8 @@ class SimilaritySearcher(metaclass=SingletonMeta):
     def get_text_description(self, image):
         """Generate detailed text description using CLIP zero-shot classification"""
         apparel_types = [
-            "dress", "kurta", "top", "shirt", "pants", "skirt", "suit", "pants", "jeans", "shorts"
-            "saree", "t-shirt", "jacket", "co-ord set", "lehenga", "joggers", "skorts", "sweatshirt", "hoodie",
+            "dress", "kurta", "top", "shirt", "pants", "skirt", "suit", "pants", "jeans", "shorts",
+            "saree", "t-shirt", "jacket", "lehenga", "joggers", "skorts", "sweatshirt", "hoodie",
             "jumpsuit"
         ]
         

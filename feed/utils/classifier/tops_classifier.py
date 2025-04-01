@@ -43,6 +43,12 @@ class TopsClassifier(ApparelClassifier):
             "Ruffle", "Pleated", "Peplum", "Ruched", "Embroidered", "Sequined",
             "Beaded", "Belted", "Draped", "Layered", "Smocked", "Plain"
         ]
+        self._top_styles = [
+            "T-Shirt", "Blouse", "Shirt", "Crop Top", "Tank Top",
+            "Tube Top", "Bodysuit", "Bralette", "Corset Top", "Peplum Top",
+            "Polo Shirt", "Henley", "Halter Top", "Camisole", "Button-Down",
+            "Tunic", "Bandeau", "Shell Top", "Wrap Top", "Bustier"
+        ]
 
     @property
     def lengths(self) -> List[str]:
@@ -75,6 +81,10 @@ class TopsClassifier(ApparelClassifier):
     @property
     def materials(self) -> List[str]:
         return self._materials
+
+    @property
+    def top_styles(self) -> List[str]:
+        return self._top_styles
 
     def generate_description(self, image):
         """Generate enhanced description using transformer"""
@@ -162,12 +172,18 @@ class TopsClassifier(ApparelClassifier):
             predicted_feature = self._classify_attribute(image, feature_categories, self._design_features)
             self.logger.debug(f"Design Feature: {predicted_feature}")
 
+            # Add top style classification before building description
+            style_categories = [f"a photo of a {style.lower()}" for style in self.top_styles]
+            predicted_style = self._classify_attribute(image, style_categories, self.top_styles)
+            self.logger.debug(f"Top Style: {predicted_style}")
+
             # Build description
             description_parts = [
                 predicted_color.lower(),
                 predicted_material.lower(),
                 predicted_length.lower(),
                 predicted_fit.lower(),
+                predicted_style.lower(),
                 predicted_neckline.lower(),
                 predicted_sleeve.lower()
             ]
