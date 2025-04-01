@@ -492,6 +492,24 @@ class MetaWebhookView(View):
                                     sender_id,
                                     "Thanks for sharing the Reel! 🎬 We are processing your request and will notify you once we have the results! 📸"
                                 )
+
+                                # Check if video already exists
+                                try:
+                                    existing_video = VideoPost.objects.filter(video_url=url).first()
+                                    if existing_video:
+                                        logger.info("Found existing video post, sending product card directly")
+                                        # Get first child image for carousel
+                                        first_image = existing_video.childimage_set.first()
+                                        if first_image:
+                                            self.send_product_card(
+                                                sender_id=sender_id,
+                                                video_id=existing_video.id,
+                                                carousel_image_url=get_cdn_url(first_image.image_url)
+                                            )
+                                            return
+                                except Exception as e:
+                                    logger.exception("Error checking for existing video")
+                                
                                 self.trigger_video_processing(url, sender_id)
                             elif attachment_type in ['image', 'share']:
                                 if attachment_type == 'share':
