@@ -9,8 +9,15 @@ import traceback
 class TopsClassifier(ApparelClassifier):
     """Classifier for tops with tops-specific attributes"""
 
-    def __init__(self, model, processor):
-        super().__init__(model, processor, predicted_apparel="top")
+    def __init__(self, model, processor, predicted_apparel="top"):
+        """Initialize the TopsClassifier
+        
+        Args:
+            model: The classification model
+            processor: The image processor
+            predicted_apparel: The type of apparel (defaults to "top")
+        """
+        super().__init__(model, processor, predicted_apparel)
 
     def _initialize_attributes(self):
         """Initialize tops-specific attributes"""
