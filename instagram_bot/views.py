@@ -374,6 +374,32 @@ class MetaWebhookView(View):
             logger.exception("Error in fallback scraping")
             return None
         
+    def handle_video(self, sender_id, url): 
+        # Send a response for Instagram Reels
+        self.send_instagram_reply(
+            sender_id,
+            "Thanks for sharing the Reel! 🎬 We are processing your request and will notify you once we have the results! 📸"
+        )
+
+        # Check if video already exists
+        try:
+            existing_video = VideoPost.objects.filter(video_url=url).first()
+            if existing_video:
+                logger.info("Found existing video post, sending product card directly")
+                # Get first child image for carousel
+                first_image = existing_video.childimage_set.first()
+                if first_image:
+                    self.send_product_card(
+                        sender_id=sender_id,
+                        video_id=existing_video.id,
+                        carousel_image_url=get_cdn_url(first_image.image_url)
+                    )
+                    return
+        except Exception as e:
+            logger.exception("Error checking for existing video")
+        
+        self.trigger_video_processing(url, sender_id)
+        
 
     def trigger_video_processing(self, video_url, sender_id):
          """Trigger video processing in a separate thread"""
@@ -487,33 +513,16 @@ class MetaWebhookView(View):
                             url = attachment.get('payload', {}).get('url')
                             
                             if attachment_type in ['ig_reel', 'video']:
-                                # Send a response for Instagram Reels
-                                self.send_instagram_reply(
-                                    sender_id,
-                                    "Thanks for sharing the Reel! 🎬 We are processing your request and will notify you once we have the results! 📸"
-                                )
+                                self.handle_video(sender_id, url)
 
-                                # Check if video already exists
-                                try:
-                                    existing_video = VideoPost.objects.filter(video_url=url).first()
-                                    if existing_video:
-                                        logger.info("Found existing video post, sending product card directly")
-                                        # Get first child image for carousel
-                                        first_image = existing_video.childimage_set.first()
-                                        if first_image:
-                                            self.send_product_card(
-                                                sender_id=sender_id,
-                                                video_id=existing_video.id,
-                                                carousel_image_url=get_cdn_url(first_image.image_url)
-                                            )
-                                            return
-                                except Exception as e:
-                                    logger.exception("Error checking for existing video")
-                                
-                                self.trigger_video_processing(url, sender_id)
                             elif attachment_type in ['image', 'share']:
                                 if attachment_type == 'share':
-                                    url = self.extract_carousel_image(attachment)
+
+                                    if requests.head(url).headers.get("Content-Type") == 'video/mp4':
+                                        self.handle_video(sender_id, url)
+                                        return
+                                    else:
+                                        url = self.extract_carousel_image(attachment)
                                 
                                 imgur_url = self.rehost_image(url)
                                 if imgur_url:
