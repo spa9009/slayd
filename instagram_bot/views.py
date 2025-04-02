@@ -23,6 +23,35 @@ from utils.commn_utils import get_cdn_url
 
 logger = logging.getLogger(__name__)
 
+def rehost_image(url, imgur_client_id):
+    """Rehost image to Imgur"""
+    try:
+        # Get image from URL
+        response = requests.get(url)
+        if response.status_code != 200:
+            logger.error(f"Failed to fetch image: {response.status_code}")
+            return None
+        
+        # Upload to Imgur
+        imgur_url = "https://api.imgur.com/3/image"
+        headers = {"Authorization": f"Client-ID {imgur_client_id}"}
+        files = {"image": response.content}
+        
+        logger.info("Uploading to Imgur...")
+        upload_response = requests.post(imgur_url, headers=headers, files=files)
+        
+        if upload_response.status_code == 200:
+            imgur_link = upload_response.json()["data"]["link"]
+            logger.info(f"Image rehosted successfully: {imgur_link}")
+            return imgur_link
+        
+        logger.error(f"Imgur upload failed: {upload_response.text}")
+        return None
+        
+    except Exception as e:
+        logger.exception("Error rehosting image")
+        return None
+
 @method_decorator(csrf_exempt, name='dispatch')
 class MetaWebhookView(View):
     VERIFY_TOKEN = "slayd"
@@ -104,33 +133,8 @@ class MetaWebhookView(View):
             return HttpResponse(f"Error: {str(e)}", status=500)
 
     def rehost_image(self, url):
-        """Rehost image to Imgur"""
-        try:
-            # Get image from URL
-            response = requests.get(url)
-            if response.status_code != 200:
-                logger.error(f"Failed to fetch image: {response.status_code}")
-                return None
-            
-            # Upload to Imgur
-            imgur_url = "https://api.imgur.com/3/image"
-            headers = {"Authorization": f"Client-ID {self.IMGUR_CLIENT_ID}"}
-            files = {"image": response.content}
-            
-            logger.info("Uploading to Imgur...")
-            upload_response = requests.post(imgur_url, headers=headers, files=files)
-            
-            if upload_response.status_code == 200:
-                imgur_link = upload_response.json()["data"]["link"]
-                logger.info(f"Image rehosted successfully: {imgur_link}")
-                return imgur_link
-            
-            logger.error(f"Imgur upload failed: {upload_response.text}")
-            return None
-            
-        except Exception as e:
-            logger.exception("Error rehosting image")
-            return None
+        """Rehost image to Imgur using class's client ID"""
+        return rehost_image(url, self.IMGUR_CLIENT_ID)
 
     def get_carousel_image_url(self, url):
         """Extract the specific image URL from carousel share"""
@@ -624,6 +628,7 @@ class VideoWebhookView(View):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.INSTAGRAM_API_URL = "https://graph.instagram.com/v22.0/me/messages"
+        self.IMGUR_CLIENT_ID = "2202f7d1fca273b"
     
     def validate_payload(self, data):
         """Validate the incoming webhook payload"""
@@ -664,6 +669,13 @@ class VideoWebhookView(View):
 
     def send_product_card(self, sender_id, video_id, carousel_image_url):
         try:
+            # Try to rehost the image to Imgur first
+            imgur_url = rehost_image(carousel_image_url, self.IMGUR_CLIENT_ID)
+            # If rehosting was successful, use the Imgur URL instead
+            if imgur_url:
+                carousel_image_url = imgur_url
+                logger.info(f"Using rehosted image URL: {carousel_image_url}")
+            
             url = f"https://graph.instagram.com/v22.0/17841472211809579/messages"
             headers = {
                 "Authorization": f"Bearer {settings.INSTAGRAM_ACCESS_TOKEN}",
