@@ -9,3 +9,4 @@ sqlparse==0.5.1
 virtualenv==20.26.6
 scikit-learn==1.5.2
 tensorflow==2.18.0
+redis>=4.0.0
