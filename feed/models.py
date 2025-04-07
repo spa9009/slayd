@@ -147,3 +147,21 @@ class MyntraProductTags(models.Model):
 
     def __str__(self):
         return f'{self.id} {self.myntra_product.id}'
+
+    
+class SimilarProductResults(models.Model):
+    url = models.URLField(max_length=1024)
+    similar_products = models.JSONField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.id} {self.url}'
+    
+class PostInteraction(models.Model):
+    senderId = models.CharField(max_length=255)
+    media_url = models.URLField(max_length=1024)
+    media_type = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.id} {self.senderId}'
