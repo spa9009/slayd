@@ -148,15 +148,6 @@ class MyntraProductTags(models.Model):
     def __str__(self):
         return f'{self.id} {self.myntra_product.id}'
 
-    
-class SimilarProductResults(models.Model):
-    url = models.URLField(max_length=1024)
-    similar_products = models.JSONField()
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f'{self.id} {self.url}'
-    
 class PostInteraction(models.Model):
     senderId = models.CharField(max_length=255)
     media_url = models.URLField(max_length=1024)
@@ -165,3 +156,36 @@ class PostInteraction(models.Model):
 
     def __str__(self):
         return f'{self.id} {self.senderId}'
+
+class DetectedObjectProducts(models.Model):
+    """
+    Model to store product IDs for each detected object in an image.
+    Each detected object (label with bounding box) has its own set of similar products.
+    When is_whole_image=True, the record represents the entire image, not a specific object.
+    """
+    image_url = models.URLField(max_length=1024)
+    label = models.CharField(max_length=255)
+    # Bounding box coordinates (normalized 0-1)
+    x = models.FloatField()
+    y = models.FloatField()
+    width = models.FloatField()
+    height = models.FloatField()
+    confidence = models.FloatField()
+    similar_products = models.JSONField()
+    is_whole_image = models.BooleanField(default=False)
+    vision_result = models.JSONField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['image_url']),
+            models.Index(fields=['label']),
+            models.Index(fields=['is_whole_image']),
+        ]
+        verbose_name = "Detected Object Products"
+        verbose_name_plural = "Detected Object Products"
+    
+    def __str__(self):
+        if self.is_whole_image:
+            return f'Whole image: {self.image_url}'
+        return f'{self.label} at ({self.x:.2f}, {self.y:.2f}) in {self.image_url}'
