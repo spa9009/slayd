@@ -563,11 +563,18 @@ class MetaWebhookView(View):
                 sender_id,
                 "Processing your image... 🔍 Finding similar products for you!"
             )
+            
+            # Log received image URL
+            logger.info(f"Processing image URL: {image_url}")
+            
             # Rehost the image to Imgur if needed
             imgur_url = self.rehost_image(image_url)
+            logger.info(f"Rehosted image URL: {imgur_url}")
             
             # Process image using our new service
+            logger.info(f"Calling get_product_card_data with URL: {imgur_url}")
             result = get_product_card_data(imgur_url, sender_id)
+            logger.info(f"get_product_card_data result: {json.dumps(result, indent=2)}")
             
             if result["success"]:
                 # Get the card data
@@ -580,6 +587,7 @@ class MetaWebhookView(View):
                 button_url = card_data["button_url"]
                 
                 # Send the product card
+                logger.info(f"Sending product card with image URL: {card_data['image_url']}")
                 self.send_product_card(
                     recipient_id=sender_id,
                     image_url=card_data["image_url"],
