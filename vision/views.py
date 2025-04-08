@@ -114,22 +114,63 @@ def get_base64_from_url(url):
     """
     logger.info(f"Fetching image from URL for base64 encoding: {url}")
     
+    # Check if this is an S3 URL (which should be more reliable than external services)
+    is_s3_url = "s3.amazonaws.com" in url or "cloudfront.net" in url
+    if is_s3_url:
+        logger.info("✅ S3/CloudFront URL detected - these should be reliable")
+    
     try:
         # Use a browser-like user agent to avoid potential blocking
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
         }
         
-        # Fetch the image with a timeout
-        response = requests.get(url, headers=headers, timeout=10)
-        response.raise_for_status()
+        # Add a retry mechanism for non-S3 URLs that might have rate limiting
+        max_retries = 1 if is_s3_url else 3
+        retry_delay = 1.0
+        
+        for retry_count in range(max_retries):
+            try:
+                # Fetch the image with a timeout
+                response = requests.get(url, headers=headers, timeout=10)
+                
+                # Check for rate limiting
+                if response.status_code == 429:
+                    if retry_count < max_retries - 1:
+                        # Only log a warning if we still have retries left
+                        logger.warning(f"Rate limit (429) encountered on attempt {retry_count+1}, retrying in {retry_delay} seconds...")
+                        import time
+                        time.sleep(retry_delay)
+                        retry_delay *= 2  # Exponential backoff
+                        continue
+                    else:
+                        # On the last retry, raise the exception
+                        logger.error(f"Rate limit (429) still encountered after {max_retries} attempts")
+                        response.raise_for_status()
+                else:
+                    # If not a 429, check for other status codes
+                    response.raise_for_status()
+                    break
+            except requests.exceptions.RequestException as e:
+                if retry_count < max_retries - 1:
+                    logger.warning(f"Request error on attempt {retry_count+1}: {str(e)}, retrying...")
+                    import time
+                    time.sleep(retry_delay)
+                    retry_delay *= 2  # Exponential backoff
+                else:
+                    logger.error(f"Request failed after {max_retries} attempts: {str(e)}")
+                    raise
         
         # Check if we got an image
         content_type = response.headers.get('Content-Type', '')
         logger.info(f"Received response: status={response.status_code}, content-type={content_type}, size={len(response.content)} bytes")
         
         if not content_type.startswith('image/'):
-            logger.warning(f"URL did not return an image. Content-Type: {content_type}")
+            if is_s3_url:
+                # S3 sometimes returns incorrect content types, try to proceed anyway
+                logger.warning(f"S3 URL did not return an image Content-Type, but proceeding anyway: {content_type}")
+            else:
+                logger.warning(f"URL did not return an image. Content-Type: {content_type}")
         
         # Process the image bytes
         image_bytes = BytesIO(response.content)

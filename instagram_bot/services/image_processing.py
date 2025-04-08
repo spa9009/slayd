@@ -24,6 +24,11 @@ def call_vision_api(image_url):
         dict: Vision API response or None if there was an error
     """
     try:
+        # Check if this is an S3 URL (which should be more reliable than Imgur)
+        is_s3_url = "s3.amazonaws.com" in image_url or "cloudfront.net" in image_url
+        if is_s3_url:
+            logger.info(f"Using S3/CloudFront URL: {image_url}, these should be reliable")
+        
         # Validate the image URL first
         try:
             logger.info(f"Validating image URL before calling Vision API: {image_url}")
@@ -37,7 +42,11 @@ def call_vision_api(image_url):
                 
             if not content_type.startswith('image/'):
                 logger.error(f"URL does not point to an image. Content-Type: {content_type}")
-                return None
+                if is_s3_url:
+                    # S3 sometimes returns incorrect content types, we can try to proceed anyway
+                    logger.warning("S3 may have incorrect content type, proceeding anyway")
+                else:
+                    return None
                 
             logger.info(f"Image URL validated successfully: {status_code}, {content_type}")
         except requests.exceptions.RequestException as e:

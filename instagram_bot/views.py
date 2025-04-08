@@ -25,32 +25,68 @@ from .services.image_processing import process_objects_in_image, get_product_car
 logger = logging.getLogger(__name__)
 
 def rehost_image(url, imgur_client_id):
-    """Rehost image to Imgur"""
+    """Rehost image to S3 using ImageUploadView"""
     try:
         # Get image from URL
-        response = requests.get(url)
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        }
+        response = requests.get(url, headers=headers)
         if response.status_code != 200:
             logger.error(f"Failed to fetch image: {response.status_code}")
             return None
         
-        # Upload to Imgur
-        imgur_url = "https://api.imgur.com/3/image"
-        headers = {"Authorization": f"Client-ID {imgur_client_id}"}
-        files = {"image": response.content}
+        # Get content type
+        content_type = response.headers.get('Content-Type', 'image/jpeg')
+        if not content_type.startswith('image/'):
+            logger.warning(f"URL content type is not an image: {content_type}")
+            # Proceed anyway since Instagram might not always return the correct content type
         
-        logger.info("Uploading to Imgur...")
-        upload_response = requests.post(imgur_url, headers=headers, files=files)
+        # Create a temporary file
+        import io
+        import tempfile
+        import os
+        from django.core.files.uploadedfile import SimpleUploadedFile
         
-        if upload_response.status_code == 200:
-            imgur_link = upload_response.json()["data"]["link"]
-            logger.info(f"Image rehosted successfully: {imgur_link}")
-            return imgur_link
+        # Generate a temporary file name with appropriate extension
+        extension = content_type.split('/')[-1]
+        if extension == 'jpeg':
+            extension = 'jpg'  # Standardize jpeg to jpg
         
-        logger.error(f"Imgur upload failed: {upload_response.text}")
+        # Create a SimpleUploadedFile from the response content
+        image_file = SimpleUploadedFile(
+            name=f"instagram_image.{extension}",
+            content=response.content,
+            content_type=content_type
+        )
+        
+        # Upload to S3 via ImageUploadView
+        logger.info("Uploading to S3 via ImageUploadView...")
+        
+        # Prepare the file for upload
+        files = {'image': image_file}
+        
+        # Call the ImageUploadView
+        upload_url = "http://localhost:8000/activity/upload/"  # Use internal URL if possible
+        if settings.DEBUG:
+            # For local development
+            upload_url = "http://localhost:8000/activity/upload/"
+        else:
+            # For production
+            upload_url = "https://api.slayd.in/activity/upload/"
+            
+        upload_response = requests.post(upload_url, files=files)
+        
+        if upload_response.status_code == 201:  # Created
+            s3_url = upload_response.json().get('url')
+            logger.info(f"Image rehosted successfully to S3: {s3_url}")
+            return s3_url
+        
+        logger.error(f"S3 upload failed: {upload_response.status_code} - {upload_response.text}")
         return None
         
     except Exception as e:
-        logger.exception("Error rehosting image")
+        logger.exception(f"Error rehosting image to S3: {str(e)}")
         return None
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -58,8 +94,7 @@ class MetaWebhookView(View):
     VERIFY_TOKEN = "slayd"
     INSTAGRAM_API_URL = "https://graph.facebook.com/v22.0/me/messages"
     LOG_FILE = os.path.join(settings.BASE_DIR, 'webhook_log.txt')
-    IMGUR_CLIENT_ID = "2202f7d1fca273b"
-    PINTEREST_APP_ID = "1512605"
+    S3_BUCKET = "feed-images-01"
     VIDEO_PROCESSOR_URL = "https://video-api.slayd.in/process-video"
     
     def __init__(self, *args, **kwargs):
@@ -134,8 +169,8 @@ class MetaWebhookView(View):
             return HttpResponse(f"Error: {str(e)}", status=500)
 
     def rehost_image(self, url):
-        """Rehost image to Imgur using class's client ID"""
-        return rehost_image(url, self.IMGUR_CLIENT_ID)
+        """Rehost image to S3 instead of Imgur"""
+        return get_cdn_url(rehost_image(url, None))  # Passing None as we don't need imgur_client_id anymore
 
     def get_carousel_image_url(self, url):
         """Extract the specific image URL from carousel share"""
@@ -567,22 +602,22 @@ class MetaWebhookView(View):
             # Log received image URL
             logger.info(f"Processing image URL: {image_url}")
             
-            # Rehost the image to Imgur if needed
-            imgur_url = self.rehost_image(image_url)
-            if imgur_url:
-                logger.info(f"Rehosted image URL: {imgur_url}")
+            # Rehost the image to S3
+            s3_url = self.rehost_image(image_url)
+            if s3_url:
+                logger.info(f"Rehosted image URL: {s3_url}")
                 
-                # Process image using our new service with Imgur URL
-                logger.info(f"Calling get_product_card_data with URL: {imgur_url}")
-                result = get_product_card_data(imgur_url, sender_id)
+                # Process image using our new service with S3 URL
+                logger.info(f"Calling get_product_card_data with URL: {s3_url}")
+                result = get_product_card_data(get_cdn_url(s3_url), sender_id)
                 
-                # If processing with Imgur URL fails, try original URL
+                # If processing with S3 URL fails, try original URL
                 if not result["success"] and "Failed to call Vision API" in result.get("error", ""):
-                    logger.warning("Failed with Imgur URL, trying original URL as fallback")
+                    logger.warning("Failed with S3 URL, trying original URL as fallback")
                     result = get_product_card_data(image_url, sender_id)
             else:
-                # If Imgur rehosting failed, use original URL
-                logger.warning(f"Imgur rehosting failed, using original URL: {image_url}")
+                # If S3 rehosting failed, use original URL
+                logger.warning(f"S3 rehosting failed, using original URL: {image_url}")
                 result = get_product_card_data(image_url, sender_id)
             
             logger.info(f"get_product_card_data result: {json.dumps(result, indent=2)}")
@@ -592,8 +627,8 @@ class MetaWebhookView(View):
                 card_data = result["card_data"]
 
                 # For consistent display in the product card
-                if imgur_url:
-                    card_data["image_url"] = imgur_url
+                if s3_url:
+                    card_data["image_url"] = get_cdn_url(s3_url)
                 else:
                     card_data["image_url"] = image_url
                 
@@ -687,7 +722,6 @@ class VideoWebhookView(View):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.INSTAGRAM_API_URL = "https://graph.instagram.com/v22.0/me/messages"
-        self.IMGUR_CLIENT_ID = "2202f7d1fca273b"
     
     def validate_payload(self, data):
         """Validate the incoming webhook payload"""
@@ -728,11 +762,11 @@ class VideoWebhookView(View):
 
     def send_product_card(self, sender_id, video_id, carousel_image_url):
         try:
-            # Try to rehost the image to Imgur first
-            imgur_url = rehost_image(carousel_image_url, self.IMGUR_CLIENT_ID)
-            # If rehosting was successful, use the Imgur URL instead
-            if imgur_url:
-                carousel_image_url = imgur_url
+            # Try to rehost the image to S3 first
+            s3_url = rehost_image(carousel_image_url, None)  # Passing None as we don't need imgur_client_id
+            # If rehosting was successful, use the S3 URL instead
+            if s3_url:
+                carousel_image_url = s3_url
                 logger.info(f"Using rehosted image URL: {carousel_image_url}")
             
             url = f"https://graph.instagram.com/v22.0/17841472211809579/messages"
