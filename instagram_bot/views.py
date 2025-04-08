@@ -569,19 +569,33 @@ class MetaWebhookView(View):
             
             # Rehost the image to Imgur if needed
             imgur_url = self.rehost_image(image_url)
-            logger.info(f"Rehosted image URL: {imgur_url}")
+            if imgur_url:
+                logger.info(f"Rehosted image URL: {imgur_url}")
+                
+                # Process image using our new service with Imgur URL
+                logger.info(f"Calling get_product_card_data with URL: {imgur_url}")
+                result = get_product_card_data(imgur_url, sender_id)
+                
+                # If processing with Imgur URL fails, try original URL
+                if not result["success"] and "Failed to call Vision API" in result.get("error", ""):
+                    logger.warning("Failed with Imgur URL, trying original URL as fallback")
+                    result = get_product_card_data(image_url, sender_id)
+            else:
+                # If Imgur rehosting failed, use original URL
+                logger.warning(f"Imgur rehosting failed, using original URL: {image_url}")
+                result = get_product_card_data(image_url, sender_id)
             
-            # Process image using our new service
-            logger.info(f"Calling get_product_card_data with URL: {imgur_url}")
-            result = get_product_card_data(imgur_url, sender_id)
             logger.info(f"get_product_card_data result: {json.dumps(result, indent=2)}")
             
             if result["success"]:
                 # Get the card data
                 card_data = result["card_data"]
 
-                if image_url:
+                # For consistent display in the product card
+                if imgur_url:
                     card_data["image_url"] = imgur_url
+                else:
+                    card_data["image_url"] = image_url
                 
                 # Create button URL with the product IDs
                 button_url = card_data["button_url"]
