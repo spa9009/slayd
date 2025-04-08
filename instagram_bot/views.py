@@ -19,7 +19,6 @@ from django.db import transaction
 from rest_framework import generics
 from .serializers import VideoPostSerializer
 from utils.commn_utils import get_cdn_url
-from .services.image_processing import process_objects_in_image, get_product_card_data
 
 
 logger = logging.getLogger(__name__)
@@ -485,8 +484,20 @@ class MetaWebhookView(View):
                             # Extract image from Pinterest
                             image_url = self.extract_pinterest_image(text)
                             if image_url:
-                                # Process image for similar products with Vision API
-                                self.process_and_send_product_card(sender_id, image_url)
+                                # Upload to Imgur
+                                imgur_url = self.rehost_image(image_url)
+                                if imgur_url:
+                                    self.send_product_card(
+                                        recipient_id=sender_id,
+                                        image_url=imgur_url,
+                                        title="Found similar products from Pinterest! 🛍️",
+                                        subtitle="Check out these matches for your Pinterest inspiration"
+                                    )
+                                else:
+                                    self.send_instagram_reply(
+                                        sender_id,
+                                        "Sorry, I had trouble processing that Pinterest image. Could you try sharing another one? 🙏"
+                                    )
                             else:
                                 self.send_instagram_reply(
                                     sender_id,
@@ -499,7 +510,7 @@ class MetaWebhookView(View):
                                 "Hey! 😊 We currently support female fashion searches only. You can send us Instagram posts, images, or Pinterest post links to discover similar fashion items! 💃👗🛍️"
                             )
                     
-                    # Handle attachments (images and shares)
+                    # Handle attachments (images and shares) as before
                     if 'attachments' in message:
                         for attachment in message.get('attachments', []):
                             attachment_type = attachment.get('type')
@@ -508,8 +519,7 @@ class MetaWebhookView(View):
                             if attachment_type in ['ig_reel', 'video']:
                                 self.handle_video(sender_id, url)
 
-                            # Handle image and share attachments
-                            if attachment_type in ['image', 'share']:
+                            elif attachment_type in ['image', 'share']:
                                 if attachment_type == 'share':
 
                                     if requests.head(url).headers.get("Content-Type") == 'video/mp4':
@@ -518,8 +528,14 @@ class MetaWebhookView(View):
                                     else:
                                         url = self.extract_carousel_image(attachment)
                                 
-                                # Process the image with Vision API and find similar products
-                                self.process_and_send_product_card(sender_id, url)
+                                imgur_url = self.rehost_image(url)
+                                if imgur_url:
+                                    self.send_product_card(
+                                        recipient_id=sender_id,
+                                        image_url=imgur_url,
+                                        title="Check out these similar products! 🛍️",
+                                        subtitle="We found some great matches for your style"
+                                    )
 
             return JsonResponse({'status': 'success'})
                 
@@ -555,71 +571,15 @@ class MetaWebhookView(View):
             logger.exception("Error sending reply")
             return False
 
-    def process_and_send_product_card(self, sender_id, image_url):
-        """Process image and send product card with similar products"""
-        try:
-            # Send initial response
-            self.send_instagram_reply(
-                sender_id,
-                "Processing your image... 🔍 Finding similar products for you!"
-            )
-            # Rehost the image to Imgur if needed
-            imgur_url = self.rehost_image(image_url)
-            
-            # Process image using our new service
-            result = get_product_card_data(imgur_url, sender_id)
-            
-            if result["success"]:
-                # Get the card data
-                card_data = result["card_data"]
-
-                if image_url:
-                    card_data["image_url"] = imgur_url
-                
-                # Create button URL with the product IDs
-                button_url = card_data["button_url"]
-                
-                # Send the product card
-                self.send_product_card(
-                    recipient_id=sender_id,
-                    image_url=card_data["image_url"],
-                    title=card_data["title"],
-                    subtitle=card_data["subtitle"],
-                    button_url=button_url
-                )
-                
-                # Log how many objects were found
-                object_count = len(result.get("object_results", []))
-                product_count = len(set(result.get("whole_image_products", [])))
-                
-                logger.info(f"Processed image with {object_count} objects and {product_count} unique products")
-                
-            else:
-                logger.error(f"Error getting similar products: {result.get('error')}")
-                self.send_instagram_reply(
-                    sender_id,
-                    "Sorry, I had trouble finding similar products for that image. Could you try another? 🙏"
-                )
-                
-        except Exception as e:
-            logger.exception(f"Error in process_and_send_product_card: {str(e)}")
-            self.send_instagram_reply(
-                sender_id,
-                "Sorry, something went wrong while processing your image. Please try again later! 🙏"
-            )
-
-    def send_product_card(self, recipient_id, image_url, title, subtitle, button_url=None):
+    def send_product_card(self, recipient_id, image_url, title, subtitle):
         try:
             url = f"https://graph.instagram.com/v22.0/17841472211809579/messages"
             headers = {
                 "Authorization": f"Bearer {settings.INSTAGRAM_ACCESS_TOKEN}",
                 "Content-Type": "application/json"
-            }   
+            }
             
-            if not button_url:
-                encoded_url = quote(image_url)
-                button_url = f"https://slayd.in/similar-product/?image_url={encoded_url}"
-            
+            encoded_url = quote(image_url)
             payload = {
                 "recipient": {"id": recipient_id},
                 "message": {
@@ -633,7 +593,7 @@ class MetaWebhookView(View):
                                 "subtitle": subtitle,
                                 "buttons": [{
                                     "type": "web_url",
-                                    "url": button_url,
+                                    "url": f"https://slayd.in/similar-product/?image_url={encoded_url}",
                                     "title": "View Similar Products"
                                 }]
                             }]
@@ -651,6 +611,9 @@ class MetaWebhookView(View):
         except Exception as e:
             logger.exception("Error sending product card")
             return False
+        
+
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 class VideoWebhookView(View):

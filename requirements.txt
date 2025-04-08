@@ -10,4 +10,3 @@ virtualenv==20.26.6
 scikit-learn==1.5.2
 tensorflow==2.18.0
 redis>=4.0.0
-requests==2.31.0

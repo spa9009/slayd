@@ -38,7 +38,7 @@ SECRET_KEY = 'django-insecure-6u9$*8@)(-z!fkw&7z^wp8#ys+r+p6=1!^p7ouqd2-g#avv)gj
 
 DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['localhost:8000', '3.110.40.235', '127.0.0.1', 'api.slayd.in', '43.204.235.28', 'https://slayd.in', '13.232.75.180', '172.31.4.139', 
+ALLOWED_HOSTS = ['http://localhost:3000', '3.110.40.235', '127.0.0.1', 'api.slayd.in', '43.204.235.28', 'https://slayd.in', '13.232.75.180', '172.31.4.139', 
                  'test-api.slayd.in', 'slayd-alb-701425932.ap-south-1.elb.amazonaws.com']
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -56,8 +56,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'feed',
     'account',
-    'activity',
-    'vision',
+    'activity'
 ]
 
 MIDDLEWARE = [
@@ -92,7 +91,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'slayd.wsgi.application'
 
-GOOGLE_VISION_API_KEY = "AIzaSyAcgqsRZ7mmHj5Ivk9XM2pI7Sd1IxcXzBM"
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -223,11 +221,6 @@ LOGGING = {
             'propagate': False,
         },
         'instagram_bot.views': {
-            'handlers': ['console', 'file'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-        'vision.views': {
             'handlers': ['console', 'file'],
             'level': 'INFO',
             'propagate': True,

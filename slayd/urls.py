@@ -11,6 +11,5 @@ urlpatterns = [
     path('account/', include('account.urls')),
     path('activity/', include('activity.urls')),
     path('instagram/', include('instagram_bot.urls')),
-    path('vision/', include('vision.urls')),
     path("health/", health_check)
 ]

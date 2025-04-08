@@ -1,5 +1,5 @@
 from rest_framework import generics, status
-from .models import Product, Post, TaggedProduct, Media, Curation, MyntraProducts, DetectedObjectProducts
+from .models import Product, Post, TaggedProduct, Media, Curation, MyntraProducts
 from .serializers import ProductSerializer, PostSerializer, CurationSerializer, MyntraProductsSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -219,16 +219,6 @@ class SimilarProductsView(APIView):
             page = int(request.query_params.get('page', 1))
             items_per_page = int(request.query_params.get('items_per_page', 20))
             
-            # Get crop parameters if provided
-            x = request.query_params.get('x')
-            y = request.query_params.get('y')
-            width = request.query_params.get('width')
-            height = request.query_params.get('height')
-            
-            # Log if crop parameters are provided
-            if all(param is not None for param in [x, y, width, height]):
-                logger.info(f"Crop parameters provided: x={x}, y={y}, width={width}, height={height}")
-            
             if not image_url:
                 MetricsUtil.record_failure('SimilarProductsView', 'MissingImageURL')
                 return Response(
@@ -244,11 +234,7 @@ class SimilarProductsView(APIView):
                     search_type=search_type,
                     page=page,
                     items_per_page=items_per_page,
-                    top_k=120,
-                    x=x,
-                    y=y,
-                    width=width,
-                    height=height
+                    top_k=120
                 )
                 
                 MetricsUtil.record_success('SimilarProductsView', [
@@ -306,192 +292,3 @@ def test_aws_config(request):
             'status': 'error',
             'error': str(e)
         }, status=500)
-
-class DetectedObjectProductsView(APIView):
-    """
-    API endpoint to retrieve detected objects and their similar products for an image.
-    
-    GET parameters:
-    - image_url (required): URL of the image to get detected objects for
-    - object_id (optional): ID of a specific object to filter results
-    - page (optional): Page number for pagination (default: 1)
-    - items_per_page (optional): Number of products per page (default: 20)
-    """
-    
-    def get(self, request):
-        logger.info("Fetching detected objects and similar products")
-        
-        try:
-            # Get query parameters
-            image_url = request.query_params.get('image_url')
-            object_id = request.query_params.get('object_id')
-            page = int(request.query_params.get('page', 1))
-            items_per_page = int(request.query_params.get('items_per_page', 20))
-            
-            if not image_url:
-                return Response(
-                    {"error": "image_url parameter is required"}, 
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-            
-            # Get all detected objects for this image
-            objects = DetectedObjectProducts.objects.filter(
-                image_url=image_url,
-                is_whole_image=False
-            )
-            
-            # Get whole image record if it exists
-            whole_image_record = DetectedObjectProducts.objects.filter(
-                image_url=image_url,
-                is_whole_image=True
-            ).first()
-            
-            # If no objects or whole image record found, return error
-            if not objects.exists() and not whole_image_record:
-                return Response(
-                    {"error": "No results found for this image"}, 
-                    status=status.HTTP_404_NOT_FOUND
-                )
-            
-            # If object_id is provided, filter for that specific object
-            if object_id:
-                objects = objects.filter(id=object_id)
-                
-                if not objects.exists():
-                    return Response(
-                        {"error": f"Object with ID {object_id} not found for this image"}, 
-                        status=status.HTTP_404_NOT_FOUND
-                    )
-                
-                # Get the object
-                obj = objects.first()
-                all_product_ids = obj.similar_products
-                total_products = len(all_product_ids)
-                total_pages = (total_products + items_per_page - 1) // items_per_page if total_products > 0 else 1
-                
-                # Calculate start and end indices
-                start_idx = (page - 1) * items_per_page
-                end_idx = min(start_idx + items_per_page, total_products)
-                
-                # Get the products for this page
-                paginated_products = all_product_ids[start_idx:end_idx]
-                
-                # Get product details
-                product_details = []
-                for product_id in paginated_products:
-                    try:
-                        product = MyntraProducts.objects.get(id=product_id)
-                        product_details.append({
-                            'id': product.id,
-                            'name': product.name,
-                            'brand': product.brand,
-                            'price': product.price,
-                            'discount_price': product.discount_price,
-                            'image_url': product.image_url,
-                            'product_link': product.product_link,
-                            'marketplace': product.marketplace
-                        })
-                    except MyntraProducts.DoesNotExist:
-                        logger.warning(f"Product with ID {product_id} not found")
-                
-                # Format response with pagination
-                response_data = {
-                    'object': {
-                        'id': obj.id,
-                        'label': obj.label,
-                        'x': obj.x,
-                        'y': obj.y,
-                        'width': obj.width,
-                        'height': obj.height,
-                        'confidence': obj.confidence,
-                        'products': product_details,
-                        'pagination': {
-                            'current_page': page,
-                            'total_pages': total_pages,
-                            'total_items': total_products,
-                            'items_per_page': items_per_page
-                        }
-                    }
-                }
-                
-                return Response(response_data)
-            
-            else:
-                # No specific object requested, return all objects' info
-                
-                # Initialize response data structure
-                response_data = {
-                    'objects': []
-                }
-                
-                # Add detected objects info
-                for obj in objects:
-                    response_data['objects'].append({
-                        'id': obj.id,
-                        'label': obj.label,
-                        'x': obj.x,
-                        'y': obj.y,
-                        'width': obj.width,
-                        'height': obj.height,
-                        'confidence': obj.confidence,
-                        'products_count': len(obj.similar_products)
-                    })
-                
-                # Only include whole image products if no objects were detected
-                if not objects.exists() and whole_image_record:
-                    # Get products for the whole image
-                    whole_image_products = whole_image_record.similar_products
-                    
-                    # For whole image products, apply pagination
-                    total_products = len(whole_image_products)
-                    total_pages = (total_products + items_per_page - 1) // items_per_page if total_products > 0 else 1
-                    
-                    # Calculate start and end indices
-                    start_idx = (page - 1) * items_per_page
-                    end_idx = min(start_idx + items_per_page, total_products)
-                    
-                    # Get the products for this page
-                    paginated_products = whole_image_products[start_idx:end_idx]
-                    
-                    # Get product details
-                    product_details = []
-                    for product_id in paginated_products:
-                        try:
-                            product = MyntraProducts.objects.get(id=product_id)
-                            product_details.append({
-                                'id': product.id,
-                                'name': product.name,
-                                'brand': product.brand,
-                                'price': product.price,
-                                'discount_price': product.discount_price,
-                                'image_url': product.image_url,
-                                'product_link': product.product_link,
-                                'marketplace': product.marketplace
-                            })
-                        except MyntraProducts.DoesNotExist:
-                            logger.warning(f"Product with ID {product_id} not found")
-                    
-                    # Add whole image data to response
-                    response_data['whole_image'] = {
-                        'products': product_details,
-                        'pagination': {
-                            'current_page': page,
-                            'total_pages': total_pages,
-                            'total_items': total_products,
-                            'items_per_page': items_per_page
-                        }
-                    }
-                    
-                return Response(response_data)
-                
-        except ValueError as e:
-            return Response(
-                {"error": f"Invalid pagination parameters: {str(e)}"}, 
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        except Exception as e:
-            logger.exception("Error fetching detected objects")
-            return Response(
-                {"error": f"Internal server error: {str(e)}"}, 
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )

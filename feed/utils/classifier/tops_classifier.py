@@ -54,7 +54,7 @@ class TopsClassifier(ApparelClassifier):
             "T-Shirt", "Blouse", "Shirt", "Crop Top", "Tank Top",
             "Tube Top", "Bodysuit", "Bralette", "Corset Top", "Peplum Top",
             "Polo Shirt", "Henley", "Halter Top", "Camisole", "Button-Down",
-            "Tunic", "Bandeau", "Shell Top", "Wrap Top", "Bustier", "Jersey"
+            "Tunic", "Bandeau", "Shell Top", "Wrap Top", "Bustier"
         ]
 
     @property
@@ -199,7 +199,7 @@ class TopsClassifier(ApparelClassifier):
             if print_details:
                 description_parts = print_details + description_parts
             
-            base_description = " " + " ".join(description_parts) + " " + self.predicted_apparel
+            base_description = "This is a " + " ".join(description_parts) + " " + self.predicted_apparel
             base_description += f" with {predicted_feature.lower()}"
             
             self.logger.debug("\nFinal Description:")
