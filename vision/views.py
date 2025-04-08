@@ -103,11 +103,46 @@ def transform_response(response_data):
     return response_data
 
 def get_base64_from_url(url):
-    response = requests.get(url, timeout=10)
-    response.raise_for_status()
+    """
+    Fetch an image from a URL and convert it to base64 encoding
     
-    image_bytes = BytesIO(response.content)
-    return base64.b64encode(image_bytes.read()).decode('utf-8')
+    Args:
+        url: URL of the image to download
+        
+    Returns:
+        str: Base64-encoded image data
+    """
+    logger.info(f"Fetching image from URL for base64 encoding: {url}")
+    
+    try:
+        # Use a browser-like user agent to avoid potential blocking
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        }
+        
+        # Fetch the image with a timeout
+        response = requests.get(url, headers=headers, timeout=10)
+        response.raise_for_status()
+        
+        # Check if we got an image
+        content_type = response.headers.get('Content-Type', '')
+        logger.info(f"Received response: status={response.status_code}, content-type={content_type}, size={len(response.content)} bytes")
+        
+        if not content_type.startswith('image/'):
+            logger.warning(f"URL did not return an image. Content-Type: {content_type}")
+        
+        # Process the image bytes
+        image_bytes = BytesIO(response.content)
+        encoded = base64.b64encode(image_bytes.read()).decode('utf-8')
+        logger.info(f"Successfully encoded image, base64 length: {len(encoded)}")
+        return encoded
+        
+    except requests.exceptions.RequestException as e:
+        logger.error(f"Request failed when fetching image: {str(e)}")
+        raise
+    except Exception as e:
+        logger.exception(f"Error encoding image to base64: {str(e)}")
+        raise
 
 @csrf_exempt
 def detect_objects(request):

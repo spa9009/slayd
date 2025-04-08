@@ -9,6 +9,7 @@ from vision.views import detect_objects
 from feed.views import SimilarProductsView
 from rest_framework.test import APIRequestFactory
 from django.http import QueryDict
+import requests
 
 logger = logging.getLogger(__name__)
 
@@ -23,6 +24,26 @@ def call_vision_api(image_url):
         dict: Vision API response or None if there was an error
     """
     try:
+        # Validate the image URL first
+        try:
+            logger.info(f"Validating image URL before calling Vision API: {image_url}")
+            validation_response = requests.head(image_url, timeout=5)
+            status_code = validation_response.status_code
+            content_type = validation_response.headers.get('Content-Type', 'unknown')
+            
+            if status_code != 200:
+                logger.error(f"Image URL validation failed with status code: {status_code}")
+                return None
+                
+            if not content_type.startswith('image/'):
+                logger.error(f"URL does not point to an image. Content-Type: {content_type}")
+                return None
+                
+            logger.info(f"Image URL validated successfully: {status_code}, {content_type}")
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Failed to validate image URL: {str(e)}")
+            return None
+        
         # Create a mock request to pass to the view function
         factory = APIRequestFactory()
         payload = {"product_url": image_url}
@@ -40,7 +61,9 @@ def call_vision_api(image_url):
         if response.status_code == 200:
             # Parse JSON response
             vision_result = json.loads(response.content)
+            response_info = json.dumps(vision_result, indent=2)[:500] + "..." # Log truncated response
             logger.info(f"Vision API success: {len(vision_result.get('responses', []))} objects detected")
+            logger.info(f"Vision API truncated response: {response_info}")
             return vision_result
         else:
             logger.error(f"Vision API error: {response.status_code} - {response.content}")
