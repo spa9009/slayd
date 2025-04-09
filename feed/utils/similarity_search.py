@@ -5,7 +5,7 @@ from PIL import Image
 import requests
 from io import BytesIO
 from feed.models import MyntraProducts
-from feed.apps import get_model_instance
+from feed.model_loader import get_model_instance
 from django.conf import settings
 import psutil
 import logging
@@ -54,6 +54,7 @@ class SimilaritySearcher(metaclass=SingletonMeta):
             logging.debug("Initializing models...")
             try:
                 model_instance = get_model_instance()
+                self.fclip = model_instance.fclip
                 self.model = model_instance.clip_model
                 self.processor = model_instance.clip_processor
                 logging.debug("Models initialized successfully")
@@ -98,27 +99,152 @@ class SimilaritySearcher(metaclass=SingletonMeta):
             raise FileNotFoundError(f"Product IDs file not found at {path}")
         return np.load(path)
 
-    def load_and_process_image(self, image_path):
+    def _cleanup_tensors(self):
+        for tensor in self._cached_tensors.values():
+            if hasattr(tensor, 'cpu'):
+                tensor.cpu()
+            del tensor
+        self._cached_tensors.clear()
+        torch.cuda.empty_cache() if torch.cuda.is_available() else None
+
+    def _crop_image(self, image, x, y, width, height):
+        """
+        Crop an image based on normalized coordinates (0-1).
+        
+        Args:
+            image: PIL Image object to crop
+            x, y: Top-left corner coordinates (normalized 0-1)
+            width, height: Width and height of crop (normalized 0-1)
+            
+        Returns:
+            Cropped PIL Image
+        """
         logger = logging.getLogger(__name__)
         try:
+            logger.debug(f"Cropping image with coordinates: x={x}, y={y}, width={width}, height={height}")
+            
+            # Convert normalized coordinates (0-1) to pixel values
+            img_width, img_height = image.size
+            x_pixel = int(float(x) * img_width)
+            y_pixel = int(float(y) * img_height)
+            width_pixel = int(float(width) * img_width)
+            height_pixel = int(float(height) * img_height)
+            
+            # Ensure valid crop area
+            x_pixel = max(0, x_pixel)
+            y_pixel = max(0, y_pixel)
+            width_pixel = min(width_pixel, img_width - x_pixel)
+            height_pixel = min(height_pixel, img_height - y_pixel)
+            
+            # Crop the image
+            cropped_image = image.crop((x_pixel, y_pixel, x_pixel + width_pixel, y_pixel + height_pixel))
+            logger.debug(f"Image cropped successfully to size {cropped_image.size}")
+            
+            return cropped_image
+        except Exception as e:
+            logger.error(f"Error cropping image: {str(e)}")
+            # Return original image if cropping fails
+            return image
+
+    def _preprocess_image(self, image):
+        if image.mode != "RGB":
+            image = image.convert("RGB")
+        return image.resize((224, 224))
+
+    def _fetch_remote_image(self, image_url):
+        logger = logging.getLogger(__name__)
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        }
+        response = requests.get(image_url, headers=headers, timeout=5, stream=True)
+        response.raise_for_status()
+        return Image.open(BytesIO(response.content))
+
+    def load_and_process_image(self, image_path, x=None, y=None, width=None, height=None):
+        logger = logging.getLogger(__name__)
+        try:
+            # Load image from URL or local path
             if image_path.startswith(('http://', 'https://')):
-                headers = {
-                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-                }
-                response = requests.get(image_path, headers=headers, timeout=5, stream=True)
-                response.raise_for_status()
-                with Image.open(BytesIO(response.content)) as image:
-                    if image.mode != "RGB":
-                        image = image.convert("RGB")
-                    return image.resize((224, 224))
+                image = self._fetch_remote_image(image_path)
             else:
-                with Image.open(image_path) as image:
-                    if image.mode != "RGB":
-                        image = image.convert("RGB")
-                    return image.resize((224, 224))
+                image = Image.open(image_path)
+            
+            # Apply cropping if coordinates are provided
+            if all(param is not None for param in [x, y, width, height]):
+                image = self._crop_image(image, x, y, width, height)
+            
+            # Preprocess the image
+            return self._preprocess_image(image)
+            
         except Exception as e:
             logger.error(f"Error in load_and_process_image: {str(e)}")
             raise
+
+    def _get_image_embeddings(self, image):
+        logger = logging.getLogger(__name__)
+        try:
+            logger.debug("Generating image embeddings")
+            image_embeddings = self.fclip.encode_images(images=[image], batch_size=1)
+            image_embeddings = image_embeddings / np.linalg.norm(image_embeddings, ord=2, axis=-1, keepdims=True)
+            logger.debug("Image embeddings generated successfully")
+            return image_embeddings
+        except Exception as e:
+            logger.error(f"Failed to generate image embeddings: {str(e)}")
+            raise RuntimeError(f"Embedding generation failed: {str(e)}")
+
+    def _generate_query_embedding(self, image_embeddings, text_description, search_type):
+
+        logger = logging.getLogger(__name__)
+        try:
+            # Prepare query embedding based on search type
+            if search_type == 'image':
+                return image_embeddings
+            elif search_type == 'text':
+                text_embedding = self.fclip.encode_text([text_description], batch_size=1)
+                return text_embedding / np.linalg.norm(text_embedding, ord=2, axis=-1, keepdims=True)
+            elif search_type == 'combined_60':
+                text_embedding = self.fclip.encode_text([text_description], batch_size=1)
+                combined = 0.60 * image_embeddings + 0.40 * text_embedding
+                return combined / np.linalg.norm(combined, ord=2, axis=-1, keepdims=True)
+            elif search_type == 'combined_75':
+                text_embedding = self.fclip.encode_text([text_description], batch_size=1)
+                combined = 0.75 * image_embeddings + 0.25 * text_embedding
+                return combined / np.linalg.norm(combined, ord=2, axis=-1, keepdims=True)
+            elif search_type == 'concat':
+                text_embedding = self.fclip.encode_text([text_description], batch_size=1)
+                concatenated = np.concatenate([image_embeddings[0], text_embedding[0]])
+                concatenated = concatenated / np.linalg.norm(concatenated)
+                return concatenated.reshape(1, -1)
+            else:
+                raise ValueError(f"Invalid search type: {search_type}")
+        except Exception as e:
+            logger.error(f"Error generating query embedding: {str(e)}")
+            raise
+
+    def _get_product_details(self, product_id, distances=None, idx=None):
+
+        logger = logging.getLogger(__name__)
+        try:
+            product = MyntraProducts.objects.get(id=product_id)
+            similarity_score = float(distances[0][idx]) if distances is not None and idx is not None else None
+            
+            return {
+                'id': product.id,
+                'product_link': product.product_link,
+                'product_name': product.name,
+                'product_price': product.price,
+                'discount_price': product.discount_price,
+                'product_image': product.image_url,
+                'product_brand': product.brand,
+                'product_marketplace': product.marketplace,
+                'similarity_score': similarity_score
+            }
+        except MyntraProducts.DoesNotExist:
+            logger.warning(f"Product with ID {product_id} not found in database")
+            return None
+        except Exception as e:
+            logger.error(f"Error processing product {product_id}: {str(e)}")
+            return None
 
     def get_text_description(self, image):
         """Generate detailed text description using CLIP zero-shot classification"""
@@ -151,7 +277,7 @@ class SimilaritySearcher(metaclass=SingletonMeta):
         predicted_apparel = apparel_types[predicted_apparel_idx]
 
         # If it's a dress, get more detailed attributes using DressClassifier
-        if predicted_apparel == "dress" or predicted_apparel == "shirt dress":
+        if predicted_apparel == "dress":
             dress_classifier = DressClassifier(self.model, self.processor, predicted_apparel)
             detailed_description = dress_classifier.generate_description(image)
             return detailed_description
@@ -301,14 +427,17 @@ class SimilaritySearcher(metaclass=SingletonMeta):
                 f"a photo of {'an' if x[0].lower() in 'aeiou' else 'a'} {x} colored clothing" 
                 for x in dress_colors
             ]
+            
             inputs = self.processor(
                 text=color_categories,
                 images=image,
                 return_tensors="pt",
                 padding=True
             )
+            
             if torch.cuda.is_available():
                 inputs = {k: v.cuda() for k, v in inputs.items()}
+            
             with torch.no_grad():
                 outputs = self.model(**inputs)
                 logits = outputs.logits_per_image
@@ -319,7 +448,7 @@ class SimilaritySearcher(metaclass=SingletonMeta):
         if should_use_apparel:
             description_parts.append(predicted_apparel)
         
-        return "This is a " + " ".join(description_parts)
+        return " ".join(description_parts)
 
     @contextmanager
     def tensor_management(self):
@@ -330,14 +459,15 @@ class SimilaritySearcher(metaclass=SingletonMeta):
             gc.collect()
             torch.cuda.empty_cache() if torch.cuda.is_available() else None
 
-    def get_similar_products(self, image_path, top_k=120, page=1, items_per_page=20, search_type='combined_75'):
+    def get_similar_products(self, image_path, top_k=120, page=1, items_per_page=20, search_type='combined_75', x=None, y=None, width=None, height=None):
         with self.tensor_management():
             logger = logging.getLogger(__name__)
             try:
                 logger.debug(f"Starting similarity search for {image_path} - Page {page}")
                 
-                # Create a cache key using only image_path and top_k
-                cache_key = hashlib.md5(f"{image_path}:{top_k}:{search_type}".encode()).hexdigest()
+                # Create a cache key using image_path, crop parameters, and search_type
+                crop_params = f":{x}:{y}:{width}:{height}" if all(param is not None for param in [x, y, width, height]) else ""
+                cache_key = hashlib.md5(f"{image_path}{crop_params}:{top_k}:{search_type}".encode()).hexdigest()
                 
                 # Validate pagination parameters
                 if page < 1:
@@ -353,7 +483,7 @@ class SimilaritySearcher(metaclass=SingletonMeta):
                 # Try to get full results from cache
                 cached_results = cache.get(cache_key)
                 if cached_results:
-                    logger.debug(f"Cache hit for {image_path}")
+                    logger.debug(f"Cache hit for {image_path}{crop_params}")
                     # Extract the requested page from cached results
                     all_products = cached_results['products']
                     paginated_products = all_products[start_idx:end_idx]
@@ -369,17 +499,11 @@ class SimilaritySearcher(metaclass=SingletonMeta):
                     }
 
                 # If not in cache, process the image and get all results
-                image = self.load_and_process_image(image_path)
+                image = self.load_and_process_image(image_path, x, y, width, height)
                 logger.debug("Image loaded and processed successfully")
 
-                # Get image embedding with error handling
-                try:
-                    logger.debug("Generating image embeddings")
-                    image_embeddings = self.get_image_embeddings(image)
-                    logger.debug("Image embeddings generated successfully")
-                except Exception as e:
-                    logger.error(f"Failed to generate image embeddings: {str(e)}")
-                    raise RuntimeError(f"Embedding generation failed: {str(e)}")
+                # Get image embedding
+                image_embeddings = self._get_image_embeddings(image)
 
                 # Get text description with error handling
                 try:
@@ -391,15 +515,63 @@ class SimilaritySearcher(metaclass=SingletonMeta):
                     raise RuntimeError(f"Text description generation failed: {str(e)}")
 
                 # Prepare query embedding based on search type
-                query_embedding = self.get_query_embedding(search_type, image_embeddings, text_description)
+                if search_type == 'image':
+                    query_embedding = image_embeddings
+                elif search_type == 'text':
+                    query_embedding = self.fclip.encode_text([text_description], batch_size=1)
+                    query_embedding = query_embedding / np.linalg.norm(query_embedding, ord=2, axis=-1, keepdims=True)
+                elif search_type == 'combined_60':
+                    query_embedding = 0.60 * image_embeddings + 0.40 * self.fclip.encode_text([text_description], batch_size=1)
+                    query_embedding = query_embedding / np.linalg.norm(query_embedding, ord=2, axis=-1, keepdims=True)
+                elif search_type == 'combined_75':
+                    query_embedding = 0.75 * image_embeddings + 0.25 * self.fclip.encode_text([text_description], batch_size=1)
+                    query_embedding = query_embedding / np.linalg.norm(query_embedding, ord=2, axis=-1, keepdims=True)
+                elif search_type == 'concat':
+                    query_embedding = np.concatenate([image_embeddings[0], self.fclip.encode_text([text_description], batch_size=1)[0]])
+                    query_embedding = query_embedding / np.linalg.norm(query_embedding)
+                    query_embedding = query_embedding.reshape(1, -1)
+                else:
+                    raise ValueError(f"Invalid search type: {search_type}")
 
-                # Get product results
-                all_similar_products = self.search_and_retrieve_products(
-                    query_embedding, 
-                    search_type, 
-                    top_k,
-                    text_description
+                # Get all results up to top_k
+                distances, idx = self.indices[search_type].search(
+                    np.array(query_embedding, dtype="float32"),
+                    top_k
                 )
+
+                # Get all product details with error handling
+                all_similar_products = []
+                seen_products = set()  # Track seen product name+brand combinations
+                for i in range(len(idx[0])):
+                    product_id = str(self.product_ids[idx[0][i]])
+                    try:
+                        product = MyntraProducts.objects.get(id=product_id)
+                        # Create unique key for product using name and brand
+                        product_key = f"{product.product_link.lower()}_{product.color.lower()}"
+                        
+                        # Skip if we've seen this product before
+                        if product_key in seen_products:
+                            continue
+                            
+                        seen_products.add(product_key)
+                        all_similar_products.append({
+                            'id': product.id,
+                            'product_link': product.product_link,
+                            'product_name': product.name,
+                            'product_price': product.price,
+                            'discount_price': product.discount_price,
+                            'product_image': product.image_url,
+                            'product_brand': product.brand,
+                            'product_marketplace': product.marketplace,
+                            'similarity_score': float(distances[0][i]),
+                            'description': text_description if i == 0 else None
+                        })
+                    except MyntraProducts.DoesNotExist:
+                        logger.warning(f"Product with ID {product_id} not found in database")
+                        continue
+                    except Exception as e:
+                        logger.error(f"Error processing product {product_id}: {str(e)}")
+                        continue
 
                 # Adjust pagination based on actual number of valid products
                 total_valid_products = len(all_similar_products)
@@ -417,8 +589,9 @@ class SimilaritySearcher(metaclass=SingletonMeta):
 
                 # Clear CUDA tensors
                 if torch.cuda.is_available():
-                    if hasattr(query_embedding, 'cpu'):
-                        query_embedding = query_embedding.cpu()
+                    for v in query_embedding.values():
+                        v.cpu()
+                    del query_embedding
                     torch.cuda.empty_cache()
 
                 return {
@@ -443,164 +616,6 @@ class SimilaritySearcher(metaclass=SingletonMeta):
         logging.info(f"Memory usage after {operation_name}: {memory_mb:.2f} MB")
         if memory_mb > 1000:  # Alert if over 1GB
             logging.warning(f"High memory usage detected in {operation_name}")
-
-    def _cleanup_tensors(self):
-        for tensor in self._cached_tensors.values():
-            if hasattr(tensor, 'cpu'):
-                tensor.cpu()
-            del tensor
-        self._cached_tensors.clear()
-        torch.cuda.empty_cache() if torch.cuda.is_available() else None
-        
-    def get_text_embeddings(self, text_description):
-        """
-        Generate text embeddings using the CLIP model.
-        
-        Args:
-            text_description (str): Text to generate embeddings for
-            
-        Returns:
-            numpy.ndarray: Normalized text embeddings
-        """
-        text_inputs = self.processor(text=[text_description], return_tensors="pt", padding=True)
-        if torch.cuda.is_available():
-            text_inputs = {k: v.cuda() for k, v in text_inputs.items()}
-        text_features = self.model.get_text_features(**text_inputs)
-        text_embeddings = text_features.cpu().numpy()
-        return text_embeddings / np.linalg.norm(text_embeddings, axis=1, keepdims=True)
-        
-    def get_image_embeddings(self, image):
-        """
-        Generate image embeddings using the CLIP model.
-        
-        Args:
-            image: PIL image to generate embeddings for
-            
-        Returns:
-            numpy.ndarray: Normalized image embeddings
-        """
-        image_inputs = self.processor(images=image, return_tensors="pt")
-        if torch.cuda.is_available():
-            image_inputs = {k: v.cuda() for k, v in image_inputs.items()}
-        image_features = self.model.get_image_features(**image_inputs)
-        image_embeddings = image_features.cpu().numpy()
-        return image_embeddings / np.linalg.norm(image_embeddings, axis=1, keepdims=True)
-
-    def get_combined_embeddings(self, image_embeddings, text_embeddings, image_weight=0.75):
-        """
-        Combine image and text embeddings with specified weights.
-        
-        Args:
-            image_embeddings: Image embeddings from get_image_embeddings
-            text_embeddings: Text embeddings from get_text_embeddings
-            image_weight: Weight to apply to image embeddings (1-image_weight applied to text)
-            
-        Returns:
-            numpy.ndarray: Combined and normalized embeddings
-        """
-        combined = image_weight * image_embeddings + (1 - image_weight) * text_embeddings
-        return combined / np.linalg.norm(combined, axis=1, keepdims=True)
-    
-    def get_concatenated_embeddings(self, image_embeddings, text_embeddings):
-        """
-        Concatenate image and text embeddings.
-        
-        Args:
-            image_embeddings: Image embeddings from get_image_embeddings
-            text_embeddings: Text embeddings from get_text_embeddings
-            
-        Returns:
-            numpy.ndarray: Concatenated and normalized embeddings
-        """
-        concat = np.concatenate([image_embeddings[0], text_embeddings[0]])
-        normalized = concat / np.linalg.norm(concat)
-        return normalized.reshape(1, -1)
-
-    def search_and_retrieve_products(self, query_embedding, search_type, top_k, text_description):
-        """
-        Search for products using the query embedding and retrieve their details.
-        
-        Args:
-            query_embedding: The embedding to search with
-            search_type: Type of search being performed
-            top_k: Maximum number of results to retrieve
-            text_description: Text description of the query image
-            
-        Returns:
-            list: List of product details dictionaries
-        """
-        logger = logging.getLogger(__name__)
-        
-        # Get all results up to top_k
-        distances, idx = self.indices[search_type].search(
-            np.array(query_embedding, dtype="float32"),
-            top_k
-        )
-
-        # Get all product details with error handling
-        all_similar_products = []
-        seen_products = set()  # Track seen product name+brand combinations
-        
-        for i in range(len(idx[0])):
-            product_id = str(self.product_ids[idx[0][i]])
-            try:
-                product = MyntraProducts.objects.get(id=product_id)
-                # Create unique key for product using name and brand
-                product_key = f"{product.product_link.lower()}_{product.color.lower()}"
-                
-                # Skip if we've seen this product before
-                if product_key in seen_products:
-                    continue
-                    
-                seen_products.add(product_key)
-                all_similar_products.append({
-                    'id': product.id,
-                    'product_link': product.product_link,
-                    'product_name': product.name,
-                    'product_price': product.price,
-                    'discount_price': product.discount_price,
-                    'product_image': product.image_url,
-                    'product_brand': product.brand,
-                    'product_marketplace': product.marketplace,
-                    'similarity_score': float(distances[0][i]),
-                    'description': text_description if i == 0 else None
-                })
-            except MyntraProducts.DoesNotExist:
-                logger.warning(f"Product with ID {product_id} not found in database")
-                continue
-            except Exception as e:
-                logger.error(f"Error processing product {product_id}: {str(e)}")
-                continue
-                
-        return all_similar_products
-
-    def get_query_embedding(self, search_type, image_embeddings, text_description):
-        """
-        Prepare the query embedding based on the specified search type.
-        
-        Args:
-            search_type: Type of search to perform (image, text, combined_60, combined_75, concat)
-            image_embeddings: Image embeddings from get_image_embeddings
-            text_description: Text description of the query image
-            
-        Returns:
-            numpy.ndarray: The prepared query embedding
-        """
-        if search_type == 'image':
-            return image_embeddings
-        elif search_type == 'text':
-            return self.get_text_embeddings(text_description)
-        elif search_type == 'combined_60':
-            text_embeddings = self.get_text_embeddings(text_description)
-            return self.get_combined_embeddings(image_embeddings, text_embeddings, 0.60)
-        elif search_type == 'combined_75':
-            text_embeddings = self.get_text_embeddings(text_description)
-            return self.get_combined_embeddings(image_embeddings, text_embeddings, 0.75)
-        elif search_type == 'concat':
-            text_embeddings = self.get_text_embeddings(text_description)
-            return self.get_concatenated_embeddings(image_embeddings, text_embeddings)
-        else:
-            raise ValueError(f"Invalid search type: {search_type}")
 
 
 

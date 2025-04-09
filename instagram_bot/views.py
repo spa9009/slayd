@@ -18,47 +18,18 @@ from django.http import HttpResponse
 from django.db import transaction
 from rest_framework import generics
 from .serializers import VideoPostSerializer
-from utils.commn_utils import get_cdn_url
+from utils.commn_utils import get_cdn_url, safe_rehost, download_and_save_to_s3
+from .services.image_processing import get_product_card_data
 
 
 logger = logging.getLogger(__name__)
-
-def rehost_image(url, imgur_client_id):
-    """Rehost image to Imgur"""
-    try:
-        # Get image from URL
-        response = requests.get(url)
-        if response.status_code != 200:
-            logger.error(f"Failed to fetch image: {response.status_code}")
-            return None
-        
-        # Upload to Imgur
-        imgur_url = "https://api.imgur.com/3/image"
-        headers = {"Authorization": f"Client-ID {imgur_client_id}"}
-        files = {"image": response.content}
-        
-        logger.info("Uploading to Imgur...")
-        upload_response = requests.post(imgur_url, headers=headers, files=files)
-        
-        if upload_response.status_code == 200:
-            imgur_link = upload_response.json()["data"]["link"]
-            logger.info(f"Image rehosted successfully: {imgur_link}")
-            return imgur_link
-        
-        logger.error(f"Imgur upload failed: {upload_response.text}")
-        return None
-        
-    except Exception as e:
-        logger.exception("Error rehosting image")
-        return None
 
 @method_decorator(csrf_exempt, name='dispatch')
 class MetaWebhookView(View):
     VERIFY_TOKEN = "slayd"
     INSTAGRAM_API_URL = "https://graph.facebook.com/v22.0/me/messages"
     LOG_FILE = os.path.join(settings.BASE_DIR, 'webhook_log.txt')
-    IMGUR_CLIENT_ID = "2202f7d1fca273b"
-    PINTEREST_APP_ID = "1512605"
+    S3_BUCKET = "feed-images-01"
     VIDEO_PROCESSOR_URL = "https://video-api.slayd.in/process-video"
     
     def __init__(self, *args, **kwargs):
@@ -133,8 +104,11 @@ class MetaWebhookView(View):
             return HttpResponse(f"Error: {str(e)}", status=500)
 
     def rehost_image(self, url):
-        """Rehost image to Imgur using class's client ID"""
-        return rehost_image(url, self.IMGUR_CLIENT_ID)
+        """Rehost image to S3 instead of Imgur"""
+        s3_url = download_and_save_to_s3(url, subfolder="instagram_images")
+        if s3_url:
+            return get_cdn_url(s3_url)
+        return url  # Return original URL if rehosting fails
 
     def get_carousel_image_url(self, url):
         """Extract the specific image URL from carousel share"""
@@ -484,20 +458,8 @@ class MetaWebhookView(View):
                             # Extract image from Pinterest
                             image_url = self.extract_pinterest_image(text)
                             if image_url:
-                                # Upload to Imgur
-                                imgur_url = self.rehost_image(image_url)
-                                if imgur_url:
-                                    self.send_product_card(
-                                        recipient_id=sender_id,
-                                        image_url=imgur_url,
-                                        title="Found similar products from Pinterest! 🛍️",
-                                        subtitle="Check out these matches for your Pinterest inspiration"
-                                    )
-                                else:
-                                    self.send_instagram_reply(
-                                        sender_id,
-                                        "Sorry, I had trouble processing that Pinterest image. Could you try sharing another one? 🙏"
-                                    )
+                                # Process image for similar products with Vision API
+                                self.process_and_send_product_card(sender_id, image_url)
                             else:
                                 self.send_instagram_reply(
                                     sender_id,
@@ -510,7 +472,7 @@ class MetaWebhookView(View):
                                 "Hey! 😊 We currently support female fashion searches only. You can send us Instagram posts, images, or Pinterest post links to discover similar fashion items! 💃👗🛍️"
                             )
                     
-                    # Handle attachments (images and shares) as before
+                    # Handle attachments (images and shares)
                     if 'attachments' in message:
                         for attachment in message.get('attachments', []):
                             attachment_type = attachment.get('type')
@@ -519,7 +481,8 @@ class MetaWebhookView(View):
                             if attachment_type in ['ig_reel', 'video']:
                                 self.handle_video(sender_id, url)
 
-                            elif attachment_type in ['image', 'share']:
+                            # Handle image and share attachments
+                            if attachment_type in ['image', 'share']:
                                 if attachment_type == 'share':
 
                                     if requests.head(url).headers.get("Content-Type") == 'video/mp4':
@@ -528,14 +491,8 @@ class MetaWebhookView(View):
                                     else:
                                         url = self.extract_carousel_image(attachment)
                                 
-                                imgur_url = self.rehost_image(url)
-                                if imgur_url:
-                                    self.send_product_card(
-                                        recipient_id=sender_id,
-                                        image_url=imgur_url,
-                                        title="Check out these similar products! 🛍️",
-                                        subtitle="We found some great matches for your style"
-                                    )
+                                # Process the image with Vision API and find similar products
+                                self.process_and_send_product_card(sender_id, url)
 
             return JsonResponse({'status': 'success'})
                 
@@ -571,7 +528,82 @@ class MetaWebhookView(View):
             logger.exception("Error sending reply")
             return False
 
-    def send_product_card(self, recipient_id, image_url, title, subtitle):
+    def process_and_send_product_card(self, sender_id, image_url):
+        """Process image and send product card with similar products"""
+        try:
+            # Send initial response
+            self.send_instagram_reply(
+                sender_id,
+                "Processing your image... 🔍 Finding similar products for you!"
+            )
+            
+            # Log received image URL
+            logger.info(f"Processing image URL: {image_url}")
+            
+            # Rehost the image to S3
+            s3_cdn_url = get_cdn_url(self.rehost_image(image_url))
+            if s3_cdn_url:
+                logger.info(f"Rehosted image URL: {s3_cdn_url}")
+                
+                # Process image using our new service with S3 URL
+                logger.info(f"Calling get_product_card_data with URL: {s3_cdn_url}")
+                result = get_product_card_data(get_cdn_url(s3_cdn_url), sender_id)
+                
+                # If processing with S3 URL fails, try original URL
+                if not result["success"] and "Failed to call Vision API" in result.get("error", ""):
+                    logger.warning("Failed with S3 URL, trying original URL as fallback")
+                    result = get_product_card_data(image_url, sender_id)
+            else:
+                # If S3 rehosting failed, use original URL
+                logger.warning(f"S3 rehosting failed, using original URL: {image_url}")
+                result = get_product_card_data(image_url, sender_id)
+            
+            logger.info(f"get_product_card_data result: {json.dumps(result, indent=2)}")
+            
+            if result["success"]:
+                # Get the card data
+                card_data = result["card_data"]
+
+                # For consistent display in the product card
+                if s3_cdn_url:
+                    card_data["image_url"] = s3_cdn_url
+                else:
+                    card_data["image_url"] = image_url
+                
+                # Create button URL with the product IDs
+                button_url = card_data["button_url"]
+                
+                # Send the product card
+                logger.info(f"Sending product card with image URL: {card_data['image_url']}")
+                self.send_product_card(
+                    recipient_id=sender_id,
+                    image_url=card_data["image_url"],
+                    title=card_data["title"],
+                    subtitle=card_data["subtitle"],
+                    button_url=button_url
+                )
+                
+                # Log how many objects were found
+                object_count = len(result.get("object_results", []))
+                product_count = len(set(result.get("whole_image_products", [])))
+                
+                logger.info(f"Processed image with {object_count} objects and {product_count} unique products")
+                
+            else:
+                logger.error(f"Error getting similar products: {result.get('error')}")
+                self.send_instagram_reply(
+                    sender_id,
+                    "Sorry, I had trouble finding similar products for that image. Could you try another? 🙏"
+                )
+                
+        except Exception as e:
+            logger.exception(f"Error in process_and_send_product_card: {str(e)}")
+            self.send_instagram_reply(
+                sender_id,
+                "Sorry, something went wrong while processing your image. Please try again later! 🙏"
+            )
+
+    def send_product_card(self, recipient_id, image_url, title, subtitle, button_url=None):
         try:
             url = f"https://graph.instagram.com/v22.0/17841472211809579/messages"
             headers = {
@@ -611,9 +643,6 @@ class MetaWebhookView(View):
         except Exception as e:
             logger.exception("Error sending product card")
             return False
-        
-
-
 
 @method_decorator(csrf_exempt, name='dispatch')
 class VideoWebhookView(View):
@@ -628,7 +657,6 @@ class VideoWebhookView(View):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.INSTAGRAM_API_URL = "https://graph.instagram.com/v22.0/me/messages"
-        self.IMGUR_CLIENT_ID = "2202f7d1fca273b"
     
     def validate_payload(self, data):
         """Validate the incoming webhook payload"""
@@ -652,12 +680,15 @@ class VideoWebhookView(View):
                 video_url=video_url,
             )
             
+            # Process each image URL to ensure they use CDN
+            processed_images = [get_cdn_url(image_url) for image_url in child_images]
+            
             # Create child images
             child_image_objects = [
                 ChildImage(
                     video_post=video_post,
-                    image_url=image_url
-                ) for image_url in child_images
+                    image_url=img_url
+                ) for img_url in processed_images
             ]
             ChildImage.objects.bulk_create(child_image_objects)
             
@@ -669,19 +700,19 @@ class VideoWebhookView(View):
 
     def send_product_card(self, sender_id, video_id, carousel_image_url):
         try:
-            # Try to rehost the image to Imgur first
-            imgur_url = rehost_image(carousel_image_url, self.IMGUR_CLIENT_ID)
-            # If rehosting was successful, use the Imgur URL instead
-            if imgur_url:
-                carousel_image_url = imgur_url
-                logger.info(f"Using rehosted image URL: {carousel_image_url}")
+            # Log the incoming URL first
+            logger.info(f"Original carousel_image_url: {carousel_image_url}")
+            
+            # Try to rehost the image using our safe utility function
+            rehosted_url = get_cdn_url(safe_rehost(carousel_image_url, fallback_url=carousel_image_url))
+            logger.info(f"After rehost/get_cdn_url: {rehosted_url}")
             
             url = f"https://graph.instagram.com/v22.0/17841472211809579/messages"
             headers = {
                 "Authorization": f"Bearer {settings.INSTAGRAM_ACCESS_TOKEN}",
                 "Content-Type": "application/json"
             }   
-            
+
             payload = {
                 "recipient": {"id": sender_id},
                 "message": {
@@ -691,7 +722,7 @@ class VideoWebhookView(View):
                             "template_type": "generic",
                             "elements": [{
                                 "title": "Check out these similar products! 🛍️",
-                                "image_url": carousel_image_url,
+                                "image_url": rehosted_url,
                                 "subtitle": "We found some great matches for your style",
                                 "buttons": [{
                                     "type": "web_url",
@@ -734,11 +765,14 @@ class VideoWebhookView(View):
                 child_images=child_images,
             )
             
+            final_url = get_cdn_url(child_images[0])
+            logger.info(f"Final URL being passed to product card: {final_url}")
+            
             # Send Instagram message
             self.send_product_card(
                 sender_id=sender_id,
                 video_id=video_post.id,
-                carousel_image_url=get_cdn_url(child_images[0])
+                carousel_image_url=final_url
             )
             
             return JsonResponse({
