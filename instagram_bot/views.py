@@ -24,18 +24,6 @@ from .services.image_processing import get_product_card_data
 
 logger = logging.getLogger(__name__)
 
-def rehost_image(url):
-    """Rehost image to S3 using utility functions"""
-    logger = logging.getLogger(__name__)
-    
-    try:
-        # Use our utility function to download and save the image in one step
-        return download_and_save_to_s3(url, subfolder="instagram_images")
-        
-    except Exception as e:
-        logger.exception(f"Error rehosting image to S3: {str(e)}")
-        return None
-
 @method_decorator(csrf_exempt, name='dispatch')
 class MetaWebhookView(View):
     VERIFY_TOKEN = "slayd"
@@ -117,7 +105,7 @@ class MetaWebhookView(View):
 
     def rehost_image(self, url):
         """Rehost image to S3 instead of Imgur"""
-        s3_url = rehost_image(url, None)
+        s3_url = download_and_save_to_s3(url, subfolder="instagram_images")
         if s3_url:
             return get_cdn_url(s3_url)
         return url  # Return original URL if rehosting fails
@@ -621,12 +609,9 @@ class MetaWebhookView(View):
             headers = {
                 "Authorization": f"Bearer {settings.INSTAGRAM_ACCESS_TOKEN}",
                 "Content-Type": "application/json"
-            }   
+            }
             
-            if not button_url:
-                encoded_url = quote(image_url)
-                button_url = f"https://slayd.in/similar-product/?image_url={encoded_url}"
-            
+            encoded_url = quote(image_url)
             payload = {
                 "recipient": {"id": recipient_id},
                 "message": {
@@ -640,7 +625,7 @@ class MetaWebhookView(View):
                                 "subtitle": subtitle,
                                 "buttons": [{
                                     "type": "web_url",
-                                    "url": button_url,
+                                    "url": f"https://slayd.in/similar-product/?image_url={encoded_url}",
                                     "title": "View Similar Products"
                                 }]
                             }]
