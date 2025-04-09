@@ -14,6 +14,7 @@ from botocore.exceptions import ClientError
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.conf import settings
 import uuid
+from utils.commn_utils import save_image_to_s3
 
 logger = logging.getLogger(__name__)
 
@@ -110,37 +111,19 @@ class ImageUploadView(generics.GenericAPIView):
         image_file = request.FILES['image']
         
         try:
-            # Create a unique filename
-            file_extension = image_file.name.split('.')[-1]
-            unique_filename = f"{uuid.uuid4()}.{file_extension}"
+            # Use the utility function to save the image to S3
+            s3_url = save_image_to_s3(image_file, subfolder="uploads")
             
-            # Initialize S3 client
-            s3_client = boto3.client('s3')
+            if s3_url:
+                return Response({
+                    'url': s3_url
+                }, status=status.HTTP_201_CREATED)
+            else:
+                return Response(
+                    {'error': 'Failed to upload image to S3'},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
             
-            # Upload to S3
-            bucket_name = 'feed-images-01'  # Replace with your bucket name
-            s3_client.upload_fileobj(
-                image_file,
-                bucket_name,
-                f"uploads/{unique_filename}",
-                ExtraArgs={
-                    'ContentType': image_file.content_type
-                }
-            )
-            
-            # Generate the URL
-            s3_url = f"https://{bucket_name}.s3.amazonaws.com/uploads/{unique_filename}"
-            
-            return Response({
-                'url': s3_url
-            }, status=status.HTTP_201_CREATED)
-            
-        except ClientError as e:
-            logger.error(f"S3 upload error: {str(e)}")
-            return Response(
-                {'error': 'Failed to upload image'},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
         except Exception as e:
             logger.error(f"Unexpected error during upload: {str(e)}")
             return Response(

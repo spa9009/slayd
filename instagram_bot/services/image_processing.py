@@ -227,7 +227,7 @@ def get_similar_products_for_object(image_url, x, y, width, height, label, confi
             "height": height,
             "search_type": "combined_75",
             "page": 1,
-            "items_per_page": 20
+            "items_per_page": 120
         })
         
         # Create a GET request with query parameters
@@ -331,24 +331,6 @@ def process_image_for_similar_products(image_url):
         }
 
 def process_objects_in_image(image_url):
-    """
-    Process all detected objects in an image and get similar products for each
-    
-    Workflow:
-    1. Call Vision API to detect objects
-    2. For each detected object, get similar products
-    3. If no objects are detected, get similar products for the whole image
-    
-    Args:
-        image_url: URL of the image to process
-        
-    Returns:
-        dict: Result information including:
-            - success (bool): Whether the operation succeeded
-            - object_results (list): List of objects with their product IDs
-            - vision_result (dict): Vision API response
-            - error (str): Error message if not successful
-    """
     try:
         # Call Vision API
         vision_result = call_vision_api(image_url)

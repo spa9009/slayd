@@ -18,72 +18,19 @@ from django.http import HttpResponse
 from django.db import transaction
 from rest_framework import generics
 from .serializers import VideoPostSerializer
-from utils.commn_utils import get_cdn_url
-from .services.image_processing import process_objects_in_image, get_product_card_data
+from utils.commn_utils import get_cdn_url, safe_rehost, download_and_save_to_s3
+from .services.image_processing import get_product_card_data
 
 
 logger = logging.getLogger(__name__)
 
-def rehost_image(url, imgur_client_id):
-    """Rehost image to S3 using ImageUploadView"""
+def rehost_image(url):
+    """Rehost image to S3 using utility functions"""
+    logger = logging.getLogger(__name__)
+    
     try:
-        # Get image from URL
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-        }
-        response = requests.get(url, headers=headers)
-        if response.status_code != 200:
-            logger.error(f"Failed to fetch image: {response.status_code}")
-            return None
-        
-        # Get content type
-        content_type = response.headers.get('Content-Type', 'image/jpeg')
-        if not content_type.startswith('image/'):
-            logger.warning(f"URL content type is not an image: {content_type}")
-            # Proceed anyway since Instagram might not always return the correct content type
-        
-        # Create a temporary file
-        import io
-        import tempfile
-        import os
-        from django.core.files.uploadedfile import SimpleUploadedFile
-        
-        # Generate a temporary file name with appropriate extension
-        extension = content_type.split('/')[-1]
-        if extension == 'jpeg':
-            extension = 'jpg'  # Standardize jpeg to jpg
-        
-        # Create a SimpleUploadedFile from the response content
-        image_file = SimpleUploadedFile(
-            name=f"instagram_image.{extension}",
-            content=response.content,
-            content_type=content_type
-        )
-        
-        # Upload to S3 via ImageUploadView
-        logger.info("Uploading to S3 via ImageUploadView...")
-        
-        # Prepare the file for upload
-        files = {'image': image_file}
-        
-        # Call the ImageUploadView
-        upload_url = "http://localhost:8000/activity/upload/"  # Use internal URL if possible
-        if settings.DEBUG:
-            # For local development
-            upload_url = "http://localhost:8000/activity/upload/"
-        else:
-            # For production
-            upload_url = "https://api.slayd.in/activity/upload/"
-            
-        upload_response = requests.post(upload_url, files=files)
-        
-        if upload_response.status_code == 201:  # Created
-            s3_url = upload_response.json().get('url')
-            logger.info(f"Image rehosted successfully to S3: {s3_url}")
-            return s3_url
-        
-        logger.error(f"S3 upload failed: {upload_response.status_code} - {upload_response.text}")
-        return None
+        # Use our utility function to download and save the image in one step
+        return download_and_save_to_s3(url, subfolder="instagram_images")
         
     except Exception as e:
         logger.exception(f"Error rehosting image to S3: {str(e)}")
@@ -170,7 +117,10 @@ class MetaWebhookView(View):
 
     def rehost_image(self, url):
         """Rehost image to S3 instead of Imgur"""
-        return get_cdn_url(rehost_image(url, None))  # Passing None as we don't need imgur_client_id anymore
+        s3_url = rehost_image(url, None)
+        if s3_url:
+            return get_cdn_url(s3_url)
+        return url  # Return original URL if rehosting fails
 
     def get_carousel_image_url(self, url):
         """Extract the specific image URL from carousel share"""
@@ -603,13 +553,13 @@ class MetaWebhookView(View):
             logger.info(f"Processing image URL: {image_url}")
             
             # Rehost the image to S3
-            s3_url = self.rehost_image(image_url)
-            if s3_url:
-                logger.info(f"Rehosted image URL: {s3_url}")
+            s3_cdn_url = get_cdn_url(self.rehost_image(image_url))
+            if s3_cdn_url:
+                logger.info(f"Rehosted image URL: {s3_cdn_url}")
                 
                 # Process image using our new service with S3 URL
-                logger.info(f"Calling get_product_card_data with URL: {s3_url}")
-                result = get_product_card_data(get_cdn_url(s3_url), sender_id)
+                logger.info(f"Calling get_product_card_data with URL: {s3_cdn_url}")
+                result = get_product_card_data(get_cdn_url(s3_cdn_url), sender_id)
                 
                 # If processing with S3 URL fails, try original URL
                 if not result["success"] and "Failed to call Vision API" in result.get("error", ""):
@@ -627,8 +577,8 @@ class MetaWebhookView(View):
                 card_data = result["card_data"]
 
                 # For consistent display in the product card
-                if s3_url:
-                    card_data["image_url"] = get_cdn_url(s3_url)
+                if s3_cdn_url:
+                    card_data["image_url"] = s3_cdn_url
                 else:
                     card_data["image_url"] = image_url
                 
@@ -745,12 +695,15 @@ class VideoWebhookView(View):
                 video_url=video_url,
             )
             
+            # Process each image URL to ensure they use CDN
+            processed_images = [get_cdn_url(image_url) for image_url in child_images]
+            
             # Create child images
             child_image_objects = [
                 ChildImage(
                     video_post=video_post,
-                    image_url=image_url
-                ) for image_url in child_images
+                    image_url=img_url
+                ) for img_url in processed_images
             ]
             ChildImage.objects.bulk_create(child_image_objects)
             
@@ -762,19 +715,19 @@ class VideoWebhookView(View):
 
     def send_product_card(self, sender_id, video_id, carousel_image_url):
         try:
-            # Try to rehost the image to S3 first
-            s3_url = rehost_image(carousel_image_url, None)  # Passing None as we don't need imgur_client_id
-            # If rehosting was successful, use the S3 URL instead
-            if s3_url:
-                carousel_image_url = s3_url
-                logger.info(f"Using rehosted image URL: {carousel_image_url}")
+            # Log the incoming URL first
+            logger.info(f"Original carousel_image_url: {carousel_image_url}")
+            
+            # Try to rehost the image using our safe utility function
+            rehosted_url = get_cdn_url(safe_rehost(carousel_image_url, fallback_url=carousel_image_url))
+            logger.info(f"After rehost/get_cdn_url: {rehosted_url}")
             
             url = f"https://graph.instagram.com/v22.0/17841472211809579/messages"
             headers = {
                 "Authorization": f"Bearer {settings.INSTAGRAM_ACCESS_TOKEN}",
                 "Content-Type": "application/json"
             }   
-            
+
             payload = {
                 "recipient": {"id": sender_id},
                 "message": {
@@ -784,7 +737,7 @@ class VideoWebhookView(View):
                             "template_type": "generic",
                             "elements": [{
                                 "title": "Check out these similar products! 🛍️",
-                                "image_url": carousel_image_url,
+                                "image_url": rehosted_url,
                                 "subtitle": "We found some great matches for your style",
                                 "buttons": [{
                                     "type": "web_url",
@@ -827,11 +780,14 @@ class VideoWebhookView(View):
                 child_images=child_images,
             )
             
+            final_url = get_cdn_url(child_images[0])
+            logger.info(f"Final URL being passed to product card: {final_url}")
+            
             # Send Instagram message
             self.send_product_card(
                 sender_id=sender_id,
                 video_id=video_post.id,
-                carousel_image_url=get_cdn_url(child_images[0])
+                carousel_image_url=final_url
             )
             
             return JsonResponse({

@@ -217,7 +217,7 @@ class SimilarProductsView(APIView):
             image_url = request.query_params.get('image_url')
             search_type = request.query_params.get('search_type', 'combined_75')
             page = int(request.query_params.get('page', 1))
-            items_per_page = int(request.query_params.get('items_per_page', 20))
+            items_per_page = int(request.query_params.get('items_per_page', 100))
             
             # Get crop parameters if provided
             x = request.query_params.get('x')
