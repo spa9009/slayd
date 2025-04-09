@@ -195,9 +195,9 @@ class DressClassifier(ApparelClassifier):
                 description_parts = print_details + description_parts
             
             if not description_parts:  # If no attributes were successfully classified
-                return f"This is a {self.predicted_apparel}"
+                return f" {self.predicted_apparel}"
                 
-            base_description = "This is a " + " ".join(description_parts) + " " + self.predicted_apparel
+            base_description = "" + " ".join(description_parts) + " " + self.predicted_apparel
             
             # Only add feature if it exists
             if predicted_feature:
@@ -207,7 +207,6 @@ class DressClassifier(ApparelClassifier):
             self.logger.debug("="*50)
             self.logger.debug(base_description)
             self.logger.debug("="*50)
-
             return base_description
 
         except Exception as e:
