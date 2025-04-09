@@ -2,6 +2,6 @@ __pycache__/
 indices/
 indices_ivf/
 /django.log
-/webhook_log.txt
+webhook_log.txt
 .env
 django.log
