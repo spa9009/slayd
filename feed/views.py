@@ -426,6 +426,24 @@ class DetectedObjectProductsView(APIView):
                 
                 # Add detected objects info
                 for obj in objects:
+                    # Get product details for this object
+                    object_products = []
+                    for product_id in obj.similar_products[:20]:  # Limit to first 20 products to keep response size reasonable
+                        try:
+                            product = MyntraProducts.objects.get(id=product_id)
+                            object_products.append({
+                                'id': product.id,
+                                'name': product.name,
+                                'brand': product.brand,
+                                'price': product.price,
+                                'discount_price': product.discount_price,
+                                'image_url': product.image_url,
+                                'product_link': product.product_link,
+                                'marketplace': product.marketplace
+                            })
+                        except MyntraProducts.DoesNotExist:
+                            logger.warning(f"Product with ID {product_id} not found")
+                    
                     response_data['objects'].append({
                         'id': obj.id,
                         'label': obj.label,
@@ -434,7 +452,8 @@ class DetectedObjectProductsView(APIView):
                         'width': obj.width,
                         'height': obj.height,
                         'confidence': obj.confidence,
-                        'products_count': len(obj.similar_products)
+                        'products_count': len(obj.similar_products),
+                        'products': object_products
                     })
                 
                 # Only include whole image products if no objects were detected
