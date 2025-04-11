@@ -232,6 +232,11 @@ LOGGING = {
             'level': 'INFO',
             'propagate': True,
         },
+        'feed.utils': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
     },
 }
 
