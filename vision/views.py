@@ -75,20 +75,28 @@ def transform_response(response_data):
             if len(vertices) < 4:
                 continue
                 
-            # Get top-left and bottom-right vertices
-            top_left = vertices[0]  # Top-left corner
-            bottom_right = vertices[2]  # Bottom-right corner
+            # Find min and max x and y coordinates to identify corners
+            x_coords = [v.get('x', 0) for v in vertices]
+            y_coords = [v.get('y', 0) for v in vertices]
+            
+            if not x_coords or not y_coords:
+                continue
+                
+            min_x = min(x_coords)
+            max_x = max(x_coords)
+            min_y = min(y_coords)
+            max_y = max(y_coords)
             
             # Calculate dimensions
-            box_width = bottom_right['x'] - top_left['x']
-            box_height = bottom_right['y'] - top_left['y']
+            box_width = max_x - min_x
+            box_height = max_y - min_y
             
             # Create transformed item
             transformed_item = {
                 'label': annotation['name'],
                 'confidence': annotation['score'],
-                'x': top_left['x'],
-                'y': top_left['y'],
+                'x': min_x,
+                'y': min_y,
                 'boxWidth': box_width,
                 'boxHeight': box_height,
             }
