@@ -21,9 +21,23 @@ from feed.utils.classifier.tops_classifier import TopsClassifier
 from feed.utils.classifier.jeans_classifier import JeansClassifier
 from feed.utils.classifier.skirt_classifier import SkirtClassifier
 from feed.utils.classifier.pant_classifier import PantClassifier
+import time
+from functools import wraps
 
 # Configure logger
 logger = logging.getLogger(__name__)
+
+def timeit(func):
+    """Decorator to measure function execution time."""
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        execution_time = end_time - start_time
+        logger.info(f"Function {func.__name__} took {execution_time:.4f} seconds to execute")
+        return result
+    return wrapper
 
 class SingletonMeta(type):
     """Metaclass to implement the Singleton pattern."""
@@ -41,6 +55,7 @@ class ImageProcessor:
     """Component responsible for loading and processing images."""
     
     @staticmethod
+    @timeit
     def crop_image(image, x, y, width, height):
         """
         Crop an image based on normalized coordinates (0-1).
@@ -80,6 +95,7 @@ class ImageProcessor:
             return image
 
     @staticmethod
+    @timeit
     def preprocess_image(image):
         """Convert image to RGB and resize to standard dimensions."""
         if image.mode != "RGB":
@@ -87,6 +103,7 @@ class ImageProcessor:
         return image.resize((224, 224))
 
     @staticmethod
+    @timeit
     def fetch_remote_image(image_url):
         """Fetch an image from a remote URL."""
         headers = {
@@ -97,6 +114,7 @@ class ImageProcessor:
         return Image.open(BytesIO(response.content))
 
     @classmethod
+    @timeit
     def load_and_process(cls, image_path, x=None, y=None, width=None, height=None):
         """Load, crop (if needed) and preprocess an image."""
         try:
@@ -184,6 +202,7 @@ class QueryEmbeddingGenerator:
         self.model = clip_model
         self.processor = clip_processor
     
+    @timeit
     def get_image_embeddings(self, image):
         """Generate embeddings from an image."""
         try:
@@ -199,6 +218,7 @@ class QueryEmbeddingGenerator:
             logger.error(f"Failed to generate image embeddings: {str(e)}")
             raise RuntimeError(f"Embedding generation failed: {str(e)}")
     
+    @timeit
     def get_text_embeddings(self, text):
         """Generate embeddings from a text description."""
         try:
@@ -213,6 +233,7 @@ class QueryEmbeddingGenerator:
             logger.error(f"Failed to generate text embeddings: {str(e)}")
             raise RuntimeError(f"Text embedding generation failed: {str(e)}")
     
+    @timeit
     def generate_query_embedding(self, image_embeddings, text_description, search_type):
         """Generate combined embeddings based on search type."""
         try:
@@ -244,6 +265,7 @@ class ProductDetailsManager:
     """Component for retrieving and formatting product details."""
     
     @staticmethod
+    @timeit
     def get_product_details(product_id, distances=None, idx=None):
         """Get product details from database and format them."""
         try:
@@ -478,6 +500,7 @@ class SimilaritySearcher(metaclass=SingletonMeta):
         self.tensor_manager = TensorManager()
         self._initialize()
     
+    @timeit
     def _initialize(self):
         """Initialize models, indices, and other required components."""
         if self._is_initialized:
@@ -534,12 +557,14 @@ class SimilaritySearcher(metaclass=SingletonMeta):
             logger.error(f"Initialization error: {str(e)}", exc_info=True)
             raise RuntimeError(f"Failed to initialize SimilaritySearcher: {str(e)}")
 
+    @timeit
     def _load_index(self, path):
         """Load a FAISS index from a file."""
         if not os.path.exists(path):
             raise FileNotFoundError(f"FAISS index not found at {path}")
         return faiss.read_index(path)
 
+    @timeit
     def _load_product_ids(self, path):
         """Load product IDs from a NumPy file."""
         if not os.path.exists(path):
@@ -551,15 +576,27 @@ class SimilaritySearcher(metaclass=SingletonMeta):
         crop_params = f":{x}:{y}:{width}:{height}" if all(param is not None for param in [x, y, width, height]) else ""
         return hashlib.md5(f"{image_path}{crop_params}:{top_k}:{search_type}".encode()).hexdigest()
     
+    @timeit
     def _get_products_from_search_results(self, distances, idx, text_description=None):
         """Convert search results to product details."""
         all_similar_products = []
         seen_products = set()  # Track seen product combinations
         
-        for i in range(len(idx[0])):
-            product_id = str(self.product_ids[idx[0][i]])
+        # Get all product IDs at once
+        product_ids = [str(self.product_ids[i]) for i in idx[0]]
+        
+        # Use select_related to reduce database queries
+        products = MyntraProducts.objects.filter(id__in=product_ids).select_related()
+        
+        # Create a dictionary for quick lookup
+        product_dict = {str(p.id): p for p in products}
+        
+        for i, product_id in enumerate(product_ids):
             try:
-                product = MyntraProducts.objects.get(id=product_id)
+                product = product_dict.get(product_id)
+                if not product:
+                    logger.warning(f"Product with ID {product_id} not found in database")
+                    continue
                 
                 # Create unique key for product using link and color with null checks
                 product_link = product.product_link.lower() if product.product_link else ""
@@ -583,15 +620,13 @@ class SimilaritySearcher(metaclass=SingletonMeta):
                     'similarity_score': float(distances[0][i]),
                     'description': text_description if i == 0 else None
                 })
-            except MyntraProducts.DoesNotExist:
-                logger.warning(f"Product with ID {product_id} not found in database")
-                continue
             except Exception as e:
-                logger.error(f"Error1 processing product {product_id}: {str(e)}")
+                logger.error(f"Error processing product {product_id}: {str(e)}")
                 continue
                 
         return all_similar_products
     
+    @timeit
     def get_similar_products(self, image_path, top_k=120, page=1, items_per_page=20, 
                             search_type='combined_75', x=None, y=None, width=None, height=None):
         """
