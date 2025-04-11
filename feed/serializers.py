@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, Media, Post, TaggedProduct, Component, Curation, Item, ComponentItem, MyntraProducts
+from .models import Product, Media, Post, TaggedProduct, Curation, MyntraProducts
 
 
 ## TODO: This might increase the latency of the similar posts API while fetching the products in the post. 
@@ -42,41 +42,42 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['id', 'post_type', 'product', 'media', 'tagged_products', 'created_at', 'title', 'description']
-
-    
-
-class ItemSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Item
-        fields = "__all__"
-
-class ComponentSerializer(serializers.ModelSerializer):
-    items = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Component
-        fields = ['id', 'name', 'curation', 'items']
-
-    def get_items(self, obj):
-        """Retrieve all items linked to a component via ComponentItem"""
-        return ItemSerializer(Item.objects.filter(item_components__component=obj), many=True).data
-
-
-class CurationSerializer(serializers.ModelSerializer):
-    components = ComponentSerializer(many=True, read_only=True)
-    sub_curations = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Curation
-        fields = ['id', 'curation_type', 'curation_image', 'components', 'sub_curations']
-
-    def get_sub_curations(self, obj):
-        """Return nested curations if it is a MULTI or MULTI_INSPIRATION type"""
-        if obj.curation_type in ['MULTI', 'MULTI_INSPIRATION']:
-            return CurationSerializer(obj.sub_curations.all(), many=True).data
-        return []
     
 class MyntraProductsSerializer(serializers.ModelSerializer):
     class Meta:
         model = MyntraProducts
         fields = "__all__"
+
+class CurationCreateSerializer(serializers.ModelSerializer):
+    myntra_product_ids = serializers.ListField(
+        child=serializers.IntegerField(),
+        write_only=True,
+        required=True
+    )
+
+    class Meta:
+        model = Curation
+        fields = ['title', 'curation_image', 'myntra_product_ids']
+
+    def create(self, validated_data):
+        myntra_product_ids = validated_data.pop('myntra_product_ids')
+        curation = Curation.objects.create(**validated_data)
+        
+        # Add products to the curation
+        products = MyntraProducts.objects.filter(id__in=myntra_product_ids)
+        curation.products.add(*products)
+        
+        return curation
+
+class CurationSerializer(serializers.ModelSerializer):
+    products = MyntraProductsSerializer(many=True, read_only=True)
+    related_curations = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Curation
+        fields = ['id', 'title', 'curation_image', 'products', 'related_curations']
+
+    def get_related_curations(self, obj):
+        # Get directly related curations through the ManyToMany relationship
+        related_curations = obj.related_curations.all()
+        return CurationSerializer(related_curations, many=True).data
