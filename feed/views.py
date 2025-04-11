@@ -1,6 +1,6 @@
 from rest_framework import generics, status
-from .models import Product, Post, TaggedProduct, Media, Curation, MyntraProducts, DetectedObjectProducts
-from .serializers import ProductSerializer, PostSerializer, CurationSerializer, MyntraProductsSerializer
+from .models import Product, Post, TaggedProduct, Media, MyntraProducts, Curation, DetectedObjectProducts
+from .serializers import ProductSerializer, PostSerializer, MyntraProductsSerializer, CurationSerializer, CurationCreateSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.core.paginator import Paginator
@@ -193,17 +193,7 @@ class SimilarPostsView(APIView):
             return Response({
                 "error": "Post not found"
             }, status=status.HTTP_404_NOT_FOUND)
-        # except Exception as e:
-        #     return Response({
-        #         "error": "Error while fetching similar posts",
-        #     }, status=status.HTTP_404_NOT_FOUND)
 
-class CurationDetailView(generics.RetrieveAPIView):
-    queryset = Curation.objects.prefetch_related(
-        'components__component_items__item',  # Prefetch items within components
-        'sub_curations__components__component_items__item'  # Prefetch items for sub_curations
-    )
-    serializer_class = CurationSerializer
 
 class MyntraProductsListCreateView(generics.ListCreateAPIView):
     queryset = MyntraProducts.objects.all()
@@ -514,3 +504,34 @@ class DetectedObjectProductsView(APIView):
                 {"error": f"Internal server error: {str(e)}"}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+class CurationDetailView(generics.RetrieveAPIView):
+    queryset = Curation.objects.all()
+    serializer_class = CurationSerializer
+
+    def get(self, request, *args, **kwargs):
+        try:
+            curation_id = kwargs.get('pk')
+            curation = Curation.objects.get(id=curation_id)
+            serializer = self.get_serializer(curation)
+            return Response(serializer.data)
+        except Curation.DoesNotExist:
+            return Response(
+                {"error": "Curation not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+class CurationCreateView(generics.CreateAPIView):
+    queryset = Curation.objects.all()
+    serializer_class = CurationCreateSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        
+        # Return the created curation with full details
+        curation = serializer.instance
+        response_serializer = CurationSerializer(curation)
+        return Response(response_serializer.data, status=status.HTTP_201_CREATED, headers=headers)

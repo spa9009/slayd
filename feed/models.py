@@ -68,43 +68,7 @@ class TaggedProduct(models.Model):
 
     def __str__(self):
         return f"Tagged {self.product} in {self.post}"
-    
-class Curation(models.Model):
-    CURATION_TYPES = [
-        ('SINGLE', 'Single'),
-        ('MULTI', 'Multi'),
-        ('MULTI_INSPIRATION', 'Multi Inspiration')
-    ]
-    
-    curation_type = models.CharField(max_length=20, choices=CURATION_TYPES)
-    curation_image = models.URLField()
-    parent_curation = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='sub_curations')
 
-    def __str__(self):
-        return f"{self.curation_type} - {self.id}" 
-
-class Component(models.Model):
-    curation = models.ForeignKey(Curation, on_delete=models.CASCADE, related_name='components')
-    name = models.CharField(max_length=255)
-    
-    def __str__(self):
-        return self.name
-
-class Item(models.Model):
-    name = models.CharField(max_length=255)
-    link = models.URLField(max_length=500)
-    image_url = models.URLField(max_length=500)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    discount_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    brand = models.CharField(max_length=255, null=True, blank=True)
-    marketplace = models.CharField(max_length=255, null=True, blank=True)
-    
-    def __str__(self):
-        return self.name
-
-class ComponentItem(models.Model):
-    component = models.ForeignKey(Component, on_delete=models.CASCADE, related_name='component_items')
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='item_components')
 
 class MyntraProducts(models.Model):
     category = models.CharField(max_length=255)
@@ -124,7 +88,7 @@ class MyntraProducts(models.Model):
 
     def __str__(self):
         return f'{self.id}'
-    
+     
 class MyntraProductEmbeddings(models.Model):
     myntra_product = models.OneToOneField(MyntraProducts, on_delete=models.CASCADE, related_name='embedding')
     text_embedding = models.JSONField(null=True, blank=True)
@@ -147,6 +111,17 @@ class MyntraProductTags(models.Model):
 
     def __str__(self):
         return f'{self.id} {self.myntra_product.id}'
+    
+
+class Curation(models.Model):
+    title = models.CharField(max_length=255, null=True, blank=True)
+    curation_image = models.URLField()
+    products = models.ManyToManyField(MyntraProducts, related_name='curations')
+    created_at = models.DateTimeField(default=timezone.now)
+    related_curations = models.ManyToManyField('self', blank=True, symmetrical=False, related_name='related_to')
+
+    def __str__(self):
+        return f"{self.title}" 
 
 class PostInteraction(models.Model):
     senderId = models.CharField(max_length=255)
